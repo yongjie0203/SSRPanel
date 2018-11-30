@@ -107,8 +107,10 @@
                                                     @if(Agent::is('iPhone') || Agent::is('iPad'))
                                                         @if(Agent::is('Safari'))
                                                             <li> <a href="{{$ipa_list}}" target="_blank">点击此处在线安装</a></li>
+                                                            <li> <a class="auto_import" href="" target="_blank">点击此处导入订阅</a></li>
                                                         @else
                                                             <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装</a></li>
+                                                            <li> <a class="auto_import" href="javascript:onlineInstallWarning();" target="_blank">点击此处导入订阅</a></li>
                                                         @endif
                                                     @endif
                                                     <li> 请从站长处获取App Store账号密码 </li>
@@ -458,6 +460,7 @@
     <script src="/assets/pages/scripts/components-clipboard.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-qrcode/jquery.qrcode.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    
 
     <script type="text/javascript">
         // 切换充值方式
