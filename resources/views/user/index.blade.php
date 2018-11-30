@@ -460,7 +460,13 @@
     <script src="/assets/pages/scripts/components-clipboard.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-qrcode/jquery.qrcode.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/assets/app/scripts/base64.js" type="text/javascript"></script>
     
+    <script type="text/javascript">
+        //处理ios shadowrocket自动导入订阅链接
+        var auto_import_url = "shadowrocket://add/sub://" + new Base64().encode("{{$link}}") + "?remarks=SYYAI.COM-SSR";
+        $(".auto_import").attr("href",auto_import_url);
+    </script>
 
     <script type="text/javascript">
         // 切换充值方式
