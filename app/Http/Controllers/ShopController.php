@@ -14,19 +14,13 @@ use DB;
 
 /**
  * 商店控制器
- * Class LoginController
+ *
+ * Class ShopController
  *
  * @package App\Http\Controllers
  */
 class ShopController extends Controller
 {
-    protected static $systemConfig;
-
-    function __construct()
-    {
-        self::$systemConfig = Helpers::systemConfig();
-    }
-
     // 商品列表
     public function goodsList(Request $request)
     {

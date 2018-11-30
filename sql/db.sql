@@ -129,10 +129,10 @@ CREATE TABLE `user` (
   `d` bigint(20) NOT NULL DEFAULT '0' COMMENT '已下载流量，单位字节',
   `t` int(11) NOT NULL DEFAULT '0' COMMENT '最后使用时间',
   `enable` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'SS状态',
-  `method` varchar(30) NOT NULL DEFAULT 'aes-192-ctr' COMMENT '加密方式',
-  `protocol` varchar(30) NOT NULL DEFAULT 'auth_chain_a' COMMENT '协议',
+  `method` varchar(30) NOT NULL DEFAULT 'aes-256-cfb' COMMENT '加密方式',
+  `protocol` varchar(30) NOT NULL DEFAULT 'origin' COMMENT '协议',
   `protocol_param` varchar(255) DEFAULT '' COMMENT '协议参数',
-  `obfs` varchar(30) NOT NULL DEFAULT 'tls1.2_ticket_auth' COMMENT '混淆',
+  `obfs` varchar(30) NOT NULL DEFAULT 'plain' COMMENT '混淆',
   `obfs_param` varchar(255) DEFAULT '' COMMENT '混淆参数',
   `speed_limit_per_con` int(255) NOT NULL DEFAULT '204800' COMMENT '单连接限速，默认200M，单位KB',
   `speed_limit_per_user` int(255) NOT NULL DEFAULT '204800' COMMENT '单用户限速，默认200M，单位KB',
@@ -165,8 +165,8 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 
-INSERT INTO `user` (`id`, `username`, `password`, `port`, `passwd`, `transfer_enable`, `u`, `d`, `t`, `enable`, `method`, `protocol`, `protocol_param`, `obfs`, `obfs_param`, `speed_limit_per_con`, `speed_limit_per_user`, `wechat`, `qq`, `usage`, `pay_way`, `balance`, `enable_time`, `expire_time`, `remark`, `is_admin`, `reg_ip`, `created_at`, `updated_at`)
-VALUES (1,'admin','$2y$10$ryMdx5ejvCSdjvZVZAPpOuxHrsAUY8FEINUATy6RCck6j9EeHhPfq',10000,'@123',1073741824000,0,0,0,1,'aes-192-ctr','auth_chain_a','','tls1.2_ticket_auth','',204800,204800,'','',1,3,0.00,NULL,'2099-01-01',NULL,1,'127.0.0.1',NULL,NULL);
+INSERT INTO `user` (`id`, `username`, `password`, `port`, `passwd`, `vmess_id`, `transfer_enable`, `u`, `d`, `t`, `enable`, `method`, `protocol`, `protocol_param`, `obfs`, `obfs_param`, `speed_limit_per_con`, `speed_limit_per_user`, `wechat`, `qq`, `usage`, `pay_way`, `balance`, `enable_time`, `expire_time`, `remark`, `is_admin`, `reg_ip`, `status`, `created_at`, `updated_at`)
+VALUES (1,'admin','$2y$10$ryMdx5ejvCSdjvZVZAPpOuxHrsAUY8FEINUATy6RCck6j9EeHhPfq',10000,'@123', 'c6effafd-6046-7a84-376e-b0429751c304', 1073741824000,0,0,0,1,'aes-256-cfb','origin','','plain','',204800,204800,'','',1,3,0.00,'2017-01-01','2099-01-01',NULL,1,'127.0.0.1',1,now(),now());
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -179,8 +179,6 @@ CREATE TABLE `level` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `level` int(11) NOT NULL DEFAULT '1' COMMENT '等级',
   `level_name` varchar(100) NOT NULL DEFAULT '' COMMENT '等级名称',
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='等级';
 
@@ -188,13 +186,13 @@ CREATE TABLE `level` (
 -- ----------------------------
 -- Records of `level`
 -- ----------------------------
-INSERT INTO `level` VALUES (1, '1', '青铜', '2017-10-26 15:56:52', '2017-10-26 15:38:58');
-INSERT INTO `level` VALUES (2, '2', '白银', '2017-10-26 15:57:30', '2017-10-26 12:37:51');
-INSERT INTO `level` VALUES (3, '3', '黄金', '2017-10-26 15:41:31', '2017-10-26 15:41:31');
-INSERT INTO `level` VALUES (4, '4', '铂金', '2017-10-26 15:41:38', '2017-10-26 15:41:38');
-INSERT INTO `level` VALUES (5, '5', '钻石', '2017-10-26 15:41:47', '2017-10-26 15:41:47');
-INSERT INTO `level` VALUES (6, '6', '星耀', '2017-10-26 15:41:56', '2017-10-26 15:41:56');
-INSERT INTO `level` VALUES (7, '7', '王者', '2017-10-26 15:42:02', '2017-10-26 15:42:02');
+INSERT INTO `level` VALUES (1, '1', '青铜');
+INSERT INTO `level` VALUES (2, '2', '白银');
+INSERT INTO `level` VALUES (3, '3', '黄金');
+INSERT INTO `level` VALUES (4, '4', '铂金');
+INSERT INTO `level` VALUES (5, '5', '钻石');
+INSERT INTO `level` VALUES (6, '6', '星耀');
+INSERT INTO `level` VALUES (7, '7', '王者');
 
 
 -- ----------------------------
@@ -360,6 +358,7 @@ INSERT INTO `config` VALUES ('68', 'tcp_check_warning_times', 3);
 INSERT INTO `config` VALUES ('69', 'is_forbid_china', 0);
 INSERT INTO `config` VALUES ('70', 'is_forbid_oversea', 0);
 INSERT INTO `config` VALUES ('71', 'is_verify_register', 0);
+INSERT INTO `config` VALUES ('72', 'node_daily_report', 0);
 
 
 -- ----------------------------
@@ -369,6 +368,7 @@ CREATE TABLE `article` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
   `author` varchar(50) DEFAULT '' COMMENT '作者',
+  `summary` varchar(255) DEFAULT '' COMMENT '简介',
   `content` text COMMENT '内容',
   `type` tinyint(4) DEFAULT '1' COMMENT '类型：1-文章、2-公告',
   `is_del` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否删除',
@@ -641,8 +641,8 @@ CREATE TABLE `user_traffic_modify_log` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`user_id` INT(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
 	`order_id` INT(11) NOT NULL DEFAULT '0' COMMENT '发生的订单ID',
-	`before` INT(11) NOT NULL DEFAULT '0',
-	`after` INT(11) NOT NULL DEFAULT '0',
+	`before` BIGINT(20) NOT NULL DEFAULT '0' COMMENT '操作前流量',
+	`after` BIGINT(20) NOT NULL DEFAULT '0' COMMENT '操作后流量',
 	`desc` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '描述',
 	`created_at` DATETIME NOT NULL,
 	`updated_at` DATETIME NOT NULL,

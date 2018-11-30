@@ -37,6 +37,13 @@ use DB;
 use Auth;
 use Hash;
 
+/**
+ * 用户控制器
+ *
+ * Class UserController
+ *
+ * @package App\Http\Controllers
+ */
 class UserController extends Controller
 {
     protected static $systemConfig;
@@ -91,11 +98,13 @@ class UserController extends Controller
         }
 
         $nodeList = DB::table('ss_node')
+            ->selectRaw('ss_node.*')
             ->leftJoin('ss_node_label', 'ss_node.id', '=', 'ss_node_label.node_id')
             ->whereIn('ss_node_label.label_id', $userLabelIds)
             ->where('ss_node.status', 1)
             ->groupBy('ss_node.id')
-            ->orderBy('sort', 'desc')
+            ->orderBy('ss_node.sort', 'desc')
+            ->orderBy('ss_node.id', 'asc')
             ->get();
 
         foreach ($nodeList as &$node) {
@@ -179,7 +188,7 @@ class UserController extends Controller
             }
 
             // 节点在线状态
-            $nodeInfo = SsNodeInfo::query()->where('node_id', $node->node_id)->where('log_time', '>=', strtotime("-10 minutes"))->orderBy('id', 'desc')->first();
+            $nodeInfo = SsNodeInfo::query()->where('node_id', $node->id)->where('log_time', '>=', strtotime("-10 minutes"))->orderBy('id', 'desc')->first();
             $node->online_status = empty($nodeInfo) || empty($nodeInfo->load) ? 0 : 1;
 
             // 节点标签
@@ -213,9 +222,6 @@ class UserController extends Controller
             $wechat = $request->get('wechat');
             $qq = $request->get('qq');
             $passwd = trim($request->get('passwd'));
-            $method = $request->get('method');
-            $protocol = $request->get('protocol');
-            $obfs = $request->get('obfs');
 
             // 修改密码
             if ($old_password && $new_password) {
@@ -268,52 +274,23 @@ class UserController extends Controller
                 }
             }
 
-            // 修改SSR(R)设置
-            if ($method || $protocol || $obfs) {
-                if (empty($passwd)) {
-                    Session::flash('errorMsg', '密码不能为空');
-
-                    return Redirect::to('profile#tab_3');
-                }
-
-                // 加密方式、协议、混淆必须存在
-                $existMethod = SsConfig::query()->where('type', 1)->where('name', $method)->first();
-                $existProtocol = SsConfig::query()->where('type', 2)->where('name', $protocol)->first();
-                $existObfs = SsConfig::query()->where('type', 3)->where('name', $obfs)->first();
-                if (!$existMethod || !$existProtocol || !$existObfs) {
-                    Session::flash('errorMsg', '非法请求');
-
-                    return Redirect::to('profile#tab_3');
-                }
-
-                $data = [
-                    'passwd'   => $passwd,
-                    'method'   => $method,
-                    'protocol' => $protocol,
-                    'obfs'     => $obfs
-                ];
-
-                $ret = User::query()->where('id', Auth::user()->id)->update($data);
+            // 修改代理密码
+            if ($passwd) {
+                $ret = User::query()->where('id', Auth::user()->id)->update(['passwd' => $passwd]);
                 if (!$ret) {
                     Session::flash('errorMsg', '修改失败');
 
                     return Redirect::to('profile#tab_3');
                 } else {
-                    // 更新session
-                    $user = User::query()->where('id', Auth::user()->id)->first()->toArray();
-                    Session::remove('user');
-                    Session::put('user', $user);
-
                     Session::flash('successMsg', '修改成功');
 
                     return Redirect::to('profile#tab_3');
                 }
             }
+
+            Session::flash('errorMsg', '非法请求');
+            return Redirect::to('profile#tab_1');
         } else {
-            // 加密方式、协议、混淆
-            $view['method_list'] = Helpers::methodList();
-            $view['protocol_list'] = Helpers::protocolList();
-            $view['obfs_list'] = Helpers::obfsList();
             $view['info'] = User::query()->where('id', Auth::user()->id)->first();
 
             return Response::view('user.profile', $view);
@@ -364,11 +341,11 @@ class UserController extends Controller
     }
 
     // 商品列表
-    public function goodsList(Request $request)
+    public function services(Request $request)
     {
         $view['goodsList'] = Goods::query()->where('status', 1)->where('is_del', 0)->where('type', '<=', '2')->orderBy('type', 'desc')->orderBy('sort', 'desc')->paginate(10)->appends($request->except('page'));
 
-        return Response::view('user.goodsList', $view);
+        return Response::view('user.services', $view);
     }
 
     // 工单
@@ -380,19 +357,19 @@ class UserController extends Controller
     }
 
     // 订单
-    public function orderList(Request $request)
+    public function invoices(Request $request)
     {
         $view['orderList'] = Order::query()->with(['user', 'goods', 'coupon', 'payment'])->where('user_id', Auth::user()->id)->orderBy('oid', 'desc')->paginate(10)->appends($request->except('page'));
 
-        return Response::view('user.orderList', $view);
+        return Response::view('user.invoices', $view);
     }
 
     // 订单明细
-    public function orderDetail(Request $request, $sn)
+    public function invoiceDetail(Request $request, $sn)
     {
         $view['order'] = Order::query()->with(['goods', 'coupon', 'payment'])->where('order_sn', $sn)->firstOrFail();
 
-        return Response::view('user.orderDetail', $view);
+        return Response::view('user.invoiceDetail', $view);
     }
 
     // 添加工单
@@ -421,7 +398,7 @@ class UserController extends Controller
             // 发邮件通知管理员
             if (self::$systemConfig['crash_warning_email']) {
                 try {
-                    Mail::to(self::$systemConfig['crash_warning_email'])->send(new newTicket(self::$systemConfig['website_name'], $emailTitle, $content));
+                    Mail::to(self::$systemConfig['crash_warning_email'])->send(new newTicket($emailTitle, $content));
                     Helpers::addEmailLog(self::$systemConfig['crash_warning_email'], $emailTitle, $content);
                 } catch (\Exception $e) {
                     Helpers::addEmailLog(self::$systemConfig['crash_warning_email'], $emailTitle, $content, 0, $e->getMessage());
@@ -470,7 +447,7 @@ class UserController extends Controller
                 // 发邮件通知管理员
                 if (self::$systemConfig['crash_warning_email']) {
                     try {
-                        Mail::to(self::$systemConfig['crash_warning_email'])->send(new replyTicket(self::$systemConfig['website_name'], $title, $content));
+                        Mail::to(self::$systemConfig['crash_warning_email'])->send(new replyTicket($title, $content));
                         Helpers::addEmailLog(self::$systemConfig['crash_warning_email'], $title, $content);
                     } catch (\Exception $e) {
                         Helpers::addEmailLog(self::$systemConfig['crash_warning_email'], $title, $content, 0, $e->getMessage());
@@ -703,13 +680,24 @@ class UserController extends Controller
 
                         // 先判断，防止手动扣减过流量的用户流量被扣成负数
                         if ($order->user->transfer_enable - $vo->goods->traffic * 1048576 <= 0) {
+                            // 写入用户流量变动记录
+                            Helpers::addUserTrafficModifyLog($user->id, $order->oid, 0, 0, '[余额支付]用户购买套餐，先扣减之前套餐的流量(扣完)');
+
                             User::query()->where('id', $order->user_id)->update(['u' => 0, 'd' => 0, 'transfer_enable' => 0]);
                         } else {
+                            // 写入用户流量变动记录
+                            $user = User::query()->where('id', $user->id)->first(); // 重新取出user信息
+                            Helpers::addUserTrafficModifyLog($user->id, $order->oid, $user->transfer_enable, ($user->transfer_enable - $vo->goods->traffic * 1048576), '[余额支付]用户购买套餐，先扣减之前套餐的流量(未扣完)');
+
                             User::query()->where('id', $order->user_id)->update(['u' => 0, 'd' => 0]);
                             User::query()->where('id', $order->user_id)->decrement('transfer_enable', $vo->goods->traffic * 1048576);
                         }
                     }
                 }
+
+                // 写入用户流量变动记录
+                $user = User::query()->where('id', $user->id)->first(); // 重新取出user信息
+                Helpers::addUserTrafficModifyLog($user->id, $order->oid, $user->transfer_enable, ($user->transfer_enable + $goods->traffic * 1048576), '[余额支付]用户购买商品，加上流量');
 
                 // 把商品的流量加到账号上
                 User::query()->where('id', $user->id)->increment('transfer_enable', $goods->traffic * 1048576);
@@ -890,7 +878,7 @@ class UserController extends Controller
     // 帮助中心
     public function help(Request $request)
     {
-        $view['articleList'] = Article::query()->where('type', 1)->where('is_del', 0)->orderBy('sort', 'desc')->orderBy('id', 'desc')->limit(10)->paginate(15);
+        $view['articleList'] = Article::query()->where('type', 1)->where('is_del', 0)->orderBy('sort', 'desc')->orderBy('id', 'desc')->limit(10)->paginate(5);
 
         return Response::view('user.help', $view);
     }

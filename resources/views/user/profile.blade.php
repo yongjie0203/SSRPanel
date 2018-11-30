@@ -1,9 +1,7 @@
 @extends('user.layouts')
-
 @section('css')
     <link href="/assets/pages/css/profile.min.css" rel="stylesheet" type="text/css" />
 @endsection
-@section('title', trans('home.panel'))
 @section('content')
     <!-- BEGIN CONTENT BODY -->
     <div class="page-content" style="padding-top: 0px; min-height: 354px;">
@@ -93,30 +91,6 @@
                                                     <input type="text" class="form-control" name="passwd" value="{{$info->passwd}}" id="passwd" required />
                                                     <input type="hidden" name="_token" value="{{csrf_token()}}" />
                                                 </div>
-                                                <div class="form-group">
-                                                    <label class="control-label"> {{trans('home.encrpytion')}} </label>
-                                                    <select class="form-control" name="method" id="method">
-                                                        @foreach ($method_list as $method)
-                                                            <option value="{{$method->name}}" @if($method->name == $info->method) selected @endif>{{$method->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="control-label"> {{trans('home.protocal')}} </label>
-                                                    <select class="form-control" name="protocol" id="protocol">
-                                                        @foreach ($protocol_list as $protocol)
-                                                            <option value="{{$protocol->name}}" @if($protocol->name == $info->protocol) selected @endif>{{$protocol->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label class="control-label"> {{trans('home.obfs')}} </label>
-                                                    <select class="form-control" name="obfs" id="obfs">
-                                                        @foreach ($obfs_list as $obfs)
-                                                            <option value="{{$obfs->name}}" @if($obfs->name == $info->obfs) selected @endif>{{$obfs->name}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
                                                 <div class="form-actions">
                                                     <div class="row">
                                                         <div class="col-md-12">
@@ -140,7 +114,4 @@
     <!-- END CONTENT BODY -->
 @endsection
 @section('script')
-    <script type="text/javascript">
-        //
-    </script>
 @endsection

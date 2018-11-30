@@ -8,7 +8,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>403</title>
+    <title>401</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta content="" name="description" />
@@ -36,8 +36,12 @@
         <img src="/assets/pages/media/pages/earth.jpg" class="img-responsive" alt="">
     </div>
     <div class="container error-404">
-        <h2>Request Forbidden</h2>
-        <p>IP or Proxy Access Forbidden</p>
+        <h2>ACCESS DENIED</h2>
+        <p>Unauthorized</p>
+        <p>
+            <a href="{{Request::server('HTTP_REFERER') ?? url('/')}}" class="btn red btn-outline"> 返回 </a>
+            <br>
+        </p>
     </div>
     <!--[if lt IE 9]>
     <script src="/assets/global/plugins/respond.min.js"></script>

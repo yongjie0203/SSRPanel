@@ -1,6 +1,6 @@
 @extends('user.layouts')
-
-@section('title', trans('home.panel'))
+@section('css')
+@endsection
 @section('content')
     <!-- BEGIN CONTENT BODY -->
     <div class="page-content" style="padding-top:0;">
@@ -12,7 +12,6 @@
                         <div class="caption">
                             <i class="icon-directions font-green hide"></i>
                             <span class="caption-subject bold font-dark uppercase"> {{$info->title}} </span>
-                            <span class="caption-helper">发布于：{{$info->created_at}}</span></span>
                         </div>
                     </div>
                     <div class="portlet-body">
@@ -27,7 +26,4 @@
     <!-- END CONTENT BODY -->
 @endsection
 @section('script')
-    <script type="text/javascript">
-        //
-    </script>
 @endsection
