@@ -1,0 +1,38 @@
+{
+	"configs" : $nodeArray,
+	"index" : $selectNodeIndex,
+	"random" : true,
+	"sysProxyMode" : 3,
+	"shareOverLan" : true,
+	"localPort" : 1080,
+	"localAuthPassword" : "vXjSh2KNq0QN4c99ukvW",
+	"dnsServer" : "",
+	"reconnectTimes" : 2,
+	"balanceAlgorithm" : "FastDownloadSpeed",
+	"randomInGroup" : true,
+	"TTL" : 0,
+	"connectTimeout" : 5,
+	"proxyRuleMode" : 2,
+	"proxyEnable" : false,
+	"pacDirectGoProxy" : false,
+	"proxyType" : 0,
+	"proxyHost" : "",
+	"proxyPort" : 0,
+	"proxyAuthUser" : "",
+	"proxyAuthPass" : "",
+	"proxyUserAgent" : "",
+	"authUser" : "",
+	"authPass" : "",
+	"autoBan" : false,
+	"sameHostForSameTarget" : false,
+	"keepVisitTime" : 180,
+	"isHideTips" : false,
+	"nodeFeedAutoUpdate" : true,
+	"serverSubscribes" : $subscribesArray,
+	"token" : {
+
+	},
+	"portMap" : {
+
+	}
+}
