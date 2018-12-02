@@ -130,5 +130,7 @@ Route::group(['middleware' => ['isForbidden', 'isLogin']], function () {
     Route::post('payment/create', 'PaymentController@create'); // 创建支付
     Route::get('payment/getStatus', 'PaymentController@getStatus'); // 获取支付单状态
     Route::get('payment/{sn}', 'PaymentController@detail'); // 支付单详情
+    
+    Route::any('download', 'DownloadController@windowsDownland'); // windwos客户端压缩包下载
 
 });
