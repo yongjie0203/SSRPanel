@@ -107,10 +107,10 @@
                                                     @if(Agent::is('iPhone') || Agent::is('iPad'))
                                                         @if(Agent::is('Safari'))
                                                             <li> <a href="{{$ipa_list}}" target="_blank">点击此处在线安装</a></li>
-                                                            <li> <a class="auto_import" href="" target="_blank">点击此处导入订阅</a></li>
+                                                            <li> <a id="auto_import" href="" target="_blank">点击此处导入订阅</a></li>
                                                         @else
                                                             <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装</a></li>
-                                                            <li> <a class="auto_import" href="javascript:onlineInstallWarning();" target="_blank">点击此处导入订阅</a></li>
+                                                            <li> <a id="auto_import" href="javascript:onlineInstallWarning();" target="_blank">点击此处导入订阅</a></li>
                                                         @endif
                                                     @endif
                                                     <li> 请从站长处获取App Store账号密码 </li>
@@ -465,7 +465,7 @@
     <script type="text/javascript">
         //处理ios shadowrocket自动导入订阅链接
         var auto_import_url = "shadowrocket://add/sub://" + new Base64().encode("{{$link}}") + "?remarks=SYYAI.COM-SSR";
-        $(".auto_import").attr("href",auto_import_url);
+        $("#auto_import").attr("href",auto_import_url);
     </script>
 
     <script type="text/javascript">
