@@ -125,7 +125,7 @@ class DownloadController extends Controller
         $configJsonString = str_replace('$configs',$configs,$configJsonString); 
         $configJsonString = str_replace('$index',$index,$configJsonString); 
         $configJsonString = str_replace('$serverSubscribes',$serverSubscribes,$configJsonString); 
-        
+        return $configJsonString;
     }
 
 
