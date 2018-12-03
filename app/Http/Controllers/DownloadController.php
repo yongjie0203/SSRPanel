@@ -59,114 +59,83 @@ class DownloadController extends Controller
        
         $subscribe = UserSubscribe::query()->where('user_id', Auth::user()->id)->first();      
         $code = $subscribe->code;     
-        $view['link'] = self::$systemConfig['subscribe_domain'] ? self::$systemConfig['subscribe_domain'] . '/s/' . $code : self::$systemConfig['website_url'] . '/s/' . $code;
+        $link = self::$systemConfig['subscribe_domain'] ? self::$systemConfig['subscribe_domain'] . '/s/' . $code : self::$systemConfig['website_url'] . '/s/' . $code;
 
         // 节点列表
         $userLabelIds = UserLabel::query()->where('user_id', Auth::user()->id)->pluck('label_id');
         if (empty($userLabelIds)) {
-            $view['nodeList'] = [];
-
-            return Response::view('user.index', $view);
+            $nodeList = [];
+            $index = 0;
+        }else{
+            $nodeList = DB::table('ss_node')
+                ->selectRaw('ss_node.*')
+                ->leftJoin('ss_node_label', 'ss_node.id', '=', 'ss_node_label.node_id')
+                ->whereIn('ss_node_label.label_id', $userLabelIds)
+                ->where('ss_node.status', 1)
+                ->groupBy('ss_node.id')
+                ->orderBy('ss_node.sort', 'desc')
+                ->orderBy('ss_node.id', 'asc')
+                ->get();
+            $index = rand(0, sizeof($nodeList));
         }
-
-        $nodeList = DB::table('ss_node')
-            ->selectRaw('ss_node.*')
-            ->leftJoin('ss_node_label', 'ss_node.id', '=', 'ss_node_label.node_id')
-            ->whereIn('ss_node_label.label_id', $userLabelIds)
-            ->where('ss_node.status', 1)
-            ->groupBy('ss_node.id')
-            ->orderBy('ss_node.sort', 'desc')
-            ->orderBy('ss_node.id', 'asc')
-            ->get();
-
+        
+        $configs = "[";
+               
+        $groupName = "";
         foreach ($nodeList as &$node) {
             // 获取分组名称
             $group = SsGroup::query()->where('id', $node->group_id)->first();
 
             if ($node->type == 1) {
-                // 生成ssr scheme
-                $obfs_param = $user->obfs_param ? $user->obfs_param : $node->obfs_param;
-                $protocol_param = $node->single ? $user->port . ':' . $user->passwd : $user->protocol_param;
-
-                $ssr_str = ($node->server ? $node->server : $node->ip) . ':' . ($node->single ? $node->single_port : $user->port);
-                $ssr_str .= ':' . ($node->single ? $node->single_protocol : $user->protocol) . ':' . ($node->single ? $node->single_method : $user->method);
-                $ssr_str .= ':' . ($node->single ? $node->single_obfs : $user->obfs) . ':' . ($node->single ? base64url_encode($node->single_passwd) : base64url_encode($user->passwd));
-                $ssr_str .= '/?obfsparam=' . base64url_encode($obfs_param);
-                $ssr_str .= '&protoparam=' . ($node->single ? base64url_encode($user->port . ':' . $user->passwd) : base64url_encode($protocol_param));
-                $ssr_str .= '&remarks=' . base64url_encode($node->name);
-                $ssr_str .= '&group=' . base64url_encode(empty($group) ? '' : $group->name);
-                $ssr_str .= '&udpport=0';
-                $ssr_str .= '&uot=0';
-                $ssr_str = base64url_encode($ssr_str);
-                $ssr_scheme = 'ssr://' . $ssr_str;
-
-                // 生成ss scheme
-                $ss_str = $user->method . ':' . $user->passwd . '@';
-                $ss_str .= ($node->server ? $node->server : $node->ip) . ':' . $user->port;
-                $ss_str = base64url_encode($ss_str) . '#' . 'VPN';
-                $ss_scheme = 'ss://' . $ss_str;
-
-                // 生成文本配置信息
-                $txt = "服务器：" . ($node->server ? $node->server : $node->ip) . "\r\n";
-                if ($node->ipv6) {
-                    $txt .= "IPv6：" . $node->ipv6 . "\r\n";
-                }
-                $txt .= "远程端口：" . ($node->single ? $node->single_port : $user->port) . "\r\n";
-                $txt .= "密码：" . ($node->single ? $node->single_passwd : $user->passwd) . "\r\n";
-                $txt .= "加密方法：" . ($node->single ? $node->single_method : $user->method) . "\r\n";
-                $txt .= "路由：绕过局域网及中国大陆地址" . "\r\n\r\n";
-                $txt .= "协议：" . ($node->single ? $node->single_protocol : $user->protocol) . "\r\n";
-                $txt .= "协议参数：" . ($node->single ? $user->port . ':' . $user->passwd : $user->protocol_param) . "\r\n";
-                $txt .= "混淆方式：" . ($node->single ? $node->single_obfs : $user->obfs) . "\r\n";
-                $txt .= "混淆参数：" . ($user->obfs_param ? $user->obfs_param : $node->obfs_param) . "\r\n";
-                $txt .= "本地端口：1080" . "\r\n";
-
-                $node->txt = $txt;
-                $node->ssr_scheme = $ssr_scheme;
-                $node->ss_scheme = $node->compatible ? $ss_scheme : ''; // 节点兼容原版才显示
-            } else {
-                // 生成v2ray scheme
-                $v2_json = [
-                    "v"    => "2",
-                    "ps"   => $node->name,
-                    "add"  => $node->server ? $node->server : $node->ip,
-                    "port" => $node->v2_port,
-                    "id"   => $user->vmess_id,
-                    "aid"  => $node->v2_alter_id,
-                    "net"  => $node->v2_net,
-                    "type" => $node->v2_type,
-                    "host" => $node->v2_host,
-                    "path" => $node->v2_path,
-                    "tls"  => $node->v2_tls == 1 ? "tls" : ""
-                ];
-                $v2_scheme = 'vmess://' . base64url_encode(json_encode($v2_json));
-
-                // 生成文本配置信息
-                $txt = "服务器：" . ($node->server ? $node->server : $node->ip) . "\r\n";
-                if ($node->ipv6) {
-                    $txt .= "IPv6：" . $node->ipv6 . "\r\n";
-                }
-                $txt .= "端口：" . $node->v2_port . "\r\n";
-                $txt .= "用户ID：" . $user->vmess_id . "\r\n";
-                $txt .= "额外ID：" . $node->v2_alter_id . "\r\n";
-                $txt .= "传输协议：" . $node->v2_net . "\r\n";
-                $txt .= "伪装类型：" . $node->v2_type . "\r\n";
-                $txt .= $node->v2_host ? "伪装域名：" . $node->v2_host . "\r\n" : "";
-                $txt .= $node->v2_path ? "路径：" . $node->v2_path . "\r\n" : "";
-                $txt .= $node->v2_tls == 1 ? "TLS：tls\r\n" : "";
-
-                $node->txt = $txt;
-                $node->v2_scheme = $v2_scheme;
-            }
-            
+                              
+                $configs .= '{';
+                $configs .= '"remarks" : "' . $node->name .'",';
+                //$configs .= '"id" : "E6B6B8932A9908852F5EC5D90B4155E4",';
+                $configs .= '"server" : "' . ($node->server ? $node->server : $node->ip) . '",';
+                $configs .= '"server_port" : '. ($node->single ? $node->single_port : $user->port) .',';
+                $configs .= '"server_udp_port" : 0,';
+                $configs .= '"password" : "' . $user->passwd . '",';
+                $configs .= '"method" : "' . ($node->single ? $node->single_method : $user->method) . '",';
+                $configs .= '"protocol" : "'.($node->single ? $node->single_protocol : $user->protocol).'",';
+                $configs .= '"protocolparam" : "'.($node->single ? $user->port . ':' . $user->passwd : $protocol_param).'",';
+                $configs .= '"obfs" : "'.($node->single ? $node->single_obfs : $user->obfs) .'",';
+                $configs .= '"obfsparam" : "'. $obfs_param .'",';
+                $configs .= '"remarks_base64" : "'. base64url_encode($node->name) .'",';
+                $configs .= '"group" : "'. (empty($group) ? '' : $group->name) .'",';
+                $configs .= '"enable" : true,';
+                $configs .= '"udp_over_tcp" : false';
+                $configs .= '}';
+                
+                $groupName = $group->name;
+            } 
+            $configs .="]";
         }
-
-        $view['nodeList'] = $nodeList;
-
-        return Response::view('user.index', $view);
+        
+        list($msec, $sec) = explode(' ', microtime());
+        $serverSubscribes ="";
+        $serverSubscribes .= '[';
+        $serverSubscribes .= '{';
+        $serverSubscribes .= '"URL" : "'. $link .'",';
+        $serverSubscribes .= '"Group" : "'. $groupName .'",';
+        $serverSubscribes .= '"LastUpdateTime" : '.$sec.;
+        $serverSubscribes .= '}';
+        $serverSubscribes .= ']';
+    
+        $configJsonString = getTemplate();
+        $configJsonString = str_replace('$configs',$configs,$configJsonString); 
+        $configJsonString = str_replace('$index',$index,$configJsonString); 
+        $configJsonString = str_replace('$serverSubscribes',$serverSubscribes,$configJsonString); 
+        
     }
 
 
 
-    
+    private function getTemplate(){
+        $templateFilePath = "../../../public/clients/gui-config.template.json";
+        $tempdata=fopen($templateFilePath,"r");
+        //读取模板中的内容
+        $str=fread($tempdata,filesize($templateFilePath));
+        
+        return $str;
+    }
 }
