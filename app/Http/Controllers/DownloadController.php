@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Components\Helpers;
@@ -36,6 +35,7 @@ use Log;
 use DB;
 use Auth;
 use Hash;
+use ZipArchive;
 
 /**
  * 客户端下载控制器
@@ -54,9 +54,9 @@ class DownloadController extends Controller
     }
 
     public function windowsDownland(Request $request)
-    {
-        $user = User::query()->where('id', Auth::user()->id)->first();
-       
+    { 
+       $user = User::query()->where('id', Auth::user()->id)->first();
+      
         $subscribe = UserSubscribe::query()->where('user_id', Auth::user()->id)->first();      
         $code = $subscribe->code;     
         $link = self::$systemConfig['subscribe_domain'] ? self::$systemConfig['subscribe_domain'] . '/s/' . $code : self::$systemConfig['website_url'] . '/s/' . $code;
@@ -79,16 +79,20 @@ class DownloadController extends Controller
             $index = rand(0, sizeof($nodeList));
         }
         
-        $configs = "[";
+       $configs = "[";
                
         $groupName = "";
+	$i = 0;
         foreach ($nodeList as &$node) {
+	    $i++;
             // 获取分组名称
             $group = SsGroup::query()->where('id', $node->group_id)->first();
 
             if ($node->type == 1) {
-                              
-                $configs .= '{';
+                $singleProtocolParam  = $user->port.':'.$user->passwd;              
+              	$obfs_param = $user->obfs_param ? $user->obfs_param : $node->obfs_param;
+                $protocol_param = $node->single ? $user->port . ':' . $user->passwd : $user->protocol_param;
+		$configs .= '{';
                 $configs .= '"remarks" : "' . $node->name .'",';
                 //$configs .= '"id" : "E6B6B8932A9908852F5EC5D90B4155E4",';
                 $configs .= '"server" : "' . ($node->server ? $node->server : $node->ip) . '",';
@@ -97,7 +101,7 @@ class DownloadController extends Controller
                 $configs .= '"password" : "' . $user->passwd . '",';
                 $configs .= '"method" : "' . ($node->single ? $node->single_method : $user->method) . '",';
                 $configs .= '"protocol" : "'.($node->single ? $node->single_protocol : $user->protocol).'",';
-                $configs .= '"protocolparam" : "'.($node->single ? $user->port . ':' . $user->passwd : $protocol_param).'",';
+                $configs .= '"protocolparam" : "'.($node->single ? $singleProtocolParam : $protocol_param).'",';
                 $configs .= '"obfs" : "'.($node->single ? $node->single_obfs : $user->obfs) .'",';
                 $configs .= '"obfsparam" : "'. $obfs_param .'",';
                 $configs .= '"remarks_base64" : "'. base64url_encode($node->name) .'",';
@@ -105,11 +109,16 @@ class DownloadController extends Controller
                 $configs .= '"enable" : true,';
                 $configs .= '"udp_over_tcp" : false';
                 $configs .= '}';
-                
+              
                 $groupName = $group->name;
             } 
-            $configs .="]";
+	    if($i != sizeof($nodeList) ){
+		$configs .= ',';
+	    }
         }
+
+	$configs .= ']';
+
         
         list($msec, $sec) = explode(' ', microtime());
         $serverSubscribes ="";
@@ -117,25 +126,43 @@ class DownloadController extends Controller
         $serverSubscribes .= '{';
         $serverSubscribes .= '"URL" : "'. $link .'",';
         $serverSubscribes .= '"Group" : "'. $groupName .'",';
-        $serverSubscribes .= '"LastUpdateTime" : '.$sec.;
+        $serverSubscribes .= '"LastUpdateTime" : '.$sec;
         $serverSubscribes .= '}';
         $serverSubscribes .= ']';
-    
-        $configJsonString = getTemplate();
+  
+        $configJsonString = $this-> getTemplate();
         $configJsonString = str_replace('$configs',$configs,$configJsonString); 
         $configJsonString = str_replace('$index',$index,$configJsonString); 
-        $configJsonString = str_replace('$serverSubscribes',$serverSubscribes,$configJsonString); 
-        return $configJsonString;
+        $configJsonString = str_replace('$serverSubscribes',$serverSubscribes,$configJsonString);
+	
+	$tempdir =  $_SERVER['DOCUMENT_ROOT']."/clients/temp/";
+	$usertempdir = $tempdir.$user->id;
+	if(!is_dir($tempdir)){
+		mkdir($tempdir);
+	}
+	if(!is_dir($usertempdir)){
+		mkdir($usertempdir);
+	}
+	$sourceFile = $_SERVER['DOCUMENT_ROOT']."/clients/ShadowsocksR-win-4.9.0.zip";
+	$targetFile = $tempdir .$user->id.  "/ShadowsocksR-win-4.9.0.zip";
+	copy($sourceFile,$targetFile);
+	$zip=new ZipArchive(); 
+	if($zip->open($targetFile) ===  TRUE){
+		$zip->addFromString("ShadowsocksR-win-4.9.0/gui-config.json",$configJsonString);
+	}
+	$zip->close();
+	$file_size=filesize($targetFile);
+	header("Content-type: application/octet-stream");
+	header("Accept-Length:".$file_size);
+	header('Content-disposition:attachment;filename=ShadowsocksR-win-4.9.0.zip');
+	readfile($targetFile);
+	unlink($targetFile);
     }
 
 
 
     private function getTemplate(){
-        $templateFilePath = "../../../public/clients/gui-config.template.json";
-        $tempdata=fopen($templateFilePath,"r");
-        //读取模板中的内容
-        $str=fread($tempdata,filesize($templateFilePath));
-        
-        return $str;
+        $templateFilePath = $_SERVER["DOCUMENT_ROOT"]. "/clients/gui-config.template.json";
+	return file_get_contents($templateFilePath);
     }
 }

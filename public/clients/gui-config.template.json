@@ -1,6 +1,6 @@
 {
-	"configs" : $nodeArray,
-	"index" : $selectNodeIndex,
+	"configs" : $configs,
+	"index" : $index,
 	"random" : true,
 	"sysProxyMode" : 3,
 	"shareOverLan" : true,
@@ -28,7 +28,7 @@
 	"keepVisitTime" : 180,
 	"isHideTips" : false,
 	"nodeFeedAutoUpdate" : true,
-	"serverSubscribes" : $subscribesArray,
+	"serverSubscribes" : $serverSubscribes,
 	"token" : {
 
 	},
