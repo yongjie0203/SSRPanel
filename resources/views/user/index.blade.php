@@ -89,7 +89,7 @@
                                             </div>
                                             <div class="tab-pane" id="tools2">
                                                 <ol>
-                                                    <li> <a href="{{asset('clients/ShadowsocksR-win-4.9.0.zip')}}" target="_blank">点击此处</a>下载客户端并启动 </li>
+                                                    <li> <a href="/download" target="_blank">点击此处</a>下载客户端并启动 </li>
                                                     <li> 单击状态栏小飞机，找到服务器->订阅->订阅设置，复制黏贴订阅地址 </li>
                                                     <li> 点击状态栏小飞机，找到模式，选中PAC </li>
                                                     <li> 点击状态栏小飞机，找到PAC，选中更新PAC为GFWList </li>
