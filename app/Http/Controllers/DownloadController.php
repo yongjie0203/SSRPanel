@@ -69,13 +69,15 @@ class DownloadController extends Controller
         }else{
             $nodeList = DB::table('ss_node')
                 ->selectRaw('ss_node.*')
-                ->leftJoin('ss_node_label', 'ss_node.id', '=', 'ss_node_label.node_id')
-                ->whereIn('ss_node_label.label_id', $userLabelIds)
-                ->where('ss_node.status', 1)
-                ->groupBy('ss_node.id')
-                ->orderBy('ss_node.sort', 'desc')
-                ->orderBy('ss_node.id', 'asc')
-                ->get();
+	    	->leftjoin("ss_node_label", "ss_node.id", "=", "ss_node_label.node_id")
+	    	->where('ss_node.type', 1)
+	    	->where('ss_node.status', 1)
+	    	->where('ss_node.is_subscribe', 1)
+	    	->whereIn('ss_node_label.label_id', $userLabelIds)
+	    	->groupBy('ss_node.id')
+	    	->orderBy('ss_node.sort', 'desc')
+	    	->orderBy('ss_node.id', 'asc')
+	    	->get()
             $index = rand(0, sizeof($nodeList));
         }
         
