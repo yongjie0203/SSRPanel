@@ -77,7 +77,7 @@ class DownloadController extends Controller
 	    	->groupBy('ss_node.id')
 	    	->orderBy('ss_node.sort', 'desc')
 	    	->orderBy('ss_node.id', 'asc')
-	    	->get()
+	    	->get();
             $index = rand(0, sizeof($nodeList));
         }
         
