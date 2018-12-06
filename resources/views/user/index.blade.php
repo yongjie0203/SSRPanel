@@ -110,7 +110,7 @@
                                                             <li> <a id="auto_import" href="" target="_blank">点击此处导入订阅</a></li>
                                                         @else
                                                             <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装</a></li>
-                                                            <li> <a id="auto_import" href="javascript:onlineInstallWarning();" target="_blank">点击此处导入订阅</a></li>
+                                                            <li> <a href="javascript:onlineInstallWarning();" target="_blank">点击此处导入订阅</a></li>
                                                         @endif
                                                     @endif
                                                     <li> 请从站长处获取App Store账号密码 </li>
