@@ -89,7 +89,7 @@
                                             </div>
                                             <div class="tab-pane" id="tools2">
                                                 <ol>
-                                                    <li> <a href="/download" target="_blank">点击此处</a>下载客户端并启动。请点<a href="{{asset('doc/Windows使用帮助.pdf')}}">这里</a>查看详细使用帮助 </li>
+                                                    <li> <a href="/download" target="_blank">点击此处</a>下载客户端并启动。请点<a href="{{asset('doc/Windows使用帮助.pdf')}}" target="_blank">这里</a>查看详细使用帮助 </li>
                                                     <li> 单击状态栏小飞机，找到服务器->订阅->订阅设置，复制黏贴订阅地址 </li>
                                                     <li> 点击状态栏小飞机，找到模式，选中PAC </li>
                                                     <li> 点击状态栏小飞机，找到PAC，选中更新PAC为GFWList </li>
@@ -106,7 +106,7 @@
                                                 <ol>
                                                     @if(Agent::is('iPhone') || Agent::is('iPad'))
                                                         @if(Agent::is('Safari'))
-                                                            <li> <a href="{{$ipa_list}}" target="_blank">点击此处在线安装</a>,安装完成后请点<a href="{{asset('doc/iOS使用帮助.pdf')}}">这里</a>查看详细使用帮助。</li>
+                                                            <li> <a href="{{$ipa_list}}" target="_blank">点击此处在线安装</a>,安装完成后请点<a href="{{asset('doc/iOS使用帮助.pdf')}}" target="_blank">这里</a>查看详细使用帮助。</li>
                                                             <li> <a id="auto_import" href="" target="_blank">点击此处导入订阅</a></li>
                                                         @else
                                                             <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装</a></li>
@@ -118,7 +118,7 @@
                                             </div>
                                             <div class="tab-pane" id="tools5">
                                                 <ol>
-                                                    <li> <a href="{{asset('clients/shadowsocksr-android-3.5.4.apk')}}" target="_blank">点击此处</a>下载客户端并启动，完成后请点<a href="{{asset('doc/Android使用帮助.pdf')}}">这里</a>查看详细使用帮助。 </li>
+                                                    <li> <a href="{{asset('clients/shadowsocksr-android-3.5.4.apk')}}" target="_blank">点击此处</a>下载客户端并启动，完成后请点<a href="{{asset('doc/Android使用帮助.pdf')}}" target="_blank">这里</a>查看详细使用帮助。 </li>
                                                     <li> 单击左上角的shadowsocksR进入配置文件页，点击右下角的“+”号，点击“添加/升级SSR订阅”，填入订阅信息并保存 </li>
                                                     <li> 选中任意一个节点，返回软件首页 </li>
                                                     <li> 在软件首页处找到“路由”选项，并将其改为“绕过局域网及中国大陆地址” </li>
