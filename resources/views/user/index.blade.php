@@ -113,7 +113,7 @@
                                                             <li> <a href="javascript:onlineInstallWarning();" target="_blank">点击此处导入订阅</a></li>
                                                         @endif
                                                     @endif
-                                                    <li> 请从站长处获取App Store账号密码 </li>
+						    <li> 请从站长处获取App Store账号密码 </li>
                                                 </ol>
                                             </div>
                                             <div class="tab-pane" id="tools5">
@@ -460,7 +460,7 @@
     <script src="/assets/pages/scripts/components-clipboard.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-qrcode/jquery.qrcode.min.js" type="text/javascript"></script>
     <script src="/assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-    <script src="/assets/app/scripts/base64.js" type="text/javascript"></script>
+    <script src="/assets/apps/scripts/base64.js" type="text/javascript"></script>
     
     <script type="text/javascript">
         //处理ios shadowrocket自动导入订阅链接
