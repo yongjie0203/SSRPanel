@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 use App\Components\Helpers;
 use App\Http\Models\Marketing;
 use App\Http\Models\Email;
+use App\Mail\freeMail;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Mailable;
 use Response;
 use Log;
 use DB;
@@ -173,11 +173,10 @@ class MarketingController extends Controller
     public function testEmail(Request $request){
         $bcc = ["360582818@qq.com","yongjie0203@126.com","admin@syyai.com"];
         try {
-            $mailable = new Mailable();
-            $mailable -> bcc = $bcc;
-            $mailable -> subject = "TEST";
-            $mailable -> view = "<html><div><h1> this is a test mail </h1> </div></html>";
-            Mail::bcc($bcc) -> send($mailable);
+            $mail = new freeMail("<html><div><h1> this is a test mail </h1> </div></html>");
+            $mail -> subject = "TEST";
+           
+            Mail::bcc($bcc) -> send($mail);
         } catch (\Exception $e) {
            return $e->getMessage();
         }
