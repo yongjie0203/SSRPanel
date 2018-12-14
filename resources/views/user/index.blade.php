@@ -103,18 +103,32 @@
                                                 </ol>
                                             </div>
                                             <div class="tab-pane" id="tools4">
+                                              	
                                                 <ol>
+                                                  	<li> 请从客服处获取App Store账号密码，以下客户端择其一即可。</li>
                                                     @if(Agent::is('iPhone') || Agent::is('iPad'))
                                                         @if(Agent::is('Safari'))
-                                                            <li> <a href="{{$ipa_list}}" target="_blank">点击此处在线安装</a>,安装完成后请点<a href="{{asset('doc/iOS使用帮助.pdf')}}" target="_blank">这里</a>查看详细使用帮助。</li>
-                                                            <li> <a id="auto_import" href="" target="_blank">点击此处导入订阅</a></li>
+                                                            <li> <a href="{{$ipa_list}}" target="_blank">点击此处在线安装Shadowrocket</a>,安装完成后请点<a href="{{asset('doc/iOS使用帮助.pdf')}}" target="_blank">这里</a>查看详细使用帮助。</li>
+                                                            <li> <a id="auto_import" href="" target="_blank">点击此处导入订阅配置</a></li>
                                                         @else
                                                             <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装</a></li>
-                                                            <li> <a href="javascript:onlineInstallWarning();" target="_blank">点击此处导入订阅</a></li>
+                                                            <li> <a href="javascript:onlineInstallWarning();">点击此处导入订阅配置</a></li>
                                                         @endif
-                                                    @endif
-						    <li> 请从站长处获取App Store账号密码 </li>
+                                                    @endif						    						
                                                 </ol>
+                                                <ol>                                                 	  
+                                                      @if(Agent::is('iPhone') || Agent::is('iPad'))
+                                                          @if(Agent::is('Safari'))
+                                                              <li> <a href="itms-services://?action=download-manifest&url=https://syyai.com/clients/quantumult/ipa.plist" target="_blank">点击此处在线安装Quantumult</a>。</li>
+                                                              <li> <a id="quantumult_auto_import" href="" target="_blank">点击此处导入订阅配置</a></li>
+                                                 			  <li>等待更新成功后，后台关闭软件，重新打开软件，点击底部菜单栏黑色图标，选择线路，点击软件上方 Quantumult 旁的按钮，开启代理</li>
+                                                          @else
+                                                              <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装Quantumult</a></li>
+                                                              <li> <a href="javascript:onlineInstallWarning();">点击此处导入订阅配置</a></li>
+                                                  			  <li>等待更新成功后，后台关闭软件，重新打开软件，点击底部菜单栏黑色图标，选择线路，点击软件上方 Quantumult 旁的按钮，开启代理</li>
+                                                          @endif
+                                                      @endif                                                      
+                                                  </ol>
                                             </div>
                                             <div class="tab-pane" id="tools5">
                                                 <ol>
@@ -465,7 +479,11 @@
     <script type="text/javascript">
         //处理ios shadowrocket自动导入订阅链接
         var auto_import_url = "shadowrocket://add/sub://" + new Base64().encode("{{$link}}") + "?remarks=SYYAI.COM-SSR";
+      	var filter_config_url = "https://raw.githubusercontent.com/ConnersHua/Profiles/master/QuantumultPro.conf";
+        var rejection_config_url = "https://raw.githubusercontent.com/ConnersHua/Profiles/master/QuantumultRejection.conf";
+        var qu_auto_import_url = "quantumult://configuration?server=" + new Base64().encode("{{$link}}") + "&filter="  + new Base64().encode(filter_config_url) + "&rejection=" + new Base64().encode(rejection_config_url) ;
         $("#auto_import").attr("href",auto_import_url);
+      	$("#quantumult_auto_import").attr("href",auto_import_url);
     </script>
 
     <script type="text/javascript">
