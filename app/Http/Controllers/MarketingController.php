@@ -6,6 +6,7 @@ use App\Http\Models\Marketing;
 use App\Http\Models\Email;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailable;
 use Response;
 use Log;
 use DB;
@@ -171,8 +172,17 @@ class MarketingController extends Controller
     //测试邮件发送
     public function testEmail(Request $request){
         $bcc = ["360582818@qq.com","yongjie0203@126.com","admin@syyai.com"];
-        Mail::bcc($bcc) -> send("<html><div><h1> this is a test mail </h1> </div></html>");
+        try {
+            $mailable = new Mailable();
+            $mailable -> bcc = $bcc;
+            $mailable -> subject = "TEST";
+            $mailable -> view = "<html><div><h1> this is a test mail </h1> </div></html>";
+            Mail::bcc($bcc) -> send($mailable);
+        } catch (\Exception $e) {
+           return $e->getMessage();
+        }
         return "ok";
+        
     }
     
 }
