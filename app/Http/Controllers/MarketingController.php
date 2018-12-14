@@ -117,19 +117,19 @@ class MarketingController extends Controller
     public function addEmail(Request $request)
     {
         if ($request->method() == 'POST') {
-            $article = new Article();
-            $article->title = $request->get('title');
-            $article->type = $request->get('type', 1);
-            $article->author = $request->get('author');
-            $article->summary = $request->get('summary');
-            $article->content = $request->get('content');
-            $article->is_del = 0;
-            $article->sort = $request->get('sort', 0);
-            $article->save();
+            $email = new Email();
+            $email->title = $request->get('title');
+            $email->type = $request->get('type', 1);
+            $email->author = $request->get('author');
+            $email->summary = $request->get('summary');
+            $email->content = $request->get('content');
+            $email->is_del = 0;
+            $email->sort = $request->get('sort', 0);
+            $email->save();
 
-            return Response::json(['status' => 'success', 'data' => '', 'message' => '添加成功']);
+            return Response::json(['status' => 'success', 'data' => '', 'message' => '保存成功']);
         } else {
-            return Response::view('admin.addEmail');
+            return Response::view('marketing.addEmail');
         }
     }
 
