@@ -163,7 +163,7 @@ class MarketingController extends Controller
         } else {
             $view['email'] = Email::query()->where('id', $id)->first();
 
-            return Response::view('admin.editArticle', $view);
+            return Response::view('marketing.editEmail', $view);
         }
     }
     
