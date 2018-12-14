@@ -170,8 +170,8 @@ class MarketingController extends Controller
     
     //测试邮件发送
     public function testEmail(Request $request){
-         
-        return var_dump(Mail::to("360582818@qq.com"));
+        $bcc = ["360582818@qq.com","yongjie0203@126.com","admin@syyai.com"];
+        Mail::bcc($bcc) -> send("<html><div><h1> this is a test mail </h1> </div></html>");
     }
     
 }
