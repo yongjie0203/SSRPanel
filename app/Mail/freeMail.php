@@ -21,6 +21,6 @@ class freeMail extends Mailable
 
     public function build()
     {
-        return $this->html($content);
+        return $this->html($this->content);
     }
 }
