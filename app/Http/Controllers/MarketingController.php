@@ -172,6 +172,7 @@ class MarketingController extends Controller
     public function testEmail(Request $request){
         $bcc = ["360582818@qq.com","yongjie0203@126.com","admin@syyai.com"];
         Mail::bcc($bcc) -> send("<html><div><h1> this is a test mail </h1> </div></html>");
+        return "ok";
     }
     
 }
