@@ -10,6 +10,7 @@ use Response;
 use Log;
 use DB;
 use Auth;
+use Mail;
 
 /**
  * 促销控制器
@@ -165,6 +166,11 @@ class MarketingController extends Controller
 
             return Response::view('marketing.editEmail', $view);
         }
+    }
+    
+    //测试邮件发送
+    public function testEmail(Request $request){
+        Mail::to("360582818@qq.com") ->send("test content");
     }
     
 }
