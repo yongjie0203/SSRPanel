@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Response;
 use Log;
 use DB;
+use Auth;
 
 /**
  * 促销控制器
@@ -112,13 +113,15 @@ class MarketingController extends Controller
     {
         if ($request->method() == 'POST') {
             $email = new Email();
-            $email->title = $request->get('title');
-            $email->type = $request->get('type', 1);
-            $email->author = $request->get('author');
-            $email->summary = $request->get('summary');
+            $email->to = $request->get('to');
+            $email->cc = $request->get('cc');
+            $email->bcc = $request->get('bcc');
+            $email->from = $request->get('from');
             $email->content = $request->get('content');
-            $email->is_del = 0;
-            $email->sort = $request->get('sort', 0);
+            $email->subject = $request->get('subject');
+            $email->expression = $request->get('expression');
+            $email->status = 0;
+            $email->user_id = Auth::user()->id;
             $email->save();
 
             return Response::json(['status' => 'success', 'data' => '', 'message' => '保存成功']);
@@ -133,30 +136,32 @@ class MarketingController extends Controller
         $id = $request->get('id');
 
         if ($request->method() == 'POST') {
-            $title = $request->get('title');
-            $type = $request->get('type');
-            $author = $request->get('author');
-            $summary = $request->get('summary');
+            $to = $request->get('to');
+            $cc = $request->get('cc');
+            $bcc = $request->get('bcc');
+            $from = $request->get('from');
             $content = $request->get('content');
-            $sort = $request->get('sort');
+            $subject = $request->get('subject');
+            $expression = $request->get('expression');
 
             $data = [
-                'title'   => $title,
-                'type'    => $type,
-                'author'  => $author,
-                'summary' => $summary,
+                'to'   => $to,
+                'cc'    => $cc,
+                'bcc'  => $bcc,
+                'from' => $from,
                 'content' => $content,
-                'sort'    => $sort
+                'subject'    => $subject,
+                'expression' => $expression
             ];
 
-            $ret = Article::query()->where('id', $id)->update($data);
+            $ret = Email::query()->where('id', $id)->update($data);
             if ($ret) {
-                return Response::json(['status' => 'success', 'data' => '', 'message' => '编辑成功']);
+                return Response::json(['status' => 'success', 'data' => '', 'message' => '保存成功']);
             } else {
-                return Response::json(['status' => 'fail', 'data' => '', 'message' => '编辑失败']);
+                return Response::json(['status' => 'fail', 'data' => '', 'message' => '保存失败']);
             }
         } else {
-            $view['article'] = Article::query()->where('id', $id)->first();
+            $view['email'] = Email::query()->where('id', $id)->first();
 
             return Response::view('admin.editArticle', $view);
         }
