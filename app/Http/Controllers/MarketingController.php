@@ -105,13 +105,7 @@ class MarketingController extends Controller
         return $marketing->save();
     }
     
-    // 邮件列表
-    public function emailList(Request $request)
-    {
-        $view['list'] = Article::query()->where('is_del', 0)->orderBy('sort', 'desc')->paginate(15)->appends($request->except('page'));
-
-        return Response::view('admin.articleList', $view);
-    }
+ 
 
     // 添加邮件
     public function addEmail(Request $request)
