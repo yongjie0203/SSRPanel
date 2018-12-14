@@ -170,8 +170,8 @@ class MarketingController extends Controller
     
     //测试邮件发送
     public function testEmail(Request $request){
-        Mail::to("360582818@qq.com") ->send("test content");
-        return var_dump(Mail);
+         
+        return var_dump(Mail::to("360582818@qq.com"));
     }
     
 }
