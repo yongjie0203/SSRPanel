@@ -92,7 +92,7 @@
         // 发送邮件
         function send() {
             //layer.msg("开发中，敬请期待");
-            windows.location.href ="/marketing/addEmail";
+            window.location.href ="/marketing/addEmail";
         }
     </script>
 @endsection
