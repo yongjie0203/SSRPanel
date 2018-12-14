@@ -481,9 +481,9 @@
         var auto_import_url = "shadowrocket://add/sub://" + new Base64().encode("{{$link}}") + "?remarks=SYYAI.COM-SSR";
       	var filter_config_url = "https://raw.githubusercontent.com/ConnersHua/Profiles/master/QuantumultPro.conf";
         var rejection_config_url = "https://raw.githubusercontent.com/ConnersHua/Profiles/master/QuantumultRejection.conf";
-        var qu_auto_import_url = "quantumult://configuration?server=" + new Base64().encode("{{$link}}") + "&filter="  + new Base64().encode(filter_config_url) + "&rejection=" + new Base64().encode(rejection_config_url) ;
+        var quantumult_auto_import_url = "quantumult://configuration?server=" + new Base64().encode("{{$link}}") + "&filter="  + new Base64().encode(filter_config_url) + "&rejection=" + new Base64().encode(rejection_config_url) ;
         $("#auto_import").attr("href",auto_import_url);
-      	$("#quantumult_auto_import").attr("href",auto_import_url);
+      	$("#quantumult_auto_import").attr("href",quantumult_auto_import_url);
     </script>
 
     <script type="text/javascript">
