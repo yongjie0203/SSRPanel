@@ -28,7 +28,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-1">发送范围</label>
                                     <div class="form-group">
-                                    <div class="col-md-6">
+                                    <div class="col-md-9">
                                         <label for="type" class="control-label col-md-1">用户范围</label>
                                         <div class="mt-radio-inline">
                                             <label class="mt-radio">
@@ -45,11 +45,18 @@
                                     </div>
                                     
                                     <div class="form-group">
-                                    <div class="col-md-6">
+                                    <div class="col-md-9">
                                         <label for="label" class="control-label col-md-1">用户标签</label>
                                         <div class="mt-checkbox-inline">
                                         
-                                         
+                                          @if(!$labelList->isEmpty())
+                                                @foreach($labelList as $label)
+                                                    <label class="mt-checkbox">
+                                                    <input type="checkbox" name="levelitem" value="{{$label->id}}" > {{$label->name}}
+                                                    <span></span>
+                                                </label>                                                   
+                                                @endforeach
+                                            @endif
                                        
                                         </div>
                                     </div>
