@@ -130,7 +130,7 @@ class MarketingController extends Controller
 
             return Response::json(['status' => 'success', 'data' => '', 'message' => '保存成功']);
         } else {
-            $view['labelList'] = Label::query();
+            $view['labelList'] = Label::query()->orderBy('sort', 'desc')->orderBy('id', 'asc')->get();
             $view['levelList'] = Helpers::levelList();
             return Response::view('marketing.addEmail',$view);
         }
@@ -168,7 +168,7 @@ class MarketingController extends Controller
             }
         } else {
             $view['email'] = Email::query()->where('id', $id)->first();
-            $view['labelList'] = Label::query();
+            $view['labelList'] = Label::query()->orderBy('sort', 'desc')->orderBy('id', 'asc')->get();
             $view['levelList'] = Helpers::levelList();
             return Response::view('marketing.editEmail', $view);
         }
