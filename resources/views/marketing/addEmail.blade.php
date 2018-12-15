@@ -44,14 +44,18 @@
                                     <div class="col-md-6">
                                         <label for="label" class="control-label col-md-1">用户标签</label>
                                         <div class="mt-checkbox-inline">
-                                            <label class="mt-checkbox">
-                                                <input type="checkbox" name="label" value="1" checked> 全体用户
-                                                <span></span>
-                                            </label>
-                                            <label class="mt-checkbox">
-                                                <input type="checkbox" name="label" value="2"> 仅有效用户
-                                                <span></span>
-                                            </label>
+                                            @if($labelList->isEmpty())                                   
+                                            @else
+                                                @foreach($labelList as $label)
+                                                    <label class="mt-checkbox">
+                                                        <input type="checkbox" name="label" value="{{$label->id}}" > {{$label->name}}
+                                                        <span></span>
+                                                    </label>
+                                                    
+                                                @endforeach
+                                            @endif
+                                         
+                                       
                                         </div>
                                     </div>
                                     
