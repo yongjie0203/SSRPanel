@@ -27,7 +27,12 @@
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="control-label col-md-1">发送范围</label>
-                                    <div></div>
+                                    <div class="col-md-10" >
+                                        <label class="mt-checkbox">
+                                                <input type="checkbox" name="type" value="1" checked> 
+                                                <span></span>
+                                         </label>
+                                    </div>
                                     <div class="form-group" style="padding-left:100px">
                                     <div class="col-md-10">
                                         <label for="type" class="">用户范围</label>
