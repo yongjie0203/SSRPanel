@@ -132,7 +132,7 @@ class MarketingController extends Controller
         } else {
             $view['labelList'] = Label::query();
             $view['levelList'] = Helpers::levelList();
-            return Response::view('marketing.addEmail');
+            return Response::view('marketing.addEmail',$view);
         }
     }
 
