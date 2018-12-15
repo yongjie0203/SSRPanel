@@ -57,7 +57,7 @@
                                     
                                     <div class="form-group">
                                     
-                                    <div class="col-md-6">
+                                    <div class="col-md-9">
                                         <label for="label" class="control-label">用户等级</label>
                                         <div class="mt-checkbox-inline">
                                              @if(!$levelList->isEmpty())
@@ -66,7 +66,7 @@
                                                     <input type="checkbox" name="levelitem" value="{{$level->level}}" > {{$level->level_name}}
                                                     <span></span>
                                                 </label>
-                                                    <option value=""></option>
+                                                   
                                                 @endforeach
                                             @endif
                                             
