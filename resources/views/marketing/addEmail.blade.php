@@ -17,7 +17,7 @@
                 <div class="portlet light bordered">
                     <div class="portlet-title">
                         <div class="caption">
-                            <span class="caption-subject font-dark sbold uppercase">新建邮件</span>
+                            <span class="caption-subject font-dark sbold uppercase">邮件群发</span>
                         </div>
                         <div class="actions"></div>
                     </div>
@@ -26,12 +26,14 @@
                         <form action="{{url('admin/addEmail')}}" method="post" enctype="multipart/form-data" class="form-horizontal" onsubmit="return do_submit();">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="control-label col-md-1">发送范围</label>
+                                    <label class="control-label col-md-1">选择范围</label>
                                     <div class="col-md-10" >
+                                        <div class="mt-checkbox-inline">
                                         <label class="mt-checkbox">
                                                 <input type="checkbox" name="type" value="1" checked> 
                                                 <span></span>
                                          </label>
+                                         </div>
                                     </div>
                                     <div class="form-group" style="padding-left:100px">
                                     <div class="col-md-10">
