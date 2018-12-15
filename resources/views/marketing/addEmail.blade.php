@@ -27,9 +27,9 @@
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="control-label col-md-1">发送范围</label>
-                                    <div class="form-group">
-                                    <div class="col-md-9">
-                                        <label for="type" class="control-label col-md-1">用户范围</label>
+                                    <div class="form-group" style="padding-left:200px">
+                                    <div class="col-md-10">
+                                        <label for="type" class="control-label col-md-2">用户范围</label>
                                         <div class="mt-radio-inline">
                                             <label class="mt-radio">
                                                 <input type="radio" name="type" value="1" checked> 全体用户
@@ -42,13 +42,9 @@
                                         </div>
                                     </div>
                                     
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                    <div class="col-md-9">
-                                        <label for="label" class="control-label col-md-1">用户标签</label>
-                                        <div class="mt-checkbox-inline">
-                                        
+                                    <div class="col-md-10">
+                                        <label for="label" class="control-label col-md-2">用户标签</label>
+                                        <div class="mt-checkbox-inline">                                        
                                           @if(!$labelList->isEmpty())
                                                 @foreach($labelList as $label)
                                                     <label class="mt-checkbox">
@@ -56,31 +52,25 @@
                                                     <span></span>
                                                 </label>                                                   
                                                 @endforeach
-                                            @endif
-                                       
+                                            @endif                                       
                                         </div>
                                     </div>
-                                     </div>
                                     
-                                    <div class="form-group">
                                     
-                                    <div class="col-md-9">
-                                        <label for="label" class="control-label">用户等级</label>
+                                    <div class="col-md-10">
+                                        <label for="label" class="control-label col-md-2">用户等级</label>
                                         <div class="mt-checkbox-inline">
                                              @if(!$levelList->isEmpty())
                                                 @foreach($levelList as $level)
                                                     <label class="mt-checkbox">
                                                     <input type="checkbox" name="levelitem" value="{{$level->level}}" > {{$level->level_name}}
                                                     <span></span>
-                                                </label>
-                                                   
+                                                </label>                                                   
                                                 @endforeach
                                             @endif
-                                            
-                                           
                                         </div>
                                     </div>
-                                     </div>
+                                   
                                     
                                    
                                     
