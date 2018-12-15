@@ -23,9 +23,53 @@
                     </div>
                     <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="{{url('admin/addArticle')}}" method="post" enctype="multipart/form-data" class="form-horizontal" onsubmit="return do_submit();">
+                        <form action="{{url('admin/addEmail')}}" method="post" enctype="multipart/form-data" class="form-horizontal" onsubmit="return do_submit();">
                             <div class="form-body">
-                                
+                                <div class="form-group">
+                                    <label class="control-label col-md-1">发送范围</label>
+                                    <div class="col-md-6">
+                                        <label for="type" class="control-label col-md-1">用户范围</label>
+                                        <div class="mt-radio-inline">
+                                            <label class="mt-radio">
+                                                <input type="radio" name="type" value="1" checked> 全体用户
+                                                <span></span>
+                                            </label>
+                                            <label class="mt-radio">
+                                                <input type="radio" name="type" value="2"> 仅有效用户
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="label" class="control-label col-md-1">用户标签</label>
+                                        <div class="mt-radio-inline">
+                                            <label class="mt-radio">
+                                                <input type="checkbox" name="label" value="1" checked> 全体用户
+                                                <span></span>
+                                            </label>
+                                            <label class="mt-radio">
+                                                <input type="checkbox" name="label" value="2"> 仅有效用户
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <label for="label" class="control-label col-md-1">用户等级</label>
+                                        <div class="mt-radio-inline">
+                                            <label class="mt-radio">
+                                                <input type="checkbox" name="label" value="1" checked> 全体用户
+                                                <span></span>
+                                            </label>
+                                            <label class="mt-radio">
+                                                <input type="checkbox" name="label" value="2"> 仅有效用户
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-1">主题</label>
                                     <div class="col-md-6">
