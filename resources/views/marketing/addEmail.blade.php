@@ -27,6 +27,7 @@
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="control-label col-md-1">发送范围</label>
+                                    <div class="form-group">
                                     <div class="col-md-6">
                                         <label for="type" class="control-label col-md-1">用户范围</label>
                                         <div class="mt-radio-inline">
@@ -41,6 +42,9 @@
                                         </div>
                                     </div>
                                     
+                                    </div>
+                                    
+                                    <div class="form-group">
                                     <div class="col-md-6">
                                         <label for="label" class="control-label col-md-1">用户标签</label>
                                         <div class="mt-checkbox-inline">
@@ -49,9 +53,12 @@
                                        
                                         </div>
                                     </div>
+                                     </div>
+                                    
+                                    <div class="form-group">
                                     
                                     <div class="col-md-6">
-                                        <label for="label" class="control-label col-md-1">用户等级</label>
+                                        <label for="label" class="control-label">用户等级</label>
                                         <div class="mt-checkbox-inline">
                                              @if(!$levelList->isEmpty())
                                                 @foreach($levelList as $level)
@@ -66,6 +73,9 @@
                                            
                                         </div>
                                     </div>
+                                     </div>
+                                    
+                                   
                                     
                                 </div>
                                 <div class="form-group">
