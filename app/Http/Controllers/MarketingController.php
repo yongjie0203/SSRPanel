@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Components\Helpers;
 use App\Http\Models\Marketing;
 use App\Http\Models\Email;
+use App\Http\Models\Label;
+use App\Http\Models\Level;
 use App\Mail\freeMail;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -128,6 +130,8 @@ class MarketingController extends Controller
 
             return Response::json(['status' => 'success', 'data' => '', 'message' => '保存成功']);
         } else {
+            $view['labelList'] = Label::query();
+            $view['levelList'] = Helpers::levelList();
             return Response::view('marketing.addEmail');
         }
     }
@@ -164,7 +168,8 @@ class MarketingController extends Controller
             }
         } else {
             $view['email'] = Email::query()->where('id', $id)->first();
-
+            $view['labelList'] = Label::query();
+            $view['levelList'] = Helpers::levelList();
             return Response::view('marketing.editEmail', $view);
         }
     }
