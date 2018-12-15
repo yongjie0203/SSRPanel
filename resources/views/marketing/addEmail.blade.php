@@ -44,11 +44,7 @@
                                     <div class="col-md-6">
                                         <label for="label" class="control-label col-md-1">用户标签</label>
                                         <div class="mt-checkbox-inline">
-                                            @if($labelList->isEmpty()) 
-                                                <span>暂无</span>
-                                            @else
-                                               
-                                            @endif
+                                          {{ $labelList->isEmpty()}}
                                          
                                        
                                         </div>
