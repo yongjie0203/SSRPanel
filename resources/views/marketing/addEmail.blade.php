@@ -47,13 +47,7 @@
                                             @if($labelList->isEmpty()) 
                                                 <span>暂无</span>
                                             @else
-                                                @foreach($labelList as $label)
-                                                    <label class="mt-checkbox">
-                                                        <input type="checkbox" name="label" value="{{$label->id}}" > {{$label->name}}
-                                                        <span></span>
-                                                    </label>
-                                                    
-                                                @endforeach
+                                               
                                             @endif
                                          
                                        
