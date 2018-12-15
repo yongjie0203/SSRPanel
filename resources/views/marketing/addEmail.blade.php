@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="form-group" style="padding-left:100px">
                                     <div class="col-md-10">
-                                        <label for="type" class="">用户范围</label>
+                                        <label for="type" class="col-md-1" style="pading:0;">用户范围</label>
                                         <div class="mt-radio-inline">
                                             <label class="mt-radio">
                                                 <input type="radio" name="type" value="1" checked> 全体用户
@@ -51,7 +51,7 @@
                                     </div>
                                     
                                     <div class="col-md-10">
-                                        <label for="label" class="">用户标签</label>
+                                        <label for="label" class="col-md-1" style="pading:0;">用户标签</label>
                                         <div class="mt-checkbox-inline">                                        
                                           @if(!$labelList->isEmpty())
                                                 @foreach($labelList as $label)
@@ -66,7 +66,7 @@
                                     
                                     
                                     <div class="col-md-10">
-                                        <label for="label" class="">用户等级</label>
+                                        <label for="label" class="col-md-1" style="pading:0;" >用户等级</label>
                                         <div class="mt-checkbox-inline">
                                              @if(!$levelList->isEmpty())
                                                 @foreach($levelList as $level)
