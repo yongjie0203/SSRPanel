@@ -40,11 +40,11 @@
                                         <label for="type" class="col-md-1" style="padding:8px 0px 8px 0px;">用户范围</label>
                                         <div class="mt-radio-inline" style="padding-left:65px;">
                                             <label class="mt-radio">
-                                                <input type="radio" name="type" value="1" checked> 全体用户
+                                                <input type="radio" class="setr" name="U" value="1" checked> 全体用户
                                                 <span></span>
                                             </label>
                                             <label class="mt-radio">
-                                                <input type="radio" name="type" value="2"> 仅有效用户
+                                                <input type="radio" class="setr" name="U" value="2"> 仅有效用户
                                                 <span></span>
                                             </label>
                                         </div>
@@ -56,7 +56,7 @@
                                           @if(!$labelList->isEmpty())
                                                 @foreach($labelList as $label)
                                                     <label class="mt-checkbox">
-                                                    <input type="checkbox" name="levelitem" value="{{$label->id}}" > {{$label->name}}
+                                                    <input type="checkbox" class="setr" name="T" value="{{$label->id}}" > {{$label->name}}
                                                     <span></span>
                                                 </label>                                                   
                                                 @endforeach
@@ -71,25 +71,16 @@
                                              @if(!$levelList->isEmpty())
                                                 @foreach($levelList as $level)
                                                     <label class="mt-checkbox">
-                                                    <input type="checkbox" name="levelitem" value="{{$level->level}}" > {{$level->level_name}}
+                                                    <input type="checkbox" class="setr" name="L" value="{{$level->level}}" > {{$level->level_name}}
                                                     <span></span>
                                                 </label>                                                   
                                                 @endforeach
                                             @endif
                                         </div>
                                     </div>
-                                   
-                                    
-                                   
-                                    
+
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-1">主题</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" name="title" id="title" placeholder="" autofocus required>
-                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                    </div>
-                                </div>
+                               
                                 <div class="form-group">
                                     <label class="control-label col-md-1">收件人</label>
                                     <div class="col-md-6">
@@ -102,7 +93,13 @@
                                         <input type="text" class="form-control" name="summary" id="summary" placeholder="">
                                     </div>
                                 </div>
-                               
+                                <div class="form-group">
+                                    <label class="control-label col-md-1">主题</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" name="title" id="title" placeholder="" autofocus required>
+                                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-1">邮件内容</label>
                                     <div class="col-md-10">
@@ -171,5 +168,11 @@
 
             return false;
         }
+        
+        $(function() {
+             $(document).on('click', 'input.setr', function(){
+              alert("hey it's Sam.");
+            });
+        });
     </script>
 @endsection
