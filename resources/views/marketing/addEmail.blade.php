@@ -180,7 +180,7 @@
             function getTagRange(){
                 var tagRange = new Array();
                 $("input[name='T']:checked").each(function(item){
-                    tagRange.push(item.val())
+                    tagRange.push($(item).val())
                 });
                 return tagRange;
             }
@@ -188,7 +188,7 @@
             function getLevelRange(){
                 var levelRange = new Array();
                 $("input[name='L']:checked").each(function(item){
-                    levelRange.push(item.val())
+                    levelRange.push($(item).val())
                 });
                 return levelRange;
             }
