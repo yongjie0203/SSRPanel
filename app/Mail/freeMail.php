@@ -12,6 +12,8 @@ class freeMail extends Mailable
     use Queueable, SerializesModels;
 
     protected $content;
+    protected $title = "公告";
+    protected $email_id;
     
 
     public function __construct($content)
