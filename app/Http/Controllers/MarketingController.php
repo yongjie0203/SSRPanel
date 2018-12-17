@@ -190,9 +190,9 @@ class MarketingController extends Controller
         return "ok";
         
     }
-    
-    public function emailReckon(Request $request)
+  
+    public function test()
     {
-        return "ok";
+        return "ok
     }
 }
