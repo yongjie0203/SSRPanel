@@ -176,7 +176,8 @@ class MarketingController extends Controller
     }
     
     //测试邮件发送
-    public function testEmail(Request $request){
+    public function testEmail(Request $request)
+    {
         $bcc = ["360582818@qq.com","yongjie0203@126.com","admin@syyai.com"];
         try {
             $mail = new freeMail("<html><div><h1> this is a test mail </h1> </div></html>");
@@ -190,7 +191,8 @@ class MarketingController extends Controller
         
     }
     
-    public function emailReckon(Request $request){
+    public function emailReckon(Request $request)
+    {
         return "ok";
     }
     
