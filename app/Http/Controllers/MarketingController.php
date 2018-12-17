@@ -175,6 +175,13 @@ class MarketingController extends Controller
         }
     }
     
+    //
+    public function test(Request $request)
+    {
+        $view['list'] = Marketing::query()->where('type', 1)->paginate(15);
+        return Response::view('marketing.emailList', $view);
+    }
+    
     //测试邮件发送
     public function testEmail(Request $request)
     {
@@ -191,10 +198,6 @@ class MarketingController extends Controller
         
     }
   
-        // 邮件群发消息列表
-    public function test(Request $request)
-    {
-        $view['list'] = Marketing::query()->where('type', 1)->paginate(15);
-        return Response::view('marketing.emailList', $view);
-    }
+    
+    
 }
