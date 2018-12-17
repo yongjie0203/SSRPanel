@@ -193,7 +193,11 @@ class MarketingController extends Controller
     
     public function emailReckon(Request $request)
     {
-        return "ok";
+        try{
+            return var_dump($request);
+        }(\Exception $e) {
+           return $e->getMessage();
+        }
     }
     
 }
