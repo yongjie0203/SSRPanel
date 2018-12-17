@@ -179,16 +179,16 @@
             
             function getTagRange(){
                 var tagRange = new Array();
-                $("input[name='T']:checked").each(function(item){
-                    tagRange.push($(item).val())
+                $("input[name='T']:checked").each(function(){
+                    tagRange.push($(this).val())
                 });
                 return tagRange;
             }
             
             function getLevelRange(){
                 var levelRange = new Array();
-                $("input[name='L']:checked").each(function(item){
-                    levelRange.push($(item).val())
+                $("input[name='L']:checked").each(function(){
+                    levelRange.push($(this).val())
                 });
                 return levelRange;
             }
