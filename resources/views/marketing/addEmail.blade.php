@@ -171,7 +171,7 @@
         
         $(function() {
              $(document).on('click', 'input.setr', function(){
-                var u = $("input[name='U']:checked .setr").val();
+                var u = $("input[name='U']:checked").val();
                 var t = getTagRange();
                 var l = getLevelRange();
                 alert(u+";"+t+";"+l);
@@ -179,7 +179,7 @@
             
             function getTagRange(){
                 var tagRange = new Array();
-                $("input[name='T']:checked .setr").each(function(item){
+                $("input[name='T']:checked").each(function(item){
                     tagRange.push(item.val())
                 });
                 return tagRange;
@@ -187,7 +187,7 @@
             
             function getLevelRange(){
                 var levelRange = new Array();
-                $("input[name='L']:checked .setr").each(function(item){
+                $("input[name='L']:checked").each(function(item){
                     levelRange.push(item.val())
                 });
                 return levelRange;
