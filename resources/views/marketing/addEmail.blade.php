@@ -171,8 +171,30 @@
         
         $(function() {
              $(document).on('click', 'input.setr', function(){
-              alert("hey it's Sam.");
+                var u = $("input[name='U']:checked .setr").val();
+                var t = getTagRange();
+                var l = getLevelRange();
+                alert(u+";"+t+";"+l);
             });
+            
+            function getTagRange(){
+                var tagRange = new Array();
+                $("input[name='T']:checked .setr").each(function(item){
+                    tagRange.push(item.val())
+                });
+                return tagRange;
+            }
+            
+            function getLevelRange(){
+                var levelRange = new Array();
+                $("input[name='L']:checked .setr").each(function(item){
+                    levelRange.push(item.val())
+                });
+                return levelRange;
+            }
+            
         });
+        
+        
     </script>
 @endsection
