@@ -6,6 +6,7 @@ use App\Http\Models\Marketing;
 use App\Http\Models\Email;
 use App\Http\Models\Label;
 use App\Http\Models\Level;
+use App\Http\Models\User;
 use App\Mail\freeMail;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -189,4 +190,27 @@ class MarketingController extends Controller
         
     }
     
+    public function count(Request $request){
+        $u = $request->get('u');
+        $t = $request->get('t');
+        //tr 多个之间的关系有可能为 or 、 and，如果不传默认为or
+        $tr = $request->get('tr');
+        $l = $request->get('l');
+        
+        $total = User:query()->count();
+        $query = DB::table('user')->selectRaw('count(DISTINCT user.username)');    
+           
+        if (!empty($t)) {
+            $query ->leftJoin('user_label', 'user.id', '=', 'user_label.user_id');
+            $query ->whereIn('user_label.id', split(",",$t));
+        }
+        if(!empty($l)){        
+            $query->whereIn('user.level', split(",",$l));
+        }
+        if(!empty($u)){        
+            $query->whereIn('user.status', split(",",$u));
+        }
+        $selected = $query-> get();
+        return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$selected], 'message' => '成功']);
+    }
 }
