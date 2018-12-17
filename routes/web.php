@@ -89,7 +89,7 @@ Route::group(['middleware' => ['isForbidden', 'isLogin', 'isAdmin']], function (
     Route::post("marketing/addPushMarketing", "MarketingController@addPushMarketing"); // 推送消息
     Route::any("marketing/addEmail", "MarketingController@addEmail"); // 群发邮件编辑
     Route::any("marketing/testEmail", "MarketingController@testEmail"); // 测试邮件发送
-    Route::any("marketing/selectCount", "MarketingController@selectCount"); // 邮件发送范围收件人统计
+    Route::any("marketing/emailReckon", "MarketingController@emailReckon"); // 邮件发送范围收件人统计
     Route::any("admin/decompile", "AdminController@decompile"); // SS(R)链接反解析
     Route::get('admin/download', 'AdminController@download'); // 下载转换过的JSON配置
     Route::any('admin/convert', 'AdminController@convert'); // 格式转换
