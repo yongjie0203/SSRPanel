@@ -191,8 +191,10 @@ class MarketingController extends Controller
         
     }
   
-    public function test()
+        // 邮件群发消息列表
+    public function test(Request $request)
     {
-        return "ok
+        $view['list'] = Marketing::query()->where('type', 1)->paginate(15);
+        return Response::view('marketing.emailList', $view);
     }
 }
