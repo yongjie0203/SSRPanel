@@ -190,7 +190,7 @@ class MarketingController extends Controller
         
     }
     
-    public function count(Request $request){
+    public function selectCount(Request $request){
         $u = $request->get('u');
         $t = $request->get('t');
         //tr 多个之间的关系有可能为 or 、 and，如果不传默认为or
