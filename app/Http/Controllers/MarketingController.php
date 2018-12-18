@@ -178,11 +178,11 @@ class MarketingController extends Controller
     //
     public function getCount(Request $request)
     {
-         $u = $request->get('u');
-         $t = $request->get('t');
+         $u = trim($request->get('u'));
+         $t = trim($request->get('t'));
          //tr 多个之间的关系有可能为 or 、 and，如果不传默认为or
-         $tr = $request->get('tr');
-         $l = $request->get('l');
+         $tr = trim($request->get('tr'));
+         $l = trim($request->get('l'));
          $total = User::query()->count();
         
          $blackQuery = DB::table('user')->selectRaw('count(DISTINCT user.username) selected, count(DISTINCT email_blacklist.email) blacked,count(DISTINCT email_blacklist.forward) forward'); 
