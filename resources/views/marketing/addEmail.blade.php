@@ -180,7 +180,7 @@
                 var l = getLevelRange();
                 $.ajax({
                     type: "GET",
-                    url: "{{url('marketing/getCound')}}",
+                    url: "{{url('marketing/getCount')}}",
                     async: false,
                     data: {u:u, t: t, l:l},
                     dataType: 'json',
