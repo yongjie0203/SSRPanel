@@ -183,7 +183,7 @@ class MarketingController extends Controller
          //tr 多个之间的关系有可能为 or 、 and，如果不传默认为or
          $tr = $request->get('tr');
          $l = $request->get('l');
-         $total = User:query()->count();
+         $total = User::query()->count();
          $query = DB::table('user')->selectRaw('count(DISTINCT user.username)');    
          if (!empty($t)) {
              $query ->leftJoin('user_label', 'user.id', '=', 'user_label.user_id');
