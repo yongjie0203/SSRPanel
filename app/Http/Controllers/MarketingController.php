@@ -192,7 +192,7 @@ class MarketingController extends Controller
          });
          if (!empty($t)) {
              $blackQuery ->leftJoin('user_label', 'user.id', '=', 'user_label.user_id');
-             $blackQuery ->whereIn('user_label.id', explode(",",$t));
+             $blackQuery ->whereIn('user_label.label_id', explode(",",$t));
          }
          if(!empty($l)){        
              $blackQuery->whereIn('user.level', explode(",",$l));
