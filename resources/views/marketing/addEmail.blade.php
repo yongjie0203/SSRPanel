@@ -27,20 +27,24 @@
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="control-label col-md-1">选择范围</label>
-                                    <div class="col-md-10" >
+                                    <div class="col-md-1" >
                                         <div class="mt-checkbox-inline">
                                         <label class="mt-checkbox">
                                                 <input type="checkbox" name="type" value="1" checked> 
-                                                <span id="count_info" ></span>
+                                                <span ></span>
                                          </label>
                                          </div>
                                     </div>
+                                    <div class="col-md-9" >                                        
+                                        <label id="count_info"></label>
+                                    </div>
+                                    
                                     <div class="form-group" style="padding-left:100px">
                                     <div class="col-md-10">
                                         <label for="type" class="col-md-1" style="padding:8px 0px 8px 0px;">用户状态</label>
                                         <div class="mt-radio-inline" style="padding-left:65px;">
                                             <label class="mt-checkbox">
-                                                <input type="checkbox" class="setr" name="U" value="1" checked> 正常
+                                                <input type="checkbox" class="setr" name="U" value="1" > 正常
                                                 <span></span>
                                             </label>
                                             <label class="mt-checkbox">
