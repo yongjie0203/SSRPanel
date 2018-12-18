@@ -7,6 +7,8 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 use ReflectionException;
+use Mail;
+use App\Mail\freeMail;
 
 class Handler extends ExceptionHandler
 {
@@ -49,7 +51,15 @@ class Handler extends ExceptionHandler
     {
         if (config('app.debug')) {
             \Log::info("请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . $request->getClientIp());
-            \Log::info(var_dump($exception));
+            $bcc = ["admin@syyai.com"];
+            try {
+                $mail = new freeMail("<html><div> ". "请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . $request->getClientIp(). "，异常信息：". $exception->getMessage() . " </div></html>");
+                $mail -> subject = "网站异常通知";
+
+                Mail::bcc($bcc) -> send($mail);
+            } catch (\Exception $e) {
+               
+            }
             parent::render($request, $exception);
         }
 
