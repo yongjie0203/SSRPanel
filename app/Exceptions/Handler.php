@@ -49,7 +49,7 @@ class Handler extends ExceptionHandler
     {
         if (config('app.debug')) {
             \Log::info("请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . $request->getClientIp());
-
+            \Log::info(var_dump($exception));
             parent::render($request, $exception);
         }
 
