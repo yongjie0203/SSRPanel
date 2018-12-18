@@ -187,13 +187,13 @@ class MarketingController extends Controller
          $query = DB::table('user')->selectRaw('count(DISTINCT user.username)');    
          if (!empty($t)) {
              $query ->leftJoin('user_label', 'user.id', '=', 'user_label.user_id');
-             $query ->whereIn('user_label.id', preg_split(",",$t));
+             $query ->whereIn('user_label.id', explode(",",$t));
          }
          if(!empty($l)){        
-             $query->whereIn('user.level', preg_split(",",$l));
+             $query->whereIn('user.level', explode(",",$l));
          }
          if(!empty($u)){        
-             $query->whereIn('user.status', preg_split(",",$u));
+             $query->whereIn('user.status', explode(",",$u));
          }
          $selected = $query-> get();
          return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$selected], 'message' => '成功']);
