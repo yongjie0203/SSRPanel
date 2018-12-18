@@ -184,19 +184,8 @@ class MarketingController extends Controller
          $tr = $request->get('tr');
          $l = $request->get('l');
          $total = User::query()->count();
-         $query = DB::table('user')->selectRaw('count(DISTINCT user.username) selected');    
-         if (!empty($t)) {
-             $query ->leftJoin('user_label', 'user.id', '=', 'user_label.user_id');
-             $query ->whereIn('user_label.id', explode(",",$t));
-         }
-         if(!empty($l)){        
-             $query->whereIn('user.level', explode(",",$l));
-         }
-         if(!empty($u)){        
-             $query->whereIn('user.status', explode(",",$u));
-         }
-         $selected = $query->get();
-         $blackQuery = DB::table('user')->selectRaw('count(DISTINCT email_blacklist.email) blacked,count(DISTINCT email_blacklist.forward) forward'); 
+        
+         $blackQuery = DB::table('user')->selectRaw('count(DISTINCT user.username) selected, count(DISTINCT email_blacklist.email) blacked,count(DISTINCT email_blacklist.forward) forward'); 
          $blackQuery ->leftJoin('email_blacklist',function($join){
               $join->on('email_blacklist.email', '=', 'user.username')
                    ->where('email_blacklist.status', '=', 1);
@@ -213,7 +202,7 @@ class MarketingController extends Controller
          }
          
          $black = $blackQuery->get();
-         return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$selected[0],'blacklist'=>$black[0]], 'message' => '成功']);
+         return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black], 'message' => '成功']);
     }
     
     //测试邮件发送
