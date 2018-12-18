@@ -182,6 +182,9 @@
                 var u = getStatusRange().join(",");
                 var t = getTagRange().join(",");
                 var l = getLevelRange().join(",");
+                console.log(u);
+                console.log(t);
+                console.log(l);
                 $.ajax({
                     type: "GET",
                     url: "{{url('marketing/getCount')}}",
