@@ -195,7 +195,7 @@ class MarketingController extends Controller
          if(!empty($u)){        
              $query->whereIn('user.status', explode(",",$u));
          }
-         $selected = $query->frist();
+         $selected = $query->get();
          $blackQuery = DB::table('user')->selectRaw('count(DISTINCT email_blacklist.email) blacked,count(DISTINCT email_blacklist.forward) forward'); 
          $blackQuery ->leftJoin('email_blacklist',function($join){
               $join->on('email_blacklist.email', '=', 'user.username')
@@ -212,8 +212,8 @@ class MarketingController extends Controller
              $blackQuery->whereIn('user.status', explode(",",$u));
          }
          
-         $black = $blackQuery->frist();
-         return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$selected,'blacklist'=>$black], 'message' => '成功']);
+         $black = $blackQuery->get();
+         return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$selected[0],'blacklist'=>$black[0]], 'message' => '成功']);
     }
     
     //测试邮件发送
