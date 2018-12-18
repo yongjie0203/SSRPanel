@@ -182,7 +182,7 @@
                     type: "GET",
                     url: "{{url('marketing/getCount')}}",
                     async: false,
-                    data: {u:u, t: t, l:l},
+                    data: {u:u, t:t, l:l},
                     dataType: 'json',
                     success: function (ret) {                        
                         if (ret.status == 'success') {
