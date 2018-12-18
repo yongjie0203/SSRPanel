@@ -199,7 +199,7 @@ class MarketingController extends Controller
          $blackQuery = DB::table('user')->selectRaw('count(DISTINCT email_blacklist.email) blacked,count(DISTINCT email_blacklist.forward) forward'); 
          $blackQuery ->leftJoin('email_blacklist',function($join){
               $join->on('email_blacklist.email', '=', 'user.username')
-                   ->on('email_blacklist.status', '=', '1');
+                   ->on('email_blacklist.status', '=', 1);
          });
          if (!empty($t)) {
              $blackQuery ->leftJoin('user_label', 'user.id', '=', 'user_label.user_id');
