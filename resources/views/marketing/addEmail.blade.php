@@ -27,17 +27,16 @@
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="control-label col-md-1">选择范围</label>
-                                    <div class="col-md-1" >
+                                    <div class="col-md-10" >
                                         <div class="mt-checkbox-inline">
                                         <label class="mt-checkbox">
                                                 <input type="checkbox" name="type" value="1" checked> 
                                                 <span ></span>
                                          </label>
                                          </div>
+                                         <label id="count_info" style="color:red;"></label>
                                     </div>
-                                    <div class="col-md-9" >                                        
-                                        <label id="count_info"></label>
-                                    </div>
+                                    
                                     
                                     <div class="form-group" style="padding-left:100px">
                                     <div class="col-md-10">
@@ -193,7 +192,7 @@
                     dataType: 'json',
                     success: function (ret) {                        
                         if (ret.status == 'success') {
-                            var count = "总用户数："+ret.data.total+"，已选择：" + ret.data.selected[0].selected+",退订："+ ret.data.selected[0].blacked+"，转发：" +ret.data.selected[0].forward ;
+                            var count = "总用户数："+ret.data.total+"，已选择：" + ret.data.selected[0].selected+"，退订："+ ret.data.selected[0].blacked+"，转发：" +ret.data.selected[0].forward ;
                             $("#count_info").text(count);
                         }                       
                     }
