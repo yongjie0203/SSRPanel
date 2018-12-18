@@ -31,20 +31,24 @@
                                         <div class="mt-checkbox-inline">
                                         <label class="mt-checkbox">
                                                 <input type="checkbox" name="type" value="1" checked> 
-                                                <span></span>
+                                                <span id="count_info" ></span>
                                          </label>
                                          </div>
                                     </div>
                                     <div class="form-group" style="padding-left:100px">
                                     <div class="col-md-10">
-                                        <label for="type" class="col-md-1" style="padding:8px 0px 8px 0px;">用户范围</label>
+                                        <label for="type" class="col-md-1" style="padding:8px 0px 8px 0px;">用户状态</label>
                                         <div class="mt-radio-inline" style="padding-left:65px;">
-                                            <label class="mt-radio">
-                                                <input type="radio" class="setr" name="U" value="1" checked> 全体用户
+                                            <label class="mt-checkbox">
+                                                <input type="checkbox" class="setr" name="U" value="1" checked> 正常
                                                 <span></span>
                                             </label>
-                                            <label class="mt-radio">
-                                                <input type="radio" class="setr" name="U" value="2"> 仅有效用户
+                                            <label class="mt-checkbox">
+                                                <input type="checkbox" class="setr" name="U" value="0"> 未激活
+                                                <span></span>
+                                            </label>
+                                            <label class="mt-checkbox">
+                                                <input type="checkbox" class="setr" name="U" value="-1"> 禁用
                                                 <span></span>
                                             </label>
                                         </div>
@@ -174,7 +178,20 @@
                 var u = $("input[name='U']:checked").val();
                 var t = getTagRange();
                 var l = getLevelRange();
-                alert(u+";"+t+";"+l);
+                $.ajax({
+                    type: "GET",
+                    url: "{{url('marketing/getCound')}}",
+                    async: false,
+                    data: {u:u, t: t, l:l},
+                    dataType: 'json',
+                    success: function (ret) {                        
+                        if (ret.status == 'success') {
+                            var count = "总用户数："+ret.data.total+"，已选择：" + ret.data.selected[0].selected+",退订："+ ret.data.selected[0].blacked+"，转发：" +ret.data.selected[0].forward ;
+                            $("#count_info").text(count);
+                        }                       
+                    }
+                });
+               
             });
             
             function getTagRange(){
