@@ -175,9 +175,9 @@
         
         $(function() {
              $(document).on('click', 'input.setr', function(){
-                var u = $("input[name='U']:checked").val();
-                var t = getTagRange();
-                var l = getLevelRange();
+                var u = getStatusRange().join(",");
+                var t = getTagRange().join(",");
+                var l = getLevelRange().join(",");
                 $.ajax({
                     type: "GET",
                     url: "{{url('marketing/getCount')}}",
@@ -193,6 +193,14 @@
                 });
                
             });
+            
+            function getStatusRange(){
+                var statusRange = new Array();
+                $("input[name='U']:checked").each(function(){
+                    statusRange.push($(this).val())
+                });
+                return statusRange;
+            }
             
             function getTagRange(){
                 var tagRange = new Array();
