@@ -236,6 +236,7 @@
 <!-- END THEME LAYOUT SCRIPTS -->
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
+<!--
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-122312249-1"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
@@ -244,7 +245,7 @@
 
     gtag('config', 'UA-122312249-1');
 </script>
-
+-->
 <!-- 统计 -->
 {!! \App\Components\Helpers::systemConfig()['website_analytics'] !!}
 <!-- 客服 -->
