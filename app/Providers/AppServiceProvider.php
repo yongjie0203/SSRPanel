@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //\Schema::defaultStringLength(191);
-        DB::listen(function ($sql) {
+       /* DB::listen(function ($sql) {
             foreach ($sql->bindings as $i => $binding) {
                 if ($binding instanceof \DateTime) {
                     $sql->bindings[$i] = $binding->format('\'Y-m-d H:i:s\'');
@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
             $query = str_replace(array('%', '?'), array('%%', '%s'), $sql->sql);
             $query = vsprintf($query, $sql->bindings);
             print_r($query);
-            echo '<br />';
+            echo '<br />';*/
         });
 
     }
