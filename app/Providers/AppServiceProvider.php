@@ -28,8 +28,8 @@ class AppServiceProvider extends ServiceProvider
             $query = str_replace(array('%', '?'), array('%%', '%s'), $sql->sql);
             $query = vsprintf($query, $sql->bindings);
             print_r($query);
-            echo '<br />';*/
-        });
+            echo '<br />';
+        });*/
 
     }
 
