@@ -184,7 +184,7 @@ class MarketingController extends Controller
          $tr = trim($request->get('tr'));
          $l = trim($request->get('l'));
          $total = User::query()->count();
-        
+         DB::connection()->enableQueryLog();
          $blackQuery = DB::table('user')->selectRaw('count(DISTINCT user.username) selected, count(DISTINCT email_blacklist.email) blacked,count(DISTINCT email_blacklist.forward) forward'); 
          $blackQuery ->leftJoin('email_blacklist',function($join){
               $join->on('email_blacklist.email', '=', 'user.username')
@@ -202,7 +202,8 @@ class MarketingController extends Controller
          }
          
          $black = $blackQuery->get();
-         return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black], 'message' => '成功']);
+         $sqllog = DB::getQueryLog()；
+         return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black,'sql'=>$sqllog], 'message' => '成功']);
     }
     
     //测试邮件发送
