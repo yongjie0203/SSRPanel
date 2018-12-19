@@ -202,7 +202,7 @@ class MarketingController extends Controller
          }
          
          $black = $blackQuery->get();
-         $sqllog = DB::getQueryLog()；
+         $sqllog = DB::getQueryLog();
          return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black,'sql'=>$sqllog], 'message' => '成功']);
     }
     
