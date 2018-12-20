@@ -5,12 +5,10 @@
     <!-- BEGIN CONTENT BODY -->
     <div class="page-content" style="padding-top:0;">
         <!-- BEGIN PAGE BASE CONTENT -->
-        <div class="row">
-            <div id="node-used-monthly" class="col-lg-3 col-md-3 col-sm-6 col-xs-12"></div>
+        <div >
+            <div id="node-used-monthly" ></div>
         </div> 
-        <div class="row">
-            <div id="node-hot-monthly" class="col-lg-3 col-md-3 col-sm-6 col-xs-12"></div>
-        </div>
+        
         
      
         <!-- END PAGE BASE CONTENT -->
@@ -65,7 +63,7 @@
                                 ],
                                 series : [
                                     {
-                                        name:'直接访问',
+                                        name:'用量',
                                         type:'bar',
                                         barWidth: '60%',
                                         data:ret.data.y
