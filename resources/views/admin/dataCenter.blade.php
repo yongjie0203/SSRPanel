@@ -7,7 +7,7 @@
         <!-- BEGIN PAGE BASE CONTENT -->
         <div >
            
-            <div id="node-used-monthly" style="width:600px;height=400px;" ></div>
+            <div id="node-used-monthly" style="width:600px;height:400px;" ></div>
         </div> 
         
         
