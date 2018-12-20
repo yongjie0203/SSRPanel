@@ -36,12 +36,12 @@ class DataCenterController extends Controller
    }
     
    public function nodeUsedMonthly(){
-       $dbdata = DB::table('ss_node sn')
-                    ->selectRaw('sn.id,sn.`name`,if(sum(l.u+l.d) is null ,0,sum(l.u+l.d))/(1024*1024*1024) used')
-                    ->leftJoin('user_traffic_log l','l.node_id','=','sn.id')
-                    ->groupBy('l.node_id')
-                    ->groupBy('sn.name')
-                    ->orderBy('sum(l.u+l.d)','desc')
+       $dbdata = DB::table('ss_node')
+                    ->selectRaw('ss_node.id,ss_node.`name`,if(sum(user_traffic_log.u+user_traffic_log.d) is null ,0,sum(user_traffic_log.u+user_traffic_log.d))/(1024*1024*1024) used')
+                    ->leftJoin('user_traffic_log','user_traffic_log.node_id','=','ss_node.id')
+                    ->groupBy('user_traffic_log.node_id')
+                    ->groupBy('ss_node.name')
+                    ->orderBy('sum(user_traffic_log.u+user_traffic_log.d)','desc')
                     ->get();
        $x = array_column($dbdata,'name');
        $y = array_column($dbdata,'used');
