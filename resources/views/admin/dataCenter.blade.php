@@ -31,9 +31,11 @@
                     url: "{{url('dataCenter/nodeUsedMonthly')}}",
                     async: false,                  
                     success: function (ret) {                        
-                        if (ret.status == 'success') {                         
-                            app.title = '节点最近30天内使用量';
+                        if (ret.status == 'success') {     
                             option = {
+                                title: {
+                                    text: '节点最近30天内使用量'
+                                },
                                 color: ['#3398DB'],
                                 tooltip : {
                                     trigger: 'axis',
