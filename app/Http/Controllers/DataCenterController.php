@@ -42,7 +42,8 @@ class DataCenterController extends Controller
                     ->groupBy('user_traffic_log.node_id')
                     ->groupBy('ss_node.name')
                     ->orderBy('used','desc')
-                    ->get();
+                    ->get()
+                    ->toArray();
        $x = array_column($dbdata,'name');
        $y = array_column($dbdata,'used');
        return Response::json(['status' => 'success', 'data' => ['x'=>$x,'y'=>$y], 'message' => '成功']);
