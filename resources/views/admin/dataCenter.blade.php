@@ -31,7 +31,7 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {     
-                            option = {
+                          var option = {
                                 title: {
                                     text: '节点最近30天内使用量'
                                 },
