@@ -20,11 +20,9 @@
     <script src="/assets/global/plugins/echarts/echarts.min.js" type="text/javascript"></script>
     
     <script type="text/javascript">
-         $(function() {
-             var nodeUsedMonthlyEchart = echarts.init(document.getElementById('node-used-monthly'));
-             nodeUsedMonthly();
-             
-             function nodeUsedMonthly(){
+     var nodeUsedMonthlyEchart = echarts.init(document.getElementById('node-used-monthly'));
+     nodeUsedMonthly();
+      function nodeUsedMonthly(){
                  $.ajax({
                     type: "GET",
                     url: "{{url('dataCenter/nodeUsedMonthly')}}",
@@ -54,6 +52,11 @@
                     }
                 });
              }
+             
+         $(function() {
+            
+             
+           
          });
     </script>
 @endsection
