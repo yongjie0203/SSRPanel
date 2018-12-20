@@ -7,7 +7,7 @@
         <!-- BEGIN PAGE BASE CONTENT -->
         <div >
            
-            <div id="node-used-monthly" style="width:800px;height=100px;" ></div>
+            <div id="node-used-monthly" style="width:600px;height=400px;" ></div>
         </div> 
         
         
@@ -51,7 +51,7 @@
                                 xAxis : [
                                     {
                                         type : 'category',
-                                        data : ret.data.x,
+                                        data : ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"],
                                         axisTick: {
                                             alignWithLabel: true
                                         }
@@ -67,7 +67,7 @@
                                         name:'用量',
                                         type:'bar',
                                         barWidth: '60%',
-                                        data:ret.data.y
+                                        data:[5, 20, 36, 10, 10, 20]
                                     }
                                 ]
                             };
