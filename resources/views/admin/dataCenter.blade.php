@@ -39,7 +39,7 @@
                 data: [5, 20, 36, 10, 10, 20]
             }]
         };
-        
+         nodeUsedMonthlyEchart.setOption(option);
       function nodeUsedMonthly(){
                  $.ajax({
                     type: "GET",
@@ -47,7 +47,7 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {                          
-                            nodeUsedMonthlyEchart.setOption(option);
+                           
                         }                       
                     }
                 });
