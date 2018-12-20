@@ -106,6 +106,13 @@
                         <span class="selected"></span>
                     </a>
                 </li>
+                <li class="nav-item {{in_array(Request::path(), ['dataCenter']) ? 'active open' : ''}}">
+                    <a href="{{url('dataCenter')}}" class="nav-link nav-toggle">
+                        <i class="fa fa-home"></i>
+                        <span class="title">数据中心</span>
+                        <span class="selected"></span>
+                    </a>
+                </li>
                 <li class="nav-item {{in_array(Request::path(), ['admin/inviteList']) ? 'active open' : ''}}">
                     <a href="{{url('admin/inviteList')}}" class="nav-link nav-toggle">
                         <i class="fa fa-puzzle-piece"></i>
