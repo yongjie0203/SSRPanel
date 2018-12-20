@@ -39,24 +39,7 @@
                 data: [5, 20, 36, 10, 10, 20]
             }]
         };
-         nodeUsedMonthlyEchart.setOption(option);
-      function nodeUsedMonthly(){
-                 $.ajax({
-                    type: "GET",
-                    url: "{{url('dataCenter/nodeUsedMonthly')}}",
-                    async: false,                  
-                    success: function (ret) {                        
-                        if (ret.status == 'success') {                          
-                           
-                        }                       
-                    }
-                });
-             }
-             
-         $(function() {
-            
-             
-           
-         });
+        nodeUsedMonthlyEchart.setOption(option);
+      
     </script>
 @endsection
