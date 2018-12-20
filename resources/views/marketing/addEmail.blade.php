@@ -1,5 +1,42 @@
 @extends('admin.layouts')
 @section('css')
+<style>
+.spinner {
+  width: 100px;
+}
+.spinner input {
+  text-align: right;
+}
+.input-group-btn-vertical {
+  position: relative;
+  white-space: nowrap;
+  width: 1%;
+  vertical-align: middle;
+  display: table-cell;
+}
+.input-group-btn-vertical > .btn {
+  display: block;
+  float: none;
+  width: 100%;
+  max-width: 100%;
+  padding: 8px;
+  margin-left: -1px;
+  position: relative;
+  border-radius: 0;
+}
+.input-group-btn-vertical > .btn:first-child {
+  border-top-right-radius: 4px;
+}
+.input-group-btn-vertical > .btn:last-child {
+  margin-top: -2px;
+  border-bottom-right-radius: 4px;
+}
+.input-group-btn-vertical i{
+  position: absolute;
+  top: 0;
+  left: 4px;
+}
+</style>
 @endsection
 @section('content')
     <!-- BEGIN CONTENT BODY -->
@@ -194,6 +231,15 @@
 
             return false;
         }
+        
+        (function ($) {
+          $('.spinner .btn:first-of-type').on('click', function() {
+            $('.spinner input').val( parseInt($('.spinner input').val(), 10) + 1);
+          });
+          $('.spinner .btn:last-of-type').on('click', function() {
+            $('.spinner input').val( parseInt($('.spinner input').val(), 10) - 1);
+          });
+        })(jQuery);
         
         $(function() {
              $(document).on('click', 'input.setr', function(){
