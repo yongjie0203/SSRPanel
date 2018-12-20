@@ -5,9 +5,8 @@
     <!-- BEGIN CONTENT BODY -->
     <div class="page-content" style="padding-top:0;">
         <!-- BEGIN PAGE BASE CONTENT -->
-        <div >
-            ceshi
-            <div id="node-used-monthly" style="width:800px;height:200px" ></div>
+        <div >          
+            <div id="node-used-monthly" style="width:100%;height:300px" ></div>
         </div> 
         
         
