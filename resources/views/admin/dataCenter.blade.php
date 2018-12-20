@@ -6,7 +6,7 @@
     <div class="page-content" style="padding-top:0;">
         <!-- BEGIN PAGE BASE CONTENT -->
         <div >          
-            <div id="node-used-monthly" style="width:100%;height:300px" ></div>
+            <div id="node-used-monthly" style="width:95%;height:300px" ></div>
         </div> 
         
         
