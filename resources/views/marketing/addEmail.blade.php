@@ -126,7 +126,7 @@
                                 </div>
                                <div class="form-group">
                                     <label class="control-label col-md-1">使用模板</label>
-                                    <div class="col-md-6">                                       
+                                    <div class="col-md-11">                                       
                                         <div class="switch">
                                             <input type="checkbox" name="template" checked />
                                         </div>
@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-1">群发限制</label>
-                                    <div class="col-md-6">                                        
+                                    <div class="col-md-11">                                        
                                         <div class="input-group spinner">
                                         <input type="text" class="form-control" value="500">
                                         <div class="input-group-btn-vertical">
@@ -152,12 +152,12 @@
                                 
                                 <div class="form-group">
                                     <label class="control-label col-md-1">主题</label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <input type="text" class="form-control" name="title" id="title" placeholder="" autofocus required>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     </div>
                                     <label class="control-label col-md-1">标题</label>
-                                    <div class="col-md-3">
+                                    <div class="col-md-5">
                                        <input type="text" class="form-control" name="title" id="title" placeholder=""/>
                                     </div>
                                 </div>
@@ -234,10 +234,10 @@
         
         (function ($) {
           $('.spinner .btn:first-of-type').on('click', function() {
-            $('.spinner input').val( parseInt($('.spinner input').val(), 10) + 1);
+            $('.spinner input').val( parseInt($('.spinner input').val(), 10) + 100);
           });
           $('.spinner .btn:last-of-type').on('click', function() {
-            $('.spinner input').val( parseInt($('.spinner input').val(), 10) - 1);
+            $('.spinner input').val( parseInt($('.spinner input').val(), 10) - 100);
           });
         })(jQuery);
         
