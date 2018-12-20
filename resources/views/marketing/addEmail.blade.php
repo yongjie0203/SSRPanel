@@ -87,24 +87,41 @@
                                     </div>
 
                                 </div>
-                               
+                               <div class="form-group">
+                                    <label class="control-label col-md-1">使用模板</label>
+                                    <div class="col-md-6">                                       
+                                        <div class="switch">
+                                            <input type="checkbox" name="template" checked />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-1">群发限制</label>
+                                    <div class="col-md-6">                                        
+                                        <div class="input-group spinner">
+                                        <input type="text" class="form-control" value="500">
+                                        <div class="input-group-btn-vertical">
+                                          <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                          <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-1">收件人</label>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" name="summary" id="summary" placeholder="">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-1">抄送</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" name="summary" id="summary" placeholder="">
-                                    </div>
-                                </div>
+                                
                                 <div class="form-group">
                                     <label class="control-label col-md-1">主题</label>
                                     <div class="col-md-6">
                                         <input type="text" class="form-control" name="title" id="title" placeholder="" autofocus required>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                    </div>
+                                    <label class="control-label col-md-1">标题</label>
+                                    <div class="col-md-3">
+                                       <input type="text" class="form-control" name="title" id="title" placeholder=""/>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -117,7 +134,9 @@
                             <div class="form-actions">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn green">提 交</button>
+                                        <button type="submit" class="btn green">保存发送任务</button>
+                                        <button type="button" class="btn green">发送测试预览</button>
+                                        <button type="button" class="btn green">启动群发任务</button>
                                     </div>
                                 </div>
                             </div>
