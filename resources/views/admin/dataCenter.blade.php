@@ -53,6 +53,10 @@
                                     {
                                         type : 'category',
                                         data : ret.data.x,
+                                        axisLabel:{  
+                                            interval:0,//横轴信息全部显示  
+                                            rotate:-40,//-30度角倾斜显示  
+                                        },
                                         axisTick: {
                                             alignWithLabel: true
                                         }
