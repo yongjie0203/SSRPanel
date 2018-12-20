@@ -41,7 +41,7 @@ class DataCenterController extends Controller
                     ->leftJoin('user_traffic_log','user_traffic_log.node_id','=','ss_node.id')
                     ->groupBy('user_traffic_log.node_id')
                     ->groupBy('ss_node.name')
-                    ->orderBy('sum(user_traffic_log.u+user_traffic_log.d)','desc')
+                    ->orderBy('used','desc')
                     ->get();
        $x = array_column($dbdata,'name');
        $y = array_column($dbdata,'used');
