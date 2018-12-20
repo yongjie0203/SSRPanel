@@ -145,7 +145,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-1">收件人</label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-10">
                                         <input type="text" class="form-control" name="summary" id="summary" placeholder="">
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     </div>
                                     <label class="control-label col-md-1">标题</label>
-                                    <div class="col-md-5">
+                                    <div class="col-md-4">
                                        <input type="text" class="form-control" name="title" id="title" placeholder=""/>
                                     </div>
                                 </div>
