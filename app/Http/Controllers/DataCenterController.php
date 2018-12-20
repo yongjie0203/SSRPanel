@@ -43,7 +43,9 @@ class DataCenterController extends Controller
                     ->groupBy('sn.name')
                     ->orderBy('sum(l.u+l.d)','desc')
                     ->get();
-       return Response::json(['status' => 'success', 'data' => $dbdata, 'message' => '成功']);
+       $x = array_column($dbdata,'name');
+       $y = array_column($dbdata,'used');
+       return Response::json(['status' => 'success', 'data' => ['x'=>$x,'y'=>$y], 'message' => '成功']);
    }
     
     
