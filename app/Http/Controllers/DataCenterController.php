@@ -31,7 +31,9 @@ class DataCenterController extends Controller
         self::$systemConfig = Helpers::systemConfig();
     }
 
-   
+   public function index(){
+        return Response::view('user.datacenter');
+   }
     
     
 }
