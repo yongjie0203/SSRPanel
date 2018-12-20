@@ -32,7 +32,7 @@ class DataCenterController extends Controller
     }
 
    public function index(){
-        return Response::view('user.datacenter');
+        return Response::view('user.dataCenter');
    }
     
     
