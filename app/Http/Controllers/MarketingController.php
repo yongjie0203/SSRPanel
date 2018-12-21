@@ -247,10 +247,10 @@ class MarketingController extends Controller
                 $conditionsxml .= getConditionItemXml('user_label','label_id','or',$t);
             }
             if(!empty($l)){        
-                $conditionsxml .= getConditionItemXml('user','level','or',$t);
+                $conditionsxml .= getConditionItemXml('user','level','or',$l);
             }
             if($u!=""){        
-                $conditionsxml .= getConditionItemXml('user','status','or',$t);
+                $conditionsxml .= getConditionItemXml('user','status','or',$u);
             }
             $conditionsxml .= "</conditions>";
             $group = new EmailRangeGroup();
@@ -270,7 +270,7 @@ class MarketingController extends Controller
     
     private function getConditionItemXml($tableName,$column,$relation,$values){
         $item = '<condition table="'.$tableName.'" column="'.$column .'" relation="'.$relation.'">'.$values.'</condition>';
-        reutrn $item;
+        return $item;
     }
     
     
