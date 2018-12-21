@@ -26,7 +26,7 @@
                         <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal" role="form" onsubmit="return do_submit();">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="control-label col-md-3">分组名称</label>
+                                    <label class="col-md-1" style="padding:8px 0px 8px 0px;">分组名称</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="name" value="" id="name" placeholder="" required>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}" />
