@@ -134,6 +134,29 @@
             return false;
         }
         
+        function getStatusRange(){
+            var statusRange = new Array();
+            $("input[name='U']:checked").each(function(){
+                statusRange.push($(this).val())
+            });
+            return statusRange;
+        }
+
+        function getTagRange(){
+            var tagRange = new Array();
+            $("input[name='T']:checked").each(function(){
+                tagRange.push($(this).val())
+            });
+            return tagRange;
+        }
+
+        function getLevelRange(){
+            var levelRange = new Array();
+            $("input[name='L']:checked").each(function(){
+                levelRange.push($(this).val())
+            });
+            return levelRange;
+        }
         
          $(function() {
              $(document).on('click', 'input.setr', function(){
@@ -159,29 +182,6 @@
                
             });
             
-            function getStatusRange(){
-                var statusRange = new Array();
-                $("input[name='U']:checked").each(function(){
-                    statusRange.push($(this).val())
-                });
-                return statusRange;
-            }
-            
-            function getTagRange(){
-                var tagRange = new Array();
-                $("input[name='T']:checked").each(function(){
-                    tagRange.push($(this).val())
-                });
-                return tagRange;
-            }
-            
-            function getLevelRange(){
-                var levelRange = new Array();
-                $("input[name='L']:checked").each(function(){
-                    levelRange.push($(this).val())
-                });
-                return levelRange;
-            }
             
         });
     </script>
