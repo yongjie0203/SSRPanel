@@ -26,7 +26,7 @@
                         <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal" role="form" onsubmit="return do_submit();">
                             <div class="form-body">
                                 <div class="form-group">
-                                    <label class="col-md-1" style="padding:8px 0px 8px 0px;">分组名称</label>
+                                    <label class="col-md-1">分组名称</label>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control" name="name" value="" id="name" placeholder="" required>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}" />
@@ -50,7 +50,9 @@
                                             </label>
                                         </div>
                                     </div>
+                                    </div>
                                     
+                                    <div class="form-group" >
                                     <div class="col-md-10">
                                         <label for="label" class="col-md-1" style="padding:8px 0px 8px 0px;">用户标签</label>
                                         <div class="mt-checkbox-inline" style="padding-left:65px;">                                        
@@ -65,7 +67,9 @@
                                         </div>
                                     </div>
                                     
+                                    </div>
                                     
+                                    <div class="form-group" >
                                     <div class="col-md-10">
                                         <label for="label" class="col-md-1" style="padding:8px 0px 8px 0px;" >用户等级</label>
                                         <div class="mt-checkbox-inline" style="padding-left:65px;">
@@ -79,6 +83,8 @@
                                             @endif
                                         </div>
                                     </div>
+                                    </div>
+                               
                                     </div>
                               </div>
                             </div>
