@@ -239,6 +239,12 @@
                                 <span class="title">邮件群发</span>
                             </a>
                         </li>
+                        <li class="nav-item {{in_array(Request::path(), ['marketing/groupList', 'marketing/addGroup', 'marketing/editGroup']) ? 'active open' : ''}}">
+                            <a href="{{url('marketing/groupList')}}" class="nav-link ">
+                                <i class="fa fa-list-ul"></i>
+                                <span class="title">群发分组</span>
+                            </a>
+                        </li>
                         <li class="nav-item {{in_array(Request::path(), ['marketing/pushList']) ? 'active open' : ''}}">
                             <a href="{{url('marketing/pushList')}}" class="nav-link ">
                                 <i class="fa fa-rss"></i>
