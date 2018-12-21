@@ -132,8 +132,12 @@ class MarketingController extends Controller
 
             return Response::json(['status' => 'success', 'data' => '', 'message' => '保存成功']);
         } else {
-            $view['labelList'] = Label::query()->orderBy('sort', 'desc')->orderBy('id', 'asc')->get();
-            $view['levelList'] = Helpers::levelList();
+          
+            $view['groupList'] = DB::table('email_range_group')
+            ->selectRaw('email_range_group.id,email_range_group.name')
+            ->where('email_range_group.status','=',1)
+            ->get();
+            
             return Response::view('marketing.addEmail',$view);
         }
     }
@@ -224,8 +228,9 @@ class MarketingController extends Controller
   
     public function groupList(Request $request){      
         $view['groupList'] = DB::table('email_range_group')
-            ->selectRaw('email_range_group.id,email_range_group.name,email_range_group.status,email_range_group.created_at,  count(DISTINCT email_group.email_id) count ')
+            ->selectRaw('email_range_group.id,email_range_group.name,email_range_group.created_at,  count(DISTINCT email_group.email_id) count ')
             ->leftJoin('email_group','email_group.group_id','=','email_range_group.id')
+            ->where('email_range_group.status','=',1)
             ->groupBy('email_range_group.id')
             ->groupBy('email_range_group.name')
             ->groupBy('email_range_group.status')
