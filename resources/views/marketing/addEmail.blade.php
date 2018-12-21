@@ -136,7 +136,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-1">发送模式</label>
                                     <div class="col-md-11">
-                                        <label class="mt-redio">
+                                        <label class="mt-radio">
                                              <input type="radio" name="sendMode" value="1" > 单封单人 </input>
                                              <span></span>
                                         </label>
@@ -149,7 +149,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-1">群发限制</label>
                                     <div class="col-md-11">
-                                        <div style="">
+                                        <div class="col-md-5">
                                           <label class="control-label col-md-2">每小时最大发送量</label>
                                           <div class="input-group spinner">
                                           <input type="text" class="form-control" value="500">
@@ -158,7 +158,7 @@
                                             <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
                                           </div>
                                         </div>
-                                        <div>
+                                        <div class="col-md-5">
                                           <label class="control-label col-md-2">单封最大收件人数量</label>
                                           <div class="input-group spinner">
                                           <input type="text" class="form-control" value="500">
