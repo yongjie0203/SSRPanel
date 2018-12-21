@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Components\Helpers;
 use App\Http\Models\Marketing;
 use App\Http\Models\Email;
+use App\Http\Models\EmailRangeGroup;
 use App\Http\Models\Label;
 use App\Http\Models\Level;
 use App\Http\Models\User;
@@ -221,24 +222,13 @@ class MarketingController extends Controller
         
     }
   
-    public function groupList(){
-         $groupList = DB::table('user')->selectRaw('count(DISTINCT user.username) selected, count(DISTINCT email_blacklist.email) blacked,count(DISTINCT email_blacklist.forward) forward'); 
-         $blackQuery ->leftJoin('email_blacklist',function($join){
-              $join->on('email_blacklist.email', '=', 'user.username')
-                   ->where('email_blacklist.status', '=', 1);
-         });
-         if (!empty($t)) {
-             $blackQuery ->leftJoin('user_label', 'user.id', '=', 'user_label.user_id');
-             $blackQuery ->whereIn('user_label.label_id', explode(",",$t));
-         }
-         if(!empty($l)){        
-             $blackQuery->whereIn('user.level', explode(",",$l));
-         }
-         if($u!=""){        
-             $blackQuery->whereIn('user.status', explode(",",$u));
-         }
-         
-         $black = $blackQuery->get();
+    public function groupList(Request $request){      
+        $view['groupList'] = DB::table('email_range_group')
+            ->selectRaw('email_range_group.id,email_range_group.name,email_range_group.status,email_range_group.created_at,  count(DISTINCT email_group.email_id) count ')
+            ->leftJoin('email_group','email_group.group_id','=','email_range_group.id')
+            ->groupBy('')
+            ->paginate(15)->appends($request->except('page'));
+        return Response::view('marketing.groupList', $view);
     }
     
 }
