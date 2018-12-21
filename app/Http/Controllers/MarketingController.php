@@ -234,7 +234,7 @@ class MarketingController extends Controller
         return Response::view('marketing.groupList', $view);
     }
     
-    public function addGroup(){
+    public function addGroup(Request $request){
         if ($request->method() == 'POST') {
             $u = trim($request->get('u'));
             $t = trim($request->get('t'));
