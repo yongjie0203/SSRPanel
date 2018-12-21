@@ -244,13 +244,13 @@ class MarketingController extends Controller
             $conditionsxml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
             $conditionsxml .= "<conditions>";
             if (!empty($t)) {
-                $conditionsxml .= getConditionItemXml('user_label','label_id','or',$t);
+                $conditionsxml .= getConditionItemXml('user_label','label_id','or',explode(",",$t));
             }
             if(!empty($l)){        
-                $conditionsxml .= getConditionItemXml('user','level','or',$l);
+                $conditionsxml .= getConditionItemXml('user','level','or',explode(",",$l));
             }
             if($u!=""){        
-                $conditionsxml .= getConditionItemXml('user','status','or',$u);
+                $conditionsxml .= getConditionItemXml('user','status','or',explode(",",$u));
             }
             $conditionsxml .= "</conditions>";
             $group = new EmailRangeGroup();
