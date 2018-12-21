@@ -13,7 +13,7 @@
                 <div class="portlet light bordered">
                     <div class="portlet-title">
                         <div class="caption font-dark">
-                            <span class="caption-subject bold uppercase"> 节点分组 </span>
+                            <span class="caption-subject bold uppercase"> 群发分组 </span>
                         </div>
                         <div class="actions">
                             <div class="btn-group">
