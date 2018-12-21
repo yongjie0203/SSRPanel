@@ -150,7 +150,7 @@
                                     <label class="control-label col-md-1">群发限制</label>
                                     <div class="col-md-11">
                                         <div class="col-md-5">
-                                          <label class="control-label col-md-4">每小时最大发送量</label>
+                                          <label class="control-label col-md-4" style="margin-left: -50px;">每小时最大发送量</label>
                                           <div class="input-group spinner">
                                             <input type="text" class="form-control" value="500">
                                             <div class="input-group-btn-vertical">
@@ -160,7 +160,7 @@
                                           </div>
                                         </div>  
                                         <div class="col-md-5">
-                                          <label class="control-label col-md-4">单封最大收件人数量</label>
+                                          <label class="control-label col-md-4" style="margin-left: -50px;">单封最大收件人数量</label>
                                           <div class="input-group spinner">
                                             <input type="text" class="form-control" value="500">
                                             <div class="input-group-btn-vertical">
