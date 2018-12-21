@@ -234,4 +234,44 @@ class MarketingController extends Controller
         return Response::view('marketing.groupList', $view);
     }
     
+    public function addGroup(){
+        if ($request->method() == 'POST') {
+            $u = trim($request->get('u'));
+            $t = trim($request->get('t'));
+            //tr 多个之间的关系有可能为 or 、 and，如果不传默认为or
+            $tr = trim($request->get('tr'));
+            $l = trim($request->get('l'));
+            $conditionsxml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+            $conditionsxml .= "<conditions>";
+            if (!empty($t)) {
+                $conditionsxml .= getConditionItemXml('user_label','label_id','or',$t);
+            }
+            if(!empty($l)){        
+                $conditionsxml .= getConditionItemXml('user','level','or',$t);
+            }
+            if($u!=""){        
+                $conditionsxml .= getConditionItemXml('user','status','or',$t);
+            }
+            $conditionsxml .= "</conditions>";
+            $group = new EmailRangeGroup();
+            $group->name = $request->get('name');
+            $group->expression = $conditionsxml;
+            $group->status = 1;
+            $group->user_id = Auth::user()->id;
+            $group->created_at = date('Y-m-d H:i:s');
+            $group->save();
+            return Response::json(['status' => 'success', 'data' => '', 'message' => '添加成功']);
+        } else {
+            $view['labelList'] = Label::query()->orderBy('sort', 'desc')->orderBy('id', 'asc')->get();
+            $view['levelList'] = Helpers::levelList();
+            return Response::view('marketing.addGroup', $view);
+        }
+    }
+    
+    private function getConditionItemXml($tableName,$column,$relation,$values){
+        $item = '<condition table="'.$tableName.'" column="'.$column .'" relation="'.$relation.'">'.$values.'</condition>';
+        reutrn $item;
+    }
+    
+    
 }
