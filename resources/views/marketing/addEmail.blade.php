@@ -152,22 +152,24 @@
                                         <div class="col-md-5">
                                           <label class="control-label col-md-2">每小时最大发送量</label>
                                           <div class="input-group spinner">
-                                          <input type="text" class="form-control" value="500">
-                                          <div class="input-group-btn-vertical">
-                                            <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
-                                            <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                            <input type="text" class="form-control" value="500">
+                                            <div class="input-group-btn-vertical">
+                                              <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                              <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                            </div>
                                           </div>
-                                        </div>
+                                        </div>  
                                         <div class="col-md-5">
                                           <label class="control-label col-md-2">单封最大收件人数量</label>
                                           <div class="input-group spinner">
-                                          <input type="text" class="form-control" value="500">
-                                          <div class="input-group-btn-vertical">
-                                            <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
-                                            <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                            <input type="text" class="form-control" value="500">
+                                            <div class="input-group-btn-vertical">
+                                              <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                              <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                            </div>
                                           </div>
                                         </div>
-                                    </div>
+                                  </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-1">收件人</label>
