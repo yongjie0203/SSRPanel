@@ -137,11 +137,11 @@
                                     <label class="control-label col-md-1">发送模式</label>
                                     <div class="col-md-11">
                                         <label class="mt-redio">
-                                             <input type="redio" name="sendMode" value="1" > 单封单人 </input>
+                                             <input type="radio" name="sendMode" value="1" > 单封单人 </input>
                                              <span></span>
                                         </label>
-                                        <label class="mt-redio">
-                                             <input type="redio" name="sendMode" value="2" > 单封多人 </input>
+                                        <label class="mt-radio">
+                                             <input type="radio" name="sendMode" value="2" > 单封多人 </input>
                                              <span></span>
                                          </label> 
                                     </div>
@@ -149,8 +149,8 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-1">群发限制</label>
                                     <div class="col-md-11">
-                                        <div>
-                                          <label class="control-label col-md-1">每小时最大发送量</label>
+                                        <div style="">
+                                          <label class="control-label col-md-2">每小时最大发送量</label>
                                           <div class="input-group spinner">
                                           <input type="text" class="form-control" value="500">
                                           <div class="input-group-btn-vertical">
@@ -159,7 +159,7 @@
                                           </div>
                                         </div>
                                         <div>
-                                          <label class="control-label col-md-1">单封最大收件人数量</label>
+                                          <label class="control-label col-md-2">单封最大收件人数量</label>
                                           <div class="input-group spinner">
                                           <input type="text" class="form-control" value="500">
                                           <div class="input-group-btn-vertical">
