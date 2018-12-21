@@ -152,7 +152,7 @@
                                         <div class="col-md-5">
                                           <label class="control-label col-md-5" style="margin-left: -50px;">每小时最大发送量</label>
                                           <div class="input-group spinner time">
-                                            <input type="text" class="form-control" value="500">
+                                            <input type="text" class="form-control time" value="500">
                                             <div class="input-group-btn-vertical">
                                               <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
                                               <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
@@ -162,7 +162,7 @@
                                         <div class="col-md-5">
                                           <label class="control-label col-md-5" style="margin-left: -50px;">单封最大收件人数量</label>
                                           <div class="input-group spinner send">
-                                            <input type="text" class="form-control" value="500">
+                                            <input type="text" class="form-control send" value="500">
                                             <div class="input-group-btn-vertical">
                                               <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
                                               <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
