@@ -134,13 +134,38 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label col-md-1">发送模式</label>
+                                    <div class="col-md-11">
+                                        <label class="mt-redio">
+                                             <input type="redio" name="sendMode" value="1" > 单封单人 </input>
+                                             <span></span>
+                                        </label>
+                                        <label class="mt-redio">
+                                             <input type="redio" name="sendMode" value="2" > 单封多人 </input>
+                                             <span></span>
+                                         </label> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label col-md-1">群发限制</label>
-                                    <div class="col-md-11">                                        
-                                        <div class="input-group spinner">
-                                        <input type="text" class="form-control" value="500">
-                                        <div class="input-group-btn-vertical">
-                                          <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
-                                          <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                    <div class="col-md-11">
+                                        <div>
+                                          <label class="control-label col-md-1">每小时最大发送量</label>
+                                          <div class="input-group spinner">
+                                          <input type="text" class="form-control" value="500">
+                                          <div class="input-group-btn-vertical">
+                                            <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                            <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                          </div>
+                                        </div>
+                                        <div>
+                                          <label class="control-label col-md-1">单封最大收件人数量</label>
+                                          <div class="input-group spinner">
+                                          <input type="text" class="form-control" value="500">
+                                          <div class="input-group-btn-vertical">
+                                            <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                            <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                          </div>
                                         </div>
                                     </div>
                                 </div>
