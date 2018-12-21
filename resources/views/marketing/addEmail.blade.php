@@ -151,7 +151,7 @@
                                     <div class="col-md-11">
                                         <div class="col-md-5">
                                           <label class="control-label col-md-5" style="margin-left: -50px;">每小时最大发送量</label>
-                                          <div class="input-group spinner">
+                                          <div class="input-group spinner time">
                                             <input type="text" class="form-control" value="500">
                                             <div class="input-group-btn-vertical">
                                               <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
@@ -161,7 +161,7 @@
                                         </div>  
                                         <div class="col-md-5">
                                           <label class="control-label col-md-5" style="margin-left: -50px;">单封最大收件人数量</label>
-                                          <div class="input-group spinner">
+                                          <div class="input-group spinner send">
                                             <input type="text" class="form-control" value="500">
                                             <div class="input-group-btn-vertical">
                                               <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
@@ -261,11 +261,18 @@
         }
         
         (function ($) {
-          $('.spinner .btn:first-of-type').on('click', function() {
-            $('.spinner input').val( parseInt($('.spinner input').val(), 10) + 100);
+          $('.spinner .time .btn:first-of-type').on('click', function() {
+            $('.spinner .time input').val( parseInt($('.spinner .time input').val(), 10) + 100);
           });
-          $('.spinner .btn:last-of-type').on('click', function() {
-            $('.spinner input').val( parseInt($('.spinner input').val(), 10) - 100);
+          $('.spinner .time .btn:last-of-type').on('click', function() {
+            $('.spinner .time input').val( parseInt($('.spinner .time input').val(), 10) - 100);
+          });
+          
+          $('.spinner .send .btn:first-of-type').on('click', function() {
+            $('.spinner .send input').val( parseInt($('.spinner .send input').val(), 10) + 100);
+          });
+          $('.spinner .send .btn:last-of-type').on('click', function() {
+            $('.spinner .send input').val( parseInt($('.spinner .send input').val(), 10) - 100);
           });
         })(jQuery);
         
