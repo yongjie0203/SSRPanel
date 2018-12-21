@@ -154,8 +154,8 @@
                                           <div class="input-group spinner time">
                                             <input type="text" class="form-control time" value="500">
                                             <div class="input-group-btn-vertical">
-                                              <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
-                                              <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                              <button class="time btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                              <button class="time btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
                                             </div>
                                           </div>
                                         </div>  
@@ -164,8 +164,8 @@
                                           <div class="input-group spinner send">
                                             <input type="text" class="form-control send" value="500">
                                             <div class="input-group-btn-vertical">
-                                              <button class="btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
-                                              <button class="btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
+                                              <button class="send btn btn-default" type="button"><i class="fa fa-caret-up"></i></button>
+                                              <button class="send btn btn-default" type="button"><i class="fa fa-caret-down"></i></button>
                                             </div>
                                           </div>
                                         </div>
