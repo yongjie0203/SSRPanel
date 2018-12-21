@@ -113,12 +113,14 @@
         function do_submit() {
             var _token = '{{csrf_token()}}';
             var name = $('#name').val();
-           
+            var u = getStatusRange().join(",");
+            var t = getTagRange().join(",");
+            var l = getLevelRange().join(",");
             $.ajax({
                 type: "POST",
                 url: "{{url('marketing/addGroup')}}",
                 async: false,
-                data: {_token:_token, name:name, level:level},
+                data: {_token:_token, name:name, u:u, t:t, l:l},
                 dataType: 'json',
                 success: function (ret) {
                     layer.msg(ret.message, {time:1000}, function() {
