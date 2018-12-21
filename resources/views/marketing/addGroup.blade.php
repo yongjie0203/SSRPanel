@@ -87,6 +87,7 @@
                                
                                     </div>
                               </div>
+                              <label id="count_info" style="color:red;"></label>
                             </div>
                             <div class="form-actions">
                                 <div class="row">
