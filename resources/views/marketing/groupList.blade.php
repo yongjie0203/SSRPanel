@@ -43,7 +43,7 @@
                                             <tr class="odd gradeX">
                                                 <td> {{$group->id}} </td>
                                                 <td> {{$group->name}} </td>
-                                                <td> {{$groupp->count}} </td>
+                                                <td> {{$group->count}} </td>
                                                 <td> {{$group->created_at}} </td>
                                                 <td style="text-align: center;">
                                                     <button type="button" class="btn btn-sm blue btn-outline" onclick="editGroup('{{$group->id}}')">
