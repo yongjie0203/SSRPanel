@@ -226,7 +226,10 @@ class MarketingController extends Controller
         $view['groupList'] = DB::table('email_range_group')
             ->selectRaw('email_range_group.id,email_range_group.name,email_range_group.status,email_range_group.created_at,  count(DISTINCT email_group.email_id) count ')
             ->leftJoin('email_group','email_group.group_id','=','email_range_group.id')
-            ->groupBy('')
+            ->groupBy('email_range_group.id')
+            ->groupBy('email_range_group.name')
+            ->groupBy('email_range_group.status')
+            ->groupBy('email_range_group.created_at')
             ->paginate(15)->appends($request->except('page'));
         return Response::view('marketing.groupList', $view);
     }
