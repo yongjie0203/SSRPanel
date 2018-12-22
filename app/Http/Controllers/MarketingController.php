@@ -216,7 +216,7 @@ class MarketingController extends Controller
                                        ->whereIn('email_range_group.id', explode(",",$groups))
                                        ->get()
                                        ->toArray();
-         $group = json_decode('{}',true);
+         $group = array('userStatus'=>array(),'userLevel'=>array(),'userLavel'=>array()); 
          $group['userStatus'] = array();
          $group['userLevel'] = array();
          $group['userLabel'] = array();
@@ -303,10 +303,7 @@ class MarketingController extends Controller
         //禁止引用外部xml实体
         libxml_disable_entity_loader(true);
         $s = simplexml_load_string($xml);
-        $group = json_decode('{}',true);
-        $group['userStatus'] = array();
-        $group['userLevel'] = array();
-        $group['userLabel'] = array();
+        $group = array('userStatus'=>array(),'userLevel'=>array(),'userLavel'=>array());       
         if(!is_empty($s->xpath("/conditions/condition[@table='user' and @column='status' and @relation='or']"))){
             foreach($s->xpath("/conditions/condition[@table='user' and @column='status' and @relation='or']") as $v){
                 $group['userStatus'] = array_merge($group['userStatus'],  explode(',',$v));
