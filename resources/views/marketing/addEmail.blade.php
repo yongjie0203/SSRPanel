@@ -119,7 +119,7 @@
     
     <div id="userGroup" class="col-md-8" style="display:none;">
         <div class="form-group">
-            <div class="col-md-8">                
+            <div class="col-md-12">                
                 <div class="mt-checkbox-inline" >
                      @if(!$groupList->isEmpty())
                         @foreach($groupList as $group)
