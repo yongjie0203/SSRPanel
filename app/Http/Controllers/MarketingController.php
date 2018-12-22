@@ -216,7 +216,7 @@ class MarketingController extends Controller
                                        ->whereIn('email_range_group.id', explode(",",$groups))
                                        ->get()
                                        ->toArray();
-         $group = json_decode('{}');
+         $group = json_decode('{}',true);
          $group->userStatus = array();
          $group->userLevel = array();
          $group->userLabel = array();
@@ -303,7 +303,7 @@ class MarketingController extends Controller
         //禁止引用外部xml实体
         libxml_disable_entity_loader(true);
         $s = simplexml_load_string($xml);
-        $group = json_decode('{}');
+        $group = json_decode('{}',true);
         $group->userStatus = array();
         $group->userLevel = array();
         $group->userLabel = array();
