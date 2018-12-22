@@ -246,7 +246,7 @@ class MarketingController extends Controller
             //tr 多个之间的关系有可能为 or 、 and，如果不传默认为or
             $tr = trim($request->get('tr'));
             $l = trim($request->get('l'));
-            //$conditionsxml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+            
             $conditionsxml = "<conditions>";
             if (!empty($t)) {
                 $conditionsxml .= $this-> getConditionItemXml('user_label','label_id','or',$t);
