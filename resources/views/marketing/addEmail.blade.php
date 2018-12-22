@@ -117,7 +117,7 @@
         <!-- END PAGE BASE CONTENT -->
     </div>
     
-    <div id="userGroup" style="display:none;width:700px;">
+    <div id="userGroup" class="col-md-12" style="display:none;">
         <div class="form-group">
             <div class="col-md-12">                
                 <div class="mt-checkbox-inline" >
@@ -197,10 +197,12 @@
         
         $(function() {
              $(document).on('click','#selectUser',function(){
+                var width = $('#userGroup').outerWidth(true)+'px';
+                var height = $('#userGroup').outerHeight(true)+'px';
                 layer.open({
                       type: 1,     
                       title:'选择群发分组',
-                      area: ['720px', '320px'],
+                      area: [width,height],
                       content: $("#userGroup")
                     });
              });
