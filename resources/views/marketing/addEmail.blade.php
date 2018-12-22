@@ -119,7 +119,7 @@
     
     
     <div class="row">
-        <div id="userGroup" class="col-md-6" style="display:none;">
+        <div id="userGroup" class="col-md-12" style="display:none;">
             <div class="row">
                 <div class="col-md-12">                
                     <div class="mt-checkbox-inline" >
