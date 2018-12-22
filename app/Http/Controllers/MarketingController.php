@@ -231,7 +231,7 @@ class MarketingController extends Controller
             $group->userLevel = array_merge($group->userLevel , $item->userLevel);
             $group->userLabel = array_merge($group->userLabel , $item->userLabel);
          }
-         $blackQuery = $this->getCountQuery(join('',$group->userStatus),join(',',$t),join(',',$l));
+         $blackQuery = $this->getCountQuery(join('',$group->userStatus),join(',',$group->userLabel),join(',',$group->userLevel));
          $black = $blackQuery->get();
          return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black], 'message' => '成功']);
     }
