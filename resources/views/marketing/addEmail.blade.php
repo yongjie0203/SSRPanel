@@ -29,7 +29,7 @@
                                     <label class="control-label col-md-1">选择范围</label>
                                     <div class="col-md-11" >
                                         <div class="mt-checkbox-inline">
-                                            <button type="button" class="btn green">选择</button>
+                                            <button type="button" id="selectUser" class="btn green">选择</button>
                                         </div>
                                          <label id="count_info" style="color:red;"></label>
                                     </div>
@@ -116,6 +116,27 @@
         </div>
         <!-- END PAGE BASE CONTENT -->
     </div>
+    
+    <div id="userGroup" style="display:none;">
+        <div class="col-md-10">
+            <label for="label" class="col-md-1" style="padding:8px 0px 8px 0px;" >选择群发分组</label>
+            <div class="mt-checkbox-inline" style="padding-left:65px;">
+                 @if(!$groupList->isEmpty())
+                    @foreach($groupList as $group)
+                        <label class="mt-checkbox">
+                        <input type="checkbox" name="group" value="{{$group->id}}" > {{$group->name}}
+                        <span></span>
+                    </label>                                                   
+                    @endforeach
+                @endif
+            </div>
+        </div>
+        <div id="selectedInfo">
+        </div>
+        <div>
+            <button type="button" class="btn green" >确定</button>
+        </div>
+    </div>
     <!-- END CONTENT BODY -->
 @endsection
 @section('script')
@@ -165,6 +186,15 @@
 
         
         $(function() {
+             $(document).on('click','#selectUser',function(){
+                layer.open({
+                      type: 1,
+                      skin: 'layui-layer-rim', //加上边框
+                      area: ['420px', '240px'], //宽高
+                      content: $("userGroup")
+                    });
+             });
+             
              $(document).on('click', 'input.setr', function(){
                 var u = getStatusRange().join(",");
                 var t = getTagRange().join(",");
