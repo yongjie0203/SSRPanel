@@ -120,7 +120,7 @@
     <div id="userGroup" style="display:none;">
         <div class="col-md-10">
             <label for="label" class="col-md-1" style="padding:8px 0px 8px 0px;" >选择群发分组</label>
-            <div class="mt-checkbox-inline" style="padding-left:65px;">
+            <div class="mt-checkbox-inline" >
                  @if(!$groupList->isEmpty())
                     @foreach($groupList as $group)
                         <label class="mt-checkbox">
@@ -190,7 +190,7 @@
                 layer.open({
                       type: 1,
                       skin: 'layui-layer-rim', //加上边框
-                      area: ['420px', '240px'], //宽高
+                      area: ['720px', '340px'], //宽高
                       content: $("#userGroup")
                     });
              });
