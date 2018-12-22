@@ -200,7 +200,7 @@
                 layer.open({
                       type: 1,     
                       title:'选择群发分组',
-                      area: [720px, 320px],
+                      area: ['720px', '320px'],
                       content: $("#userGroup")
                     });
              });
