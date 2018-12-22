@@ -216,15 +216,15 @@ class MarketingController extends Controller
                                        ->whereIn('email_range_group.id', explode(",",$groups))
                                        ->get()
                                        ->toArray();
-         $group = array('userStatus'=>array(),'userLevel'=>array(),'userLavel'=>array()); 
-         $group['userStatus'] = array();
-         $group['userLevel'] = array();
-         $group['userLabel'] = array();
+         $group = new EmailRangeGroup();
+         $group->userStatus = array();
+         $group->userLevel = array();
+         $group->userLabel = array();
          foreach ($expressions as $key => $expression) {
             $item = $this->xmlToArray($expression['expression']);
-            $group['userStatus'] = array_merge($group['userStatus'], $item['userStatus']);
-            $group['userLevel'] = array_merge($group['userLevel'] , $item['userLevel']);
-            $group['userLabel'] = array_merge($group['userLabel'] , $item['userLabel']);
+            $group->userStatus = array_merge($group->userStatus, $item->userStatus);
+            $group->userLevel = array_merge($group->userLevel , $item->userLevel);
+            $group->userLabel = array_merge($group->userLabel , $item->userLabel);
          }
          return var_dump($group);
         
@@ -303,20 +303,23 @@ class MarketingController extends Controller
         //禁止引用外部xml实体
         libxml_disable_entity_loader(true);
         $s = simplexml_load_string($xml);
-        $group = array('userStatus'=>array(),'userLevel'=>array(),'userLavel'=>array());       
+        $group = new EmailRangeGroup();
+        $group->userStatus = array();
+        $group->userLevel = array();
+        $group->userLabel = array();    
         if(!is_empty($s->xpath("/conditions/condition[@table='user' and @column='status' and @relation='or']"))){
             foreach($s->xpath("/conditions/condition[@table='user' and @column='status' and @relation='or']") as $v){
-                $group['userStatus'] = array_merge($group['userStatus'],  explode(',',$v));
+                $group->userStatus = array_merge($group->userStatus,  explode(',',$v));
             }
         }
         if(!is_empty($s->xpath("/conditions/condition[@table='user' and @column='level' and @relation='or']"))){
             foreach($s->xpath("/conditions/condition[@table='user' and @column='level' and @relation='or']") as $v){
-                $group['userLevel'] = array_merge($group['userLevel'],  explode(',',$v));
+                $group->userLevel = array_merge($group->userLevel,  explode(',',$v));
             }
         }
         if(!is_empty($s->xpath("/conditions/condition[@table='user_label' and @column='label_id' and @relation='or']"))){
             foreach($s->xpath("/conditions/condition[@table='user_label' and @column='label_id' and @relation='or']") as $v){
-                $group['userLabel'] = array_merge($group['userLabel'],  explode(',',$v));
+                $group->userLabel = array_merge($group->userLabel,  explode(',',$v));
             }
         }
         return $group;
