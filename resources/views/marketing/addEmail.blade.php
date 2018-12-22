@@ -198,7 +198,9 @@
         $(function() {
              $(document).on('click','#selectUser',function(){
                 layer.open({
-                      type: 1,                                           
+                      type: 1,     
+                      title:'选择群发分组',
+                      area: [720px, 320px],
                       content: $("#userGroup")
                     });
              });
