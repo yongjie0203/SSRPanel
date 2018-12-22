@@ -232,10 +232,13 @@ class MarketingController extends Controller
             $group->userLevel = array_merge($group->userLevel , $item->userLevel);
             $group->userLabel = array_merge($group->userLabel , $item->userLabel);
          }
-         $blackQuery = $this->getCountQuery(join('',$group->userStatus),join(',',$group->userLabel),join(',',$group->userLevel));
+         $u = join('',$group->userStatus);
+         $t = join(',',$group->userLabel);
+         $l = join(',',$group->userLevel);
+         $blackQuery = $this->getCountQuery($u,$t,$l);
          $black = $blackQuery->get();
          $total = User::query()->count();    
-         return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black], 'message' => '成功']);
+         return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black,'u'=>$u,'t'=>$t,'l'=>$l], 'message' => '成功']);
     }
     
     //测试邮件发送
