@@ -117,7 +117,7 @@
         <!-- END PAGE BASE CONTENT -->
     </div>
     
-   <div class="col-md-6" >
+   <div class="col-md-6 col-xs-11" >
         <div id="userGroup"  style="display:none;">
             <div class="form-group">
                 <div class="col-md-12">                
@@ -215,52 +215,35 @@
              });
              
              $(document).on('click', 'input.setr', function(){
-                var u = getStatusRange().join(",");
-                var t = getTagRange().join(",");
-                var l = getLevelRange().join(",");
-                console.log(u);
-                console.log(t);
-                console.log(l);
+                var groups = getSelectedGroup().join(",");
+               
+                console.log(groups);
+             
                 $.ajax({
                     type: "GET",
-                    url: "{{url('marketing/getCount')}}",
+                    url: "{{url('marketing/getGroupCount')}}",
                     async: false,
-                    data: {u:u, t:t, l:l},
+                    data: {group:group},
                     dataType: 'json',
                     success: function (ret) {                        
                         if (ret.status == 'success') {
                             var count = "总用户数："+ret.data.total+"，已选择：" + ret.data.selected[0].selected+"，退订："+ ret.data.selected[0].blacked+"，转发：" +ret.data.selected[0].forward ;
-                            $("#count_info").text(count);
+                            $("#selectedInfo").text(count);
                         }                       
                     }
                 });
                
             });
             
-            function getStatusRange(){
-                var statusRange = new Array();
-                $("input[name='U']:checked").each(function(){
-                    statusRange.push($(this).val())
+            function getSelectedGroup(){
+                var groups = new Array();
+                $("input[name='group']:checked").each(function(){
+                    groups.push($(this).val())
                 });
-                return statusRange;
+                return groups;
             }
             
-            function getTagRange(){
-                var tagRange = new Array();
-                $("input[name='T']:checked").each(function(){
-                    tagRange.push($(this).val())
-                });
-                return tagRange;
-            }
-            
-            function getLevelRange(){
-                var levelRange = new Array();
-                $("input[name='L']:checked").each(function(){
-                    levelRange.push($(this).val())
-                });
-                return levelRange;
-            }
-            
+                      
         });
         
         
