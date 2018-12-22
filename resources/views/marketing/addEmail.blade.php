@@ -214,7 +214,7 @@
                     });
              });
              
-             $(document).on('click', 'input.setr', function(){
+             $(document).on('click', "input[name='group']", function(){
                 var groups = getSelectedGroup().join(",");
                
                 console.log(groups);
