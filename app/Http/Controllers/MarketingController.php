@@ -180,14 +180,8 @@ class MarketingController extends Controller
         }
     }
     
-    //统计选择的用户信息
-    public function getCount(Request $request)
-    {
-         $u = trim($request->get('u'));
-         $t = trim($request->get('t'));
-         //tr 多个之间的关系有可能为 or 、 and，如果不传默认为or
-         $tr = trim($request->get('tr'));
-         $l = trim($request->get('l'));
+    //根据过滤条件构建query
+    private function getCountQuery($u,$t,$l){
          $total = User::query()->count();         
          $blackQuery = DB::table('user')->selectRaw('count(DISTINCT user.username) selected, count(DISTINCT email_blacklist.email) blacked,count(DISTINCT email_blacklist.forward) forward'); 
          $blackQuery ->leftJoin('email_blacklist',function($join){
@@ -204,12 +198,23 @@ class MarketingController extends Controller
          if($u!=""){        
              $blackQuery->whereIn('user.status', explode(",",$u));
          }
-         
+         return  $blackQuery;        
+    }
+    
+    //统计选择的用户信息
+    public function getCount(Request $request)
+    {
+         $u = trim($request->get('u'));
+         $t = trim($request->get('t'));
+         //tr 多个之间的关系有可能为 or 、 and，如果不传默认为or
+         $tr = trim($request->get('tr'));
+         $l = trim($request->get('l'));
+         $blackQuery = $this->getCountQuery($u,$t,$l);
          $black = $blackQuery->get();
-         
          return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black], 'message' => '成功']);
     }
     
+    //统计选择分组的用户信息
     public function getGroupCount(Request $request){
          $groups = trim($request->get('groups'));
          $expressions = DB::table('email_range_group')->selectRaw('email_range_group.expression')
@@ -226,8 +231,9 @@ class MarketingController extends Controller
             $group->userLevel = array_merge($group->userLevel , $item->userLevel);
             $group->userLabel = array_merge($group->userLabel , $item->userLabel);
          }
-         return var_dump($group);
-        
+         $blackQuery = $this->getCountQuery(join('',$group->userStatus),join(',',$t),join(',',$l));
+         $black = $blackQuery->get();
+         return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black], 'message' => '成功']);
     }
     
     //测试邮件发送
