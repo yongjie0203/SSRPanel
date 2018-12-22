@@ -119,7 +119,7 @@
     
    <div class="col-md-6" >
         <div id="userGroup"  style="display:none;">
-            <div class="row">
+            <div class="form-group">
                 <div class="col-md-12">                
                     <div class="mt-checkbox-inline" >
                          @if(!$groupList->isEmpty())
@@ -134,13 +134,13 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="form-group">
                 <div id="selectedInfo" class="col-md-12" style="color:red;">
                 </div>
             </div>
 
 
-            <div class="row">
+            <div class="form-group">
                 <div class="col-md-12">                    
                     <button type="button" class="btn green">确定</button>
                 </div>
