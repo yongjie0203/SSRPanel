@@ -198,9 +198,7 @@
         $(function() {
              $(document).on('click','#selectUser',function(){
                 layer.open({
-                      type: 1,
-                      skin: 'layui-layer-rim', //加上边框
-                      area: ['720px', '340px'], //宽高
+                      type: 1,                                           
                       content: $("#userGroup")
                     });
              });
