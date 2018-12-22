@@ -117,7 +117,7 @@
         <!-- END PAGE BASE CONTENT -->
     </div>
     
-   <div class="col-md-6" >
+   <div class="col-md-5" >
         <div id="userGroup"  style="display:none;">
             <div class="form-group">
                 <div class="col-md-12">                
