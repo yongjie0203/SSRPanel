@@ -199,10 +199,12 @@
         
         $(function() {
              $(document).on('click','#selectUser',function(){
-                var width = $('#userGroup').outerWidth(true)+'px';
+                var width = $('#userGroup').outerWidth(true);
                 var height = $('#userGroup').outerHeight(true);
-                height = height + 50;
+                height = height + 100;
                 height = height +'px';
+                width = width + 100;
+                width = width +'px'
                 layer.open({
                       type: 1,     
                       title:'选择群发分组',
