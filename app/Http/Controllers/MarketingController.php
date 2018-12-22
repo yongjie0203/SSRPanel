@@ -232,7 +232,7 @@ class MarketingController extends Controller
             $group->userLevel = array_merge($group->userLevel , $item->userLevel);
             $group->userLabel = array_merge($group->userLabel , $item->userLabel);
          }
-         $u = join('',$group->userStatus);
+         $u = join(',',$group->userStatus);
          $t = join(',',$group->userLabel);
          $l = join(',',$group->userLevel);
          $blackQuery = $this->getCountQuery($u,$t,$l);
