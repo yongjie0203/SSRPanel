@@ -117,7 +117,7 @@
         <!-- END PAGE BASE CONTENT -->
     </div>
     
-    <div id="userGroup" style="display:none;">
+    <div id="userGroup" style="display:none;width:700px;">
         <div class="form-group">
             <div class="col-md-12">                
                 <div class="mt-checkbox-inline" >
