@@ -117,40 +117,38 @@
         <!-- END PAGE BASE CONTENT -->
     </div>
     
-    <div class="container">
-        <div class="row">
-            <div id="userGroup" class="col-md-6" style="display:none;">
-                <div class="row">
-                    <div class="col-md-12">                
-                        <div class="mt-checkbox-inline" >
-                             @if(!$groupList->isEmpty())
-                                @foreach($groupList as $group)
-                                    <label class="mt-checkbox">
-                                    <input type="checkbox" name="group" value="{{$group->id}}" > {{$group->name}}
-                                    <span></span>
-                                </label>                                                   
-                                @endforeach
-                            @endif
-                        </div>
+   <div class="col-md-6" >
+        <div id="userGroup"  style="display:none;">
+            <div class="row">
+                <div class="col-md-12">                
+                    <div class="mt-checkbox-inline" >
+                         @if(!$groupList->isEmpty())
+                            @foreach($groupList as $group)
+                                <label class="mt-checkbox">
+                                <input type="checkbox" name="group" value="{{$group->id}}" > {{$group->name}}
+                                <span></span>
+                            </label>                                                   
+                            @endforeach
+                        @endif
                     </div>
                 </div>
-
-                <div class="row">
-                    <div id="selectedInfo" class="col-md-12" style="color:red;">
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="col-md-12">                    
-                        <button type="button" class="btn green">确定</button>
-                    </div>
-                </div>
-
-
             </div>
+
+            <div class="row">
+                <div id="selectedInfo" class="col-md-12" style="color:red;">
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">                    
+                    <button type="button" class="btn green">确定</button>
+                </div>
+            </div>
+
+
         </div>
-      </div>
+     </div>
     <!-- END CONTENT BODY -->
 @endsection
 @section('script')
