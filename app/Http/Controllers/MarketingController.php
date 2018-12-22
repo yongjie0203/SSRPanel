@@ -180,7 +180,7 @@ class MarketingController extends Controller
         }
     }
     
-    //
+    //统计选择的用户信息
     public function getCount(Request $request)
     {
          $u = trim($request->get('u'));
@@ -208,6 +208,20 @@ class MarketingController extends Controller
          $black = $blackQuery->get();
          
          return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black], 'message' => '成功']);
+    }
+    
+    public function getGroupCount(Request $request){
+         $groups = trim($request->get('groups'));
+         $expressions = DB::table('email_range_group')->selectRaw('email_range_group.expression')
+                                       ->whereIn('email_range_group.id', explode(",",$groups))
+                                       ->get()
+                                       ->toArray();
+         $merge = array();
+         foreach ($expressions as $key => $expression) {
+            array_merge($merge,xmlToArray($expression))
+         }
+         return var_dump($merge);
+        
     }
     
     //测试邮件发送
@@ -277,6 +291,15 @@ class MarketingController extends Controller
         $item = '<condition table="'.$tableName.'" column="'.$column .'" relation="'.$relation.'">'.$values.'</condition>';
         return $item;
     }
+    
+    private function xmlToArray($xml)
+    {    
+        //禁止引用外部xml实体
+        libxml_disable_entity_loader(true);
+        $values = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);        
+        return $values;
+    }
+
     
     
 }
