@@ -36,12 +36,29 @@
 
                                <div class="form-group">
                                     <label class="control-label col-md-1">使用模板</label>
-                                    <div class="col-md-11">                                       
-                                        <div class="switch">
-                                            <input type="checkbox" name="template" checked />
-                                        </div>
+                                    <div class="col-md-11">    
+                                        <label class="mt-checkbox">
+                                             <input type="checkbox" name="template" checked value="1" ></input>
+                                             <span></span>
+                                        </label>
                                     </div>
                                 </div>
+                                
+                                <div class="form-group">
+                                    <label class="control-label col-md-1">邮件格式</label>
+                                    <div class="col-md-11">
+                                        <label class="mt-radio">
+                                             <input type="radio" name="format" value="1" > html </input>
+                                             <span></span>
+                                        </label>
+                                        <label class="mt-radio">
+                                             <input type="radio" name="format" value="2" > markdown </input>
+                                             <span></span>
+                                         </label> 
+                                    </div>
+                                </div>
+
+                                
                                 <div class="form-group">
                                     <label class="control-label col-md-1">发送模式</label>
                                     <div class="col-md-11">
