@@ -135,13 +135,14 @@
             </div>
 
             <div class="form-group">
-                <div id="selectedInfo" class="col-md-12" style="color:red;">
+                <div id="selectedInfo" class="col-md-12" style="color:red;line-height: 30px">
+                
                 </div>
             </div>
 
 
             <div class="form-group">
-                <div class="col-md-12">                    
+                <div class="col-md-12" style="text-align: right;padding-right: 30px;">                    
                     <button type="button" class="btn green">确定</button>
                 </div>
             </div>
