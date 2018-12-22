@@ -204,7 +204,7 @@
                 var height = $('#userGroup').outerHeight(true);
                 height = height + 50;
                 height = height +'px';
-                width = width + 0;
+                width = width + 50;
                 width = width +'px'
                 layer.open({
                       type: 1,     
