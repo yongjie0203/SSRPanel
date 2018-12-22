@@ -117,7 +117,7 @@
         <!-- END PAGE BASE CONTENT -->
     </div>
     
-    <div id="userGroup" class="col-md-8" style="display:none;">
+    <div id="userGroup" class="col-md-6" style="display:none;">
         <div class="form-group">
             <div class="col-md-12">                
                 <div class="mt-checkbox-inline" >
@@ -134,7 +134,7 @@
         </div>
         
         <div class="form-group">
-            <div id="selectedInfo">
+            <div id="selectedInfo" class="col-md-12" style="color:red;">
             </div>
         </div>
         
