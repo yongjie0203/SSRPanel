@@ -199,7 +199,7 @@
              $(document).on('click','#selectUser',function(){
                 var width = $('#userGroup').outerWidth(true)+'px';
                 var height = $('#userGroup').outerHeight(true);
-                height = height + 200;
+                height = height + 50;
                 height = height +'px';
                 layer.open({
                       type: 1,     
