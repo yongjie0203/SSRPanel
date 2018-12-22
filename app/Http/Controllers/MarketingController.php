@@ -218,7 +218,7 @@ class MarketingController extends Controller
                                        ->toArray();
          $merge = array();
          foreach ($expressions as $key => $expression) {
-            array_merge($merge,$this->xmlToArray($expression))
+            array_merge($merge,$this->xmlToArray($expression));
          }
          return var_dump($merge);
         
