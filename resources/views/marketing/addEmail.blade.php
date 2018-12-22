@@ -118,24 +118,34 @@
     </div>
     
     <div id="userGroup" style="display:none;">
-        <div class="col-md-10">
-            <label for="label" class="col-md-1" style="padding:8px 0px 8px 0px;" >选择群发分组</label>
-            <div class="mt-checkbox-inline" >
-                 @if(!$groupList->isEmpty())
-                    @foreach($groupList as $group)
-                        <label class="mt-checkbox">
-                        <input type="checkbox" name="group" value="{{$group->id}}" > {{$group->name}}
-                        <span></span>
-                    </label>                                                   
-                    @endforeach
-                @endif
+        <div class="form-group">
+            <div class="col-md-12">                
+                <div class="mt-checkbox-inline" >
+                     @if(!$groupList->isEmpty())
+                        @foreach($groupList as $group)
+                            <label class="mt-checkbox">
+                            <input type="checkbox" name="group" value="{{$group->id}}" > {{$group->name}}
+                            <span></span>
+                        </label>                                                   
+                        @endforeach
+                    @endif
+                </div>
             </div>
         </div>
-        <div id="selectedInfo">
+        
+        <div class="form-group">
+            <div id="selectedInfo">
+            </div>
         </div>
-        <div>
-            <button type="button" class="btn green" >确定</button>
+        
+        <div class="form-actions">
+            <div class="row">
+                <div class="col-md-12">                    
+                    <button type="button" class="btn green">确定</button>
+                </div>
+            </div>
         </div>
+        
     </div>
     <!-- END CONTENT BODY -->
 @endsection
