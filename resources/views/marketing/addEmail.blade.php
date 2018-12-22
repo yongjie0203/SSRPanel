@@ -117,7 +117,7 @@
         <!-- END PAGE BASE CONTENT -->
     </div>
     
-   <div class="col-md-5" >
+   <div class="col-md-6" >
         <div id="userGroup"  style="display:none;">
             <div class="form-group">
                 <div class="col-md-12">                
@@ -202,9 +202,9 @@
              $(document).on('click','#selectUser',function(){
                 var width = $('#userGroup').outerWidth(true);
                 var height = $('#userGroup').outerHeight(true);
-                height = height + 100;
+                height = height + 50;
                 height = height +'px';
-                width = width + 100;
+                width = width + 0;
                 width = width +'px'
                 layer.open({
                       type: 1,     
