@@ -143,7 +143,7 @@
 
             <div class="form-group">
                 <div class="col-md-12" style="text-align: right;padding-right: 30px;">                    
-                    <button type="button" class="btn green">确定</button>
+                    <button type="button" id="closeSelect" class="btn green">确定</button>
                 </div>
             </div>
 
@@ -199,6 +199,7 @@
 
         
         $(function() {
+             var index;
              $(document).on('click','#selectUser',function(){
                 var width = $('#userGroup').outerWidth(true);
                 var height = $('#userGroup').outerHeight(true);
@@ -206,12 +207,17 @@
                 height = height +'px';
                 width = width + 50;
                 width = width +'px'
-                layer.open({
+                index = layer.open({
                       type: 1,     
                       title:'选择群发分组',
                       area: [width,height],
                       content: $("#userGroup")
                     });
+             });
+             
+             $(document).on('click','#closeSelect',function(){
+                layer.close(index);
+                $('#count_info').text($("#selectedInfo").text());
              });
              
              $(document).on('click', "input[name='group']", function(){
@@ -223,7 +229,7 @@
                     type: "GET",
                     url: "{{url('marketing/getGroupCount')}}",
                     async: false,
-                    data: {group:group},
+                    data: {groups:groups},
                     dataType: 'json',
                     success: function (ret) {                        
                         if (ret.status == 'success') {
