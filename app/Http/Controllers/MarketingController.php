@@ -221,7 +221,7 @@ class MarketingController extends Controller
          $group->userLevel = array();
          $group->userLabel = array();
          foreach ($expressions as $key => $expression) {
-            $item = $this->xmlToArray($expression['expression']);
+            $item = $this->xmlToArray($expression->expression);
             $group->userStatus = array_merge($group->userStatus, $item->userStatus);
             $group->userLevel = array_merge($group->userLevel , $item->userLevel);
             $group->userLabel = array_merge($group->userLabel , $item->userLabel);
