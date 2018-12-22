@@ -66,65 +66,11 @@
                                     <label class="control-label col-md-1">选择范围</label>
                                     <div class="col-md-10" >
                                         <div class="mt-checkbox-inline">
-                                        <label class="mt-checkbox">
-                                                <input type="checkbox" name="type" value="1" checked> 
-                                                <span ></span>
-                                         </label>
-                                         </div>
+                                            <button type="button" class="btn green">选择</button>
+                                        </div>
                                          <label id="count_info" style="color:red;"></label>
                                     </div>
-                                    
-                                    
-                                    <div class="form-group" style="padding-left:100px">
-                                    <div class="col-md-10">
-                                        <label for="type" class="col-md-1" style="padding:8px 0px 8px 0px;">用户状态</label>
-                                        <div class="mt-radio-inline" style="padding-left:65px;">
-                                            <label class="mt-checkbox">
-                                                <input type="checkbox" class="setr" name="U" value="1" > 正常
-                                                <span></span>
-                                            </label>
-                                            <label class="mt-checkbox">
-                                                <input type="checkbox" class="setr" name="U" value="0"> 未激活
-                                                <span></span>
-                                            </label>
-                                            <label class="mt-checkbox">
-                                                <input type="checkbox" class="setr" name="U" value="-1"> 禁用
-                                                <span></span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-md-10">
-                                        <label for="label" class="col-md-1" style="padding:8px 0px 8px 0px;">用户标签</label>
-                                        <div class="mt-checkbox-inline" style="padding-left:65px;">                                        
-                                          @if(!$labelList->isEmpty())
-                                                @foreach($labelList as $label)
-                                                    <label class="mt-checkbox">
-                                                    <input type="checkbox" class="setr" name="T" value="{{$label->id}}" > {{$label->name}}
-                                                    <span></span>
-                                                </label>                                                   
-                                                @endforeach
-                                            @endif                                       
-                                        </div>
-                                    </div>
-                                    
-                                    
-                                    <div class="col-md-10">
-                                        <label for="label" class="col-md-1" style="padding:8px 0px 8px 0px;" >用户等级</label>
-                                        <div class="mt-checkbox-inline" style="padding-left:65px;">
-                                             @if(!$levelList->isEmpty())
-                                                @foreach($levelList as $level)
-                                                    <label class="mt-checkbox">
-                                                    <input type="checkbox" class="setr" name="L" value="{{$level->level}}" > {{$level->level_name}}
-                                                    <span></span>
-                                                </label>                                                   
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                    </div>
-                                    </div>
-                              </div>
-                               
+
                                <div class="form-group">
                                     <label class="control-label col-md-1">使用模板</label>
                                     <div class="col-md-11">                                       
