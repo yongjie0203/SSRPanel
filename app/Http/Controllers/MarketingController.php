@@ -182,7 +182,7 @@ class MarketingController extends Controller
     
     //根据过滤条件构建query
     private function getCountQuery($u,$t,$l){
-         $total = User::query()->count();         
+              
          $blackQuery = DB::table('user')->selectRaw('count(DISTINCT user.username) selected, count(DISTINCT email_blacklist.email) blacked,count(DISTINCT email_blacklist.forward) forward'); 
          $blackQuery ->leftJoin('email_blacklist',function($join){
               $join->on('email_blacklist.email', '=', 'user.username')
@@ -211,6 +211,7 @@ class MarketingController extends Controller
          $l = trim($request->get('l'));
          $blackQuery = $this->getCountQuery($u,$t,$l);
          $black = $blackQuery->get();
+         $total = User::query()->count();    
          return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black], 'message' => '成功']);
     }
     
@@ -233,6 +234,7 @@ class MarketingController extends Controller
          }
          $blackQuery = $this->getCountQuery(join('',$group->userStatus),join(',',$group->userLabel),join(',',$group->userLevel));
          $black = $blackQuery->get();
+         $total = User::query()->count();    
          return Response::json(['status' => 'success', 'data' => ['total'=>$total,'selected'=>$black], 'message' => '成功']);
     }
     
