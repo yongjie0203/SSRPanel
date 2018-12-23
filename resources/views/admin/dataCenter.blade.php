@@ -7,6 +7,7 @@
         <!-- BEGIN PAGE BASE CONTENT -->
         <div >          
             <div id="node-used-monthly" style="width:95%;height:300px" ></div>
+            <div id="user-online-data-monthly" style="width:95%;height:300px" ></div>
         </div> 
         
         
@@ -21,7 +22,9 @@
     <script type="text/javascript">
          $(function() {
              var nodeUsedMonthlyEchart = echarts.init(document.getElementById('node-used-monthly'));
+             var userOnlineDataMonthlyEchart = echarts.init(document.getElementById('user-online-data-monthly'));
              nodeUsedMonthly();
+             var option = {title:{text:'节点近30天内使用量'},color:['#3398DB'],tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},xAxis:[{type:'category',axisLabel:{interval:0,rotate:-40,},axisTick:{alignWithLabel:true}}],yAxis:[{type:'value'}],series:[{name:'用量',type:'bar',barWidth:'60%'}]};
              
              function nodeUsedMonthly(){
                  $.ajax({
@@ -29,57 +32,35 @@
                     url: "{{url('dataCenter/nodeUsedMonthly')}}",
                     async: false,                  
                     success: function (ret) {                        
-                        if (ret.status == 'success') {     
-                         
-                          var option = {
-                                title: {
-                                    text: '节点最近30天内使用量'
-                                },
-                                color: ['#3398DB'],
-                                tooltip : {
-                                    trigger: 'axis',
-                                    axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                                        type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-                                    }
-                                },
-                                grid: {
-                                    left: '3%',
-                                    right: '4%',
-                                    bottom: '3%',
-                                    containLabel: true
-                                },
-                                xAxis : [
-                                    {
-                                        type : 'category',
-                                        data : ret.data.x,
-                                        axisLabel:{  
-                                            interval:0,//横轴信息全部显示  
-                                            rotate:-40,//-30度角倾斜显示  
-                                        },
-                                        axisTick: {
-                                            alignWithLabel: true
-                                        }
-                                    }
-                                ],
-                                yAxis : [
-                                    {
-                                        type : 'value'
-                                    }
-                                ],
-                                series : [
-                                    {
-                                        name:'用量',
-                                        type:'bar',
-                                        barWidth: '60%',
-                                        data:ret.data.y
-                                    }
-                                ]
-                            };
+                        if (ret.status == 'success') {  
+                            option1.title.text = "节点近30天内使用量";
+                            option1.xAxis.data = ret.data.x;
+                            option1.series.data = ret.data.y;
+                            option1.series.type = "bar";
                             nodeUsedMonthlyEchart.setOption(option);
                         }                       
                     }
                 });
              }
+             
+             function userOnlinDataMonthly(){
+                $.ajax({
+                    type: "GET",
+                    url: "{{url('dataCenter/userOnlineDataMonthly')}}",
+                    async: false,                  
+                    success: function (ret) {                        
+                        if (ret.status == 'success') {  
+                            var option1 = option;
+                            option1.title.text = "近30天用户上网时间分布";
+                            option1.xAxis.data = ret.data.hours;
+                            option1.series.data = ret.data.users;
+                            option1.series.type = "line";
+                            nodeUsedMonthlyEchart.setOption(option);
+                        }                       
+                    }
+                });
+             }
+             
          });
     </script>
 @endsection
