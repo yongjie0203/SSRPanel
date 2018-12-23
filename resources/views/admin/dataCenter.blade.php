@@ -33,11 +33,12 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
-                            option1.title.text = "节点近30天内使用量";
-                            option1.xAxis.data = ret.data.x;
-                            option1.series.data = ret.data.y;
-                            option1.series.type = "bar";
-                            nodeUsedMonthlyEchart.setOption(option);
+                            var option0 = option;
+                            option0.title.text = "节点近30天内使用量";
+                            option0.xAxis.data = ret.data.x;
+                            option0.series.data = ret.data.y;
+                            option0.series.type = "bar";
+                            nodeUsedMonthlyEchart.setOption(option0);
                         }                       
                     }
                 });
@@ -55,7 +56,7 @@
                             option1.xAxis.data = ret.data.hours;
                             option1.series.data = ret.data.users;
                             option1.series.type = "line";
-                            nodeUsedMonthlyEchart.setOption(option);
+                            nodeUsedMonthlyEchart.setOption(option1);
                         }                       
                     }
                 });
