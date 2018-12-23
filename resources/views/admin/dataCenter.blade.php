@@ -33,12 +33,11 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
-                            var option0 = option;
-                            option0.title.text = "节点近30天内使用量";
-                            option0.xAxis.data = ret.data.x;
-                            option0.series.data = ret.data.y;
-                            option0.series.type = "bar";
-                            nodeUsedMonthlyEchart.setOption(option0);
+                            option.title.text = "节点近30天内使用量";
+                            option.xAxis.data = ret.data.x;
+                            option.series.data = ret.data.y;
+                            option.series.type = "bar";
+                            nodeUsedMonthlyEchart.setOption(option);
                         }                       
                     }
                 });
@@ -51,12 +50,11 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
-                            var option1 = option;
-                            option1.title.text = "近30天用户上网时间分布";
-                            option1.xAxis.data = ret.data.hours;
-                            option1.series.data = ret.data.users;
-                            option1.series.type = "line";
-                            nodeUsedMonthlyEchart.setOption(option1);
+                            option.title.text = "近30天用户上网时间分布";
+                            option.xAxis.data = ret.data.hours;
+                            option.series.data = ret.data.users;
+                            option.series.type = "line";
+                            nodeUsedMonthlyEchart.setOption(option);
                         }                       
                     }
                 });
