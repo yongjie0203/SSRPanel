@@ -54,7 +54,7 @@ class DataCenterController extends Controller
         $dbdata = DB::table('user_traffic_log')
                     ->selectRaw("FROM_UNIXTIME( user_traffic_log.log_time,'%H') hours, count(distinct user_traffic_log.user_id) users, count(user_traffic_log.id ) time")
                     ->groupBy("hours")
-                    ->orderBy("hours","desc")
+                    ->orderBy("hours","asc")
                     ->get()
                     ->toArray();
        $hours = array_column($dbdata,'hours');
