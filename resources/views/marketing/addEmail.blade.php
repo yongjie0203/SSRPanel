@@ -76,14 +76,14 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-1">收件人</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" name="summary" id="summary" placeholder="">
+                                        <input type="text" class="form-control" name="to" id="to" placeholder="">
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label class="control-label col-md-1">主题</label>
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control" name="title" id="title" placeholder="" autofocus required>
+                                        <input type="text" class="form-control" name="subject" id="subject" placeholder="" autofocus required>
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     </div>
                                     <label class="control-label col-md-1">标题</label>
