@@ -122,8 +122,7 @@ class MarketingController extends Controller
             $message = '保存成功';
             $status = 'success';
             $email = new Email();
-            $email->to = $request->get('to'); 
-            $email->groups = $request->get('groups');
+            $email->to = $request->get('to');           
             $email->template = $request->get('template');
             $email->mode = $request->get('mode');
             $email->format = $request->get('format');
@@ -135,7 +134,7 @@ class MarketingController extends Controller
             $email->user_id = Auth::user()->id;
             $email->created_at = date('Y-m-d H:i:s');
             $email->save();
-            foreach(explode(",",$groups) as $key => $group_id ){
+            foreach(explode(",",$request->get('groups')) as $key => $group_id ){
                 $emailGroup = new EmailGroup();
                 $emailGroup->email_id = $email->id;
                 $emailGroup->group_id = $group_id;
