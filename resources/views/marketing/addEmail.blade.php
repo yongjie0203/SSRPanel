@@ -63,11 +63,11 @@
                                     <label class="control-label col-md-1">发送模式</label>
                                     <div class="col-md-11">
                                         <label class="mt-radio">
-                                             <input type="radio" name="sendMode" value="1" > 单封单人 </input>
+                                             <input type="radio" name="mode" value="1" > 单封单人 </input>
                                              <span></span>
                                         </label>
                                         <label class="mt-radio">
-                                             <input type="radio" name="sendMode" value="2" > 单封多人 </input>
+                                             <input type="radio" name="mode" value="2" > 单封多人 </input>
                                              <span></span>
                                          </label> 
                                     </div>
@@ -162,7 +162,7 @@
             toolbars:[['source','undo','redo','bold','italic','underline','insertimage','insertvideo','lineheight','fontfamily','fontsize','justifyleft','justifycenter','justifyright','justifyjustify','forecolor','backcolor','link','unlink']],
             wordCount:true,                //关闭字数统计
             elementPathEnabled : false,    //是否启用元素路径
-            maximumWords:300,              //允许的最大字符数
+            maximumWords:1000,              //允许的最大字符数
             initialContent:'',             //初始化编辑器的内容
             initialFrameWidth:null,        //初始化宽度
             autoClearinitialContent:false, //是否自动清除编辑器初始内容
@@ -172,17 +172,24 @@
         function do_submit() {
             var _token = '{{csrf_token()}}';
             var title = $('#title').val();
-            var type = $("input:radio[name='type']:checked").val();
-            var author = $('#author').val();
+            var template = $("input:[name='template']").is(':checked') ? 1 : 0;
+            var format = $("input:[name='format']:checked").val();
+            var mode = $("input:[name='mode']:checked").val();
+            var to = $('#to').val();
+            var subject = $('#subject').val();
             var summary = $('#summary').val();
             var content = UE.getEditor('editor').getContent();
-            var sort = $('#sort').val();
+            if("2" == format){
+                content = UE.getEditor('editor').getPlainTxt();
+            }
+            
+            var groups = getSelectedGroup().join(",");
 
             $.ajax({
                 type: "POST",
                 url: "{{url('admin/addEmail')}}",
                 async: false,
-                data: {_token:_token, title: title, type:type, author:author, summary:summary, content:content, sort:sort},
+                data: {_token:_token, title: title, groups:groups, format:format, mode:mode, content:content, to:to ,subject:subject},
                 dataType: 'json',
                 success: function (ret) {
                     layer.msg(ret.message, {time:1000}, function() {
@@ -196,6 +203,13 @@
             return false;
         }
         
+        function getSelectedGroup(){
+            var groups = new Array();
+            $("input[name='group']:checked").each(function(){
+                groups.push($(this).val())
+            });
+            return groups;
+        }
 
         
         $(function() {
@@ -241,14 +255,7 @@
                
             });
             
-            function getSelectedGroup(){
-                var groups = new Array();
-                $("input[name='group']:checked").each(function(){
-                    groups.push($(this).val())
-                });
-                return groups;
-            }
-            
+                        
                       
         });
         
