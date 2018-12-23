@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Components\Helpers;
 use App\Http\Models\Marketing;
 use App\Http\Models\Email;
+use App\Http\Models\EmailGroup;
 use App\Http\Models\EmailRangeGroup;
 use App\Http\Models\Label;
 use App\Http\Models\Level;
