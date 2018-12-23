@@ -49,5 +49,18 @@ class DataCenterController extends Controller
        return Response::json(['status' => 'success', 'data' => ['x'=>$x,'y'=>$y], 'message' => '成功']);
    }
     
+   //统计近30天的用户上网时间分布
+   public function userOnlineDataMonthly(){
+        $dbdata = DB::table('user_traffic_log')
+                    ->selectRaw("FROM_UNIXTIME( user_traffic_log.log_time,'%H') hours, count(distinct user_traffic_log.user_id) users, count(user_traffic_log.id ) time")
+                    ->groupBy("FROM_UNIXTIME( user_traffic_log.log_time,'%H')")
+                    ->orderBy("FROM_UNIXTIME( user_traffic_log.log_time,'%H')","desc")
+                    ->get()
+                    ->toArray();
+       $hours = array_column($dbdata,'hours');
+       $users = array_column($dbdata,'users');
+       $time = array_column($dbdata,'time');
+       return Response::json(['status' => 'success', 'data' => ['hours'=>$hours,'users'=>$users,'time'=>$time], 'message' => '成功']);
+   }
     
 }
