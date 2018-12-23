@@ -188,7 +188,7 @@
                 type: "POST",
                 url: "{{url('marketing/addEmail')}}",
                 async: false,
-                data: {_token:_token, title: title, groups:groups, format:format, mode:mode, content:content, to:to ,subject:subject},
+                data: {_token:_token, title: title, groups:groups,template:template, format:format, mode:mode, content:content, to:to ,subject:subject},
                 dataType: 'json',
                 success: function (ret) {
                     layer.msg(ret.message, {time:1000}, function() {
