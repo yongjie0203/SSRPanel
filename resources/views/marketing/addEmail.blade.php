@@ -172,12 +172,11 @@
         function do_submit() {
             var _token = '{{csrf_token()}}';
             var title = $('#title').val();
-            var template = $("input:[name='template']").is(':checked') ? 1 : 0;
-            var format = $("input:[name='format']:checked").val();
-            var mode = $("input:[name='mode']:checked").val();
+            var template = $("input[name='template']").is(':checked') ? 1 : 0;
+            var format = $("input[name='format']:checked").val();
+            var mode = $("input[name='mode']:checked").val();
             var to = $('#to').val();
-            var subject = $('#subject').val();
-            var summary = $('#summary').val();
+            var subject = $('#subject').val();            
             var content = UE.getEditor('editor').getContent();
             if("2" == format){
                 content = UE.getEditor('editor').getPlainTxt();
