@@ -37,7 +37,19 @@ class MarketingController extends Controller
     // 邮件群发消息列表
     public function emailList(Request $request)
     {
-        $view['list'] = Marketing::query()->where('type', 1)->paginate(15);
+        //$view['list'] = Marketing::query()->where('type', 1)->paginate(15);
+        $view['list'] = DB::table('email')->selectRaw('email.id,email.subject,email.status,email.read,email.send,email.total,email.created_at,group_concat(email_range_group.name) groups ') 
+                                          ->leftJoin('email_group','email_group.email_id','=','email.id')
+                                          ->leftJoin('email_range_group','email_range_group.id','=','email_group.group_id')
+                                          ->groupBy('email.id')
+                                          ->groupBy('email.subject')
+                                          ->groupBy('email.status')
+                                          ->groupBy('email.read')
+                                          ->groupBy('email.send')
+                                          ->groupBy('email.total')
+                                          ->groupBy('email.created_at')
+                                          ->orderBy('email.id','desc')
+                                          ->get();
 
         return Response::view('marketing.emailList', $view);
     }
