@@ -108,7 +108,8 @@ Route::group(['middleware' => ['isForbidden', 'isLogin', 'isAdmin']], function (
     Route::any('admin/profile', 'AdminController@profile'); // 修改个人信息
     Route::get('admin/makePort', 'AdminController@makePort'); // 生成端口
     Route::get('dataCenter', 'DataCenterController@index'); // 数据中心入口
-    Route::get('dataCenter/nodeUsedMonthly', 'DataCenterController@nodeUsedMonthly'); // 节点最近流量试用情况    
+    Route::get('dataCenter/nodeUsedMonthly', 'DataCenterController@nodeUsedMonthly'); // 节点最近流量试用情况 
+    Route::get('dataCenter/userOnlineDataMonthly', 'DataCenterController@userOnlineDataMonthly'); // 近30天用户在线时间分布
 });
 
 Route::group(['middleware' => ['isForbidden', 'isLogin']], function () {
