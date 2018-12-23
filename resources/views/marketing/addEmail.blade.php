@@ -23,7 +23,7 @@
                     </div>
                     <div class="portlet-body form">
                         <!-- BEGIN FORM-->
-                        <form action="{{url('admin/addEmail')}}" method="post" enctype="multipart/form-data" class="form-horizontal" onsubmit="return do_submit();">
+                        <form action="{{url('marketing/addEmail')}}" method="post" enctype="multipart/form-data" class="form-horizontal" onsubmit="return do_submit();">
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="control-label col-md-1">选择范围</label>
@@ -194,7 +194,7 @@
                 success: function (ret) {
                     layer.msg(ret.message, {time:1000}, function() {
                         if (ret.status == 'success') {
-                            window.location.href = '{{url('admin/emailList')}}';
+                            window.location.href = '{{url('marketing/emailList')}}';
                         }
                     });
                 }
