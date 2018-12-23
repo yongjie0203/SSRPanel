@@ -118,19 +118,31 @@ class MarketingController extends Controller
     public function addEmail(Request $request)
     {
         if ($request->method() == 'POST') {
+            $message = '保存成功';
+            $status = 'success';
             $email = new Email();
-            $email->to = $request->get('to');
-            $email->cc = $request->get('cc');
-            $email->bcc = $request->get('bcc');
-            $email->from = $request->get('from');
+            $email->to = $request->get('to'); 
+            $email->groups = $request->get('groups');
+            $email->template = $request->get('template');
+            $email->mode = $request->get('mode');
+            $email->format = $request->get('format');
             $email->content = $request->get('content');
             $email->subject = $request->get('subject');
+            $email->title = $request->get('title');
             $email->expression = $request->get('expression');
             $email->status = 0;
             $email->user_id = Auth::user()->id;
+            $email->created_at = date('Y-m-d H:i:s');
             $email->save();
-
-            return Response::json(['status' => 'success', 'data' => '', 'message' => '保存成功']);
+            foreach(explode(",",$groups) as $key => $group_id ){
+                $emailGroup = new EmailGroup();
+                $emailGroup->email_id = $email->id;
+                $emailGroup->group_id = $group_id;
+                $emailGroup->save();
+            }
+                       
+            
+            return Response::json(['status' => $status, 'data' => '', 'message' => $message]);
         } else {
           
             $view['groupList'] = DB::table('email_range_group')
