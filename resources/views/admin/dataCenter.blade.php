@@ -24,6 +24,7 @@
              var nodeUsedMonthlyEchart = echarts.init(document.getElementById('node-used-monthly'));
              var userOnlineDataMonthlyEchart = echarts.init(document.getElementById('user-online-data-monthly'));
              nodeUsedMonthly();
+             userOnlinDataMonthly();
              
              
              function nodeUsedMonthly(){
