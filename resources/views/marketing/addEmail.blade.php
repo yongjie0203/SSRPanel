@@ -187,7 +187,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "{{url('admin/addEmail')}}",
+                url: "{{url('marketing/addEmail')}}",
                 async: false,
                 data: {_token:_token, title: title, groups:groups, format:format, mode:mode, content:content, to:to ,subject:subject},
                 dataType: 'json',
