@@ -41,11 +41,11 @@
                                 <thead>
                                 <tr>
                                     <th> # </th>
-                                    <th> 消息标题 </th>
-                                    <th> 消息内容 </th>
-                                    <th> 发送状态 </th>
+                                    <th> 邮件主题 </th>
+                                    <th> 发送分组 </th>
+                                    <th> 邮件状态</th>
                                     <th> 发送时间 </th>
-                                    <th> 错误信息 </th>
+                                    <th> 阅读人数/发送人数 </th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -57,11 +57,11 @@
                                     @foreach($list as $vo)
                                         <tr class="odd gradeX">
                                             <td> {{$vo->id}} </td>
-                                            <td> {{$vo->title}} </td>
-                                            <td> {{$vo->content}} </td>
-                                            <td> {{$vo->status_label}} </td>
+                                            <td> {{$vo->subject}} </td>
+                                            <td> {{$vo->groups}} </td>
+                                            <td> {{$vo->status}} </td>
                                             <td> {{$vo->created_at}} </td>
-                                            <td> {{$vo->error}} </td>
+                                            <td> {{$vo->read}}/{{$vo->send}} </td>
                                         </tr>
                                     @endforeach
                                 @endif
@@ -70,7 +70,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-4 col-sm-4">
-                                <div class="dataTables_info" role="status" aria-live="polite">共 {{$list->total()}} 条消息</div>
+                                <div class="dataTables_info" role="status" aria-live="polite">共 {{$list->total()}} 条邮件</div>
                             </div>
                             <div class="col-md-8 col-sm-8">
                                 <div class="dataTables_paginate paging_bootstrap_full_number pull-right">
