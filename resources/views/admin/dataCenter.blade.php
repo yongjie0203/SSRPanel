@@ -48,7 +48,7 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
-                            var option = {title:{text:'近30天用户在线时间分布'},xAxis:{type:'category',data:ret.data.hours},yAxis:{type:'value'},series:[{data:ret.data.user,type:'line'}]};;
+                            var option = {title:{text:'近30天用户在线时间分布'},xAxis:{type:'category',data:ret.data.hours},yAxis:{type:'value'},series:[{data:ret.data.users,type:'line'}]};;
                             userOnlineDataMonthlyEchart.setOption(option);                            
                         }                       
                     }
