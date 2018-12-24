@@ -101,8 +101,8 @@
                             <div class="form-actions">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn green">保存发送任务</button>
-                                        <button type="button" class="btn green">发送测试预览</button>
+                                        <button type="submit" class="btn green">保存当前内容</button>
+                                        <button type="button" class="btn green">在邮箱中预览</button>
                                         <button type="button" class="btn green">启动群发任务</button>
                                     </div>
                                 </div>
