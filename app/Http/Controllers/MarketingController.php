@@ -138,16 +138,20 @@ class MarketingController extends Controller
         if ($request->method() == 'POST') {
             $message = '保存成功';
             $status = 'success';
-            $email = new Email();
-            $email->to = $request->get('to');           
+            $email = new Email();            
+            $email->to = $request->get('to');
             $email->template = $request->get('template');
             $email->mode = $request->get('mode');
             $email->format = $request->get('format');
             $email->content = $request->get('content');
             $email->subject = $request->get('subject');
             $email->title = $request->get('title');
-            $email->expression = $request->get('expression');
-            $email->status = 0;
+            $email->expression = this -> buildGroupsConditionsXml($request->get('groups'));
+            $action = $request->get('action');
+            $email->status = 0;//未发送
+            if('start' == $action){
+                $email->status = 2;//启动发送
+            }                        
             $email->user_id = Auth::user()->id;
             $email->created_at = date('Y-m-d H:i:s');
             $email->save();
@@ -157,8 +161,10 @@ class MarketingController extends Controller
                 $emailGroup->group_id = $group_id;
                 $emailGroup->save();
             }
-                       
-            
+            if('test' == $action){
+                //发送测试邮件
+            }
+             
             return Response::json(['status' => $status, 'data' => '', 'message' => $message]);
         } else {
           
@@ -170,6 +176,12 @@ class MarketingController extends Controller
             return Response::view('marketing.addEmail',$view);
         }
     }
+    
+    //邮件群发预览
+    public function email(Request $request){
+        $id = $request->get('id');
+        return Response::view('marketing.email', $view);
+    }
 
     // 编辑邮件
     public function editEmail(Request $request)
@@ -178,21 +190,42 @@ class MarketingController extends Controller
 
         if ($request->method() == 'POST') {
             $to = $request->get('to');
-            $cc = $request->get('cc');
-            $bcc = $request->get('bcc');
-            $from = $request->get('from');
+            $template = $request->get('template');
+            $mode = $request->get('mode');
+            $format = $request->get('format');
             $content = $request->get('content');
             $subject = $request->get('subject');
-            $expression = $request->get('expression');
+            $title = $request->get('title');
+            $expression = this -> buildGroupsConditionsXml($request->get('groups'));
+            $action = $request->get('action');
+            $status = 0;//未发送
+            if('start' == $action){
+                $status = 2;//启动发送
+            }                        
+            
+            $updated_at = date('Y-m-d H:i:s');
+            EmailGroup::query()->where('email_id', $id)->delete();
+            foreach(explode(",",$request->get('groups')) as $key => $group_id ){
+                $emailGroup = new EmailGroup();
+                $emailGroup->email_id = $email->id;
+                $emailGroup->group_id = $group_id;
+                $emailGroup->save();
+            }
+            if('test' == $action){
+                //发送测试邮件
+            }
 
             $data = [
                 'to'   => $to,
-                'cc'    => $cc,
-                'bcc'  => $bcc,
-                'from' => $from,
+                'template' =>$template,
+                'mode' =>$mode,
+                'format' => $format,
                 'content' => $content,
                 'subject'    => $subject,
-                'expression' => $expression
+                'title' => $title,
+                'expression' => $expression,
+                'status' => $status,
+                'updated_at' => $updated_at
             ];
 
             $ret = Email::query()->where('id', $id)->update($data);
@@ -203,8 +236,7 @@ class MarketingController extends Controller
             }
         } else {
             $view['email'] = Email::query()->where('id', $id)->first();
-            $view['labelList'] = Label::query()->orderBy('sort', 'desc')->orderBy('id', 'asc')->get();
-            $view['levelList'] = Helpers::levelList();
+           
             return Response::view('marketing.editEmail', $view);
         }
     }
@@ -286,6 +318,7 @@ class MarketingController extends Controller
         
     }
   
+    //群发分组列表
     public function groupList(Request $request){      
         $view['groupList'] = DB::table('email_range_group')
             ->selectRaw('email_range_group.id,email_range_group.name,email_range_group.created_at,  count(DISTINCT email_group.email_id) count ')
@@ -299,6 +332,7 @@ class MarketingController extends Controller
         return Response::view('marketing.groupList', $view);
     }
     
+    //添加群发分组
     public function addGroup(Request $request){
         if ($request->method() == 'POST') {
             $u = trim($request->get('u'));
@@ -307,17 +341,7 @@ class MarketingController extends Controller
             $tr = trim($request->get('tr'));
             $l = trim($request->get('l'));
             
-            $conditionsxml = "<conditions>";
-            if (!empty($t)) {
-                $conditionsxml .= $this-> getConditionItemXml('user_label','label_id','or',$t);
-            }
-            if(!empty($l)){        
-                $conditionsxml .= $this-> getConditionItemXml('user','level','or',$l);
-            }
-            if($u!=""){        
-                $conditionsxml .= $this-> getConditionItemXml('user','status','or',$u);
-            }
-            $conditionsxml .= "</conditions>";
+            $conditionsxml = this->buildConditionXml($u,$t,$l);
             $group = new EmailRangeGroup();
             $group->name = $request->get('name');
             $group->expression = $conditionsxml;
@@ -333,11 +357,51 @@ class MarketingController extends Controller
         }
     }
     
+    //构建单个群发分组Conditions xml
+    private function buildConditionXml($u,$t,$l){
+            $conditionsxml = "<conditions>";
+            if (!empty($t)) {
+                $conditionsxml .= $this-> getConditionItemXml('user_label','label_id','or',$t);
+            }
+            if(!empty($l)){        
+                $conditionsxml .= $this-> getConditionItemXml('user','level','or',$l);
+            }
+            if($u!=""){        
+                $conditionsxml .= $this-> getConditionItemXml('user','status','or',$u);
+            }
+            $conditionsxml .= "</conditions>";
+            return $conditionsxml;
+    }
+    
+    //构建多个群发分组Conditions xml
+    private function buildGroupsConditionsXml($groups){
+        $expressions = DB::table('email_range_group')->selectRaw('email_range_group.expression')
+                                       ->whereIn('email_range_group.id', explode(",",$groups))
+                                       ->get()
+                                       ->toArray();
+         $group = new EmailRangeGroup();
+         $group->userStatus = array();
+         $group->userLevel = array();
+         $group->userLabel = array();
+         foreach ($expressions as $key => $expression) {
+            $item = $this->xmlToArray($expression->expression);
+            $group->userStatus = array_merge($group->userStatus, $item->userStatus);
+            $group->userLevel = array_merge($group->userLevel , $item->userLevel);
+            $group->userLabel = array_merge($group->userLabel , $item->userLabel);
+         }
+         $u = join(',',$group->userStatus);
+         $t = join(',',$group->userLabel);
+         $l = join(',',$group->userLevel);
+         return buildConditionXml($u,$t,$l);
+    }
+    
+    //构建单个condition xml
     private function getConditionItemXml($tableName,$column,$relation,$values){
         $item = '<condition table="'.$tableName.'" column="'.$column .'" relation="'.$relation.'">'.$values.'</condition>';
         return $item;
     }
     
+    //把conditions xml解析为分组条件数组
     private function xmlToArray($xml)
     {    
         //禁止引用外部xml实体
