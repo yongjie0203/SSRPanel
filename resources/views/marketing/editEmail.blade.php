@@ -31,6 +31,8 @@
                                         <div class="mt-checkbox-inline">
                                             <button type="button" id="selectUser" class="btn green">选择</button>
                                         </div>
+                                        <div id="displayGroups" style="display:inline;pading-left:10px;">
+                                        </div>
                                          <label id="count_info" style="color:red;"></label>
                                     </div>
 
@@ -235,16 +237,23 @@
                     });
              });
              
-             $(document).on('click','#closeSelect',function(){
+             function displayGroupsInfo(){
                 layer.close(index);
+                var groupshtml = "";
+                $("input[name='group']:checked").each(function(){
+                   groupshtml = groupshtml + "<div style='display:inline;pading:5px ' >" + $(this).parent().text() + "</div>";
+                });
+                $('#displayGroups').html(groupshtml);
                 $('#count_info').text($("#selectedInfo").text());
+             }
+             
+             $(document).on('click','#closeSelect',function(){
+                displayGroupsInfo();
              });
              
-             $(document).on('click', "input[name='group']", function(){
-                var groups = getSelectedGroup().join(",");
-               
-                console.log(groups);
-             
+             function getCountInfo(){
+                var groups = getSelectedGroup().join(",");               
+                console.log(groups);             
                 $.ajax({
                     type: "GET",
                     url: "{{url('marketing/getGroupCount')}}",
@@ -257,11 +266,15 @@
                             $("#selectedInfo").text(count);
                         }                       
                     }
-                });
-               
-            });
+                });               
+            }
+             $(document).on('click', "input[name='group']", function(){
+                getCountInfo();
+             });
             
-                        
+            //初始化分组数据
+             getCountInfo();
+             displayGroupsInfo();
                       
         });
         
