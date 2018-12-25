@@ -45,7 +45,7 @@
                                     <th> 发送分组 </th>
                                     <th> 邮件状态</th>
                                     <th> 创建时间 </th>
-                                    <th> 阅读人数/发送人数 </th>
+                                    <th> 阅读人数/发送人数/预期发送 </th>
                                     <th> 操作 </th>
                                 </tr>
                                 </thead>
@@ -62,7 +62,7 @@
                                             <td> {{$vo->groups}} </td>
                                             <td> {{$vo->statusLabel}} </td>
                                             <td> {{$vo->created_at}} </td>
-                                            <td> {{$vo->read}}/{{$vo->send}} </td>
+                                            <td> {{$vo->read}}/{{$vo->send}}/{{$vo->total}} </td>
                                             <td>
                                                 <button type="button" class="btn btn-sm blue btn-outline" onclick="editEmail('{{$vo->id}}')">
                                                     <i class="fa fa-pencil"></i>
