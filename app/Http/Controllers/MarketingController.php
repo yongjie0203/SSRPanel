@@ -165,6 +165,7 @@ class MarketingController extends Controller
             }
             if('test' == $action){
                 //发送测试邮件
+                return $this->preview($request);
             }
              
             return Response::json(['status' => $status, 'data' => '', 'message' => $message]);
@@ -193,6 +194,16 @@ class MarketingController extends Controller
         $view['email'] = $email;
         //return var_dump($email);
         return Response::view('marketing.email', $view);
+    }
+    
+    //在邮箱中预览邮件
+    public function preview(Request $request){
+        $id = $request->get('id');
+        $preto = $request->get('preto');
+        $email = Email::query()->where('id', $id)->first();
+        $mailable = new freeMail($id);
+        Mail::bcc($preto) -> queue($mailable);
+        return Response::json(['status' => 'success', 'data' => '', 'message' => '发送成功']);
     }
 
     // 编辑邮件
@@ -223,10 +234,7 @@ class MarketingController extends Controller
                 $emailGroup->group_id = $group_id;
                 $emailGroup->save();
             }
-            if('test' == $action){
-                //发送测试邮件
-            }
-
+            
             $data = [
                 'to'   => $to,
                 'template' =>$template,
@@ -242,9 +250,13 @@ class MarketingController extends Controller
 
             $ret = Email::query()->where('id', $id)->update($data);
             if ($ret) {
+                if('test' == $action){
+                    //发送测试邮件
+                    return $this->preview($request);
+                }
                 return Response::json(['status' => 'success', 'data' => '', 'message' => '保存成功']);
             } else {
-                return Response::json(['status' => 'fail', 'data' => '', 'message' => '保存失败']);
+                return Response::json(['status' => 'fail', 'data' => '', 'message' => '操作失败']);
             }
         } else {
             //Email内容
