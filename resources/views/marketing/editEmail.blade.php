@@ -192,13 +192,7 @@
             if("2" == format){
                 content = UE.getEditor('editor').getPlainTxt();
             }
-            if("test" == action){
-                 layer.prompt({title: '请输入预览收件人邮箱地址，多个‘;’分隔', formType: 2}, function(text, index){                   
-                    layer.close(index);
-                    preto = text;
-                 });
-            }
-            
+                        
             var groups = getSelectedGroup().join(",");
 
             $.ajax({
