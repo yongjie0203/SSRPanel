@@ -53,7 +53,7 @@ class freeMail extends Mailable
            if("1" == $this->template){//Markdown
                 $this->view("emails.freeMail")->with($data);
            }else{
-                $thie->html($this->content);
+                $this->html($this->content);
            }
         }
         
