@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Http\Models\Email;
+use Illuminate\Mail\Markdown;
 use DB;
 
 class freeMail extends Mailable
@@ -17,6 +18,7 @@ class freeMail extends Mailable
     public $subject;
     public $format;//1:html、2:markdown
     public $title;
+    public $template;
     public $email_id;
    
 
@@ -34,17 +36,24 @@ class freeMail extends Mailable
             $this->subject = empty($this->subject) ? $email->subject : $this->subject;
             $this->content = empty($this->content) ? $email->content : $this->content;
             $this->title = empty($this->title) ? $email->title : $this->title;
+            $this->template = empty($this->template) ? $email->template : $this->template;
         }
         if(!empty($this->subject)){
             $this->subject($this->subject);
         }
-        if(!empty($this->format)){
-           $data = array('title'=> $this->title);
-           if("1" == $this->format){//html
-                $this->html($this->content);
-           }
+        if(!empty($this->format)){           
+           //如果是markdown格式先转换成html
            if("2" == $this->format){//Markdown
-                $this->markdown($this->content,$data);
+                $this->content = Markdown::parse($this->content);
+           }
+        }
+        $data = array('title'=> $this->title,'content'=>$this->content);
+        if(!empty($this->template)){           
+           //1为使用系统统一空白模板，0为不使用模板
+           if("1" == $this->template){//Markdown
+                $this->view("emails.freeMail")->with($data);
+           }else{
+                $thie->html($this->content);
            }
         }
         
