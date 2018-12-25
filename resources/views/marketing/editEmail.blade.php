@@ -37,10 +37,14 @@
                                <div class="form-group">
                                     <label class="control-label col-md-1">使用模板</label>
                                     <div class="col-md-11">    
-                                        <label class="mt-checkbox">
-                                             <input type="checkbox" name="template" {{$email->template == 1 ? 'checked' : ''}} value="1" ></input>
+                                        <label class="mt-radio">                                            
+                                             <input type="radio" name="template" {{$email->template == 0 ? 'checked' : ''}} value="0" >不使用系统模板</input>                                                                                         
                                              <span></span>
                                         </label>
+                                        <label class="mt-radio">                                            
+                                             <input type="radio" name="template" {{$email->template == 1 ? 'checked' : ''}} value="1" >使用系统模板</input>
+                                             <span></span>
+                                        </label>                                        
                                     </div>
                                 </div>
                                 
@@ -101,7 +105,7 @@
                             <div class="form-actions">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <input type="hidden" id="action" name="action"  value="save" ></input>
+                                        <input type="hidden" id="action" name="action"  value="save" ></input>                                        
                                         <button type="submit" onclick="$('#action').val($(this).attr('name'))" name="save" class="btn green">保存当前内容</button>
                                         <button type="submit" onclick="$('#action').val($(this).attr('name'))" name="test" class="btn green">在邮箱中预览</button>
                                         <button type="submit" onclick="$('#action').val($(this).attr('name'))" name="start" class="btn green">启动群发任务</button>
@@ -172,8 +176,9 @@
         // ajax同步提交
         function do_submit() {
             var _token = '{{csrf_token()}}';
+            var id = '{{$email->id}}';
             var title = $('#title').val();
-            var template = $("input[name='template']").is(':checked') ? 1 : 0;
+            var template = $("input[name='template']:checked").val();
             var format = $("input[name='format']:checked").val();
             var mode = $("input[name='mode']:checked").val();
             var to = $('#to').val();
@@ -190,7 +195,7 @@
                 type: "POST",
                 url: "{{url('marketing/editEmail')}}",
                 async: false,
-                data: {_token:_token, title: title, groups:groups,template:template, format:format, mode:mode, content:content, to:to ,subject:subject,action:action},
+                data: {_token:_token, title: title, groups:groups,template:template, format:format, mode:mode, content:content, to:to ,subject:subject,action:action,id:id},
                 dataType: 'json',
                 success: function (ret) {
                     layer.msg(ret.message, {time:1000}, function() {
