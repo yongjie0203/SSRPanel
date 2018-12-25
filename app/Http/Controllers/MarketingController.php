@@ -178,9 +178,10 @@ class MarketingController extends Controller
         }
     }
     
-    //邮件群发预览
+    //邮件查看
     public function email(Request $request){
         $id = $request->get('id');
+        $view['email'] = Email::query()->where('id', $id)->first();        
         return Response::view('marketing.email', $view);
     }
 
