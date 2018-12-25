@@ -67,7 +67,7 @@
                                              <span></span>
                                         </label>
                                         <label class="mt-radio">
-                                             <input type="radio" name="mode" value="2" {{$email->format == 2 ? 'checked' : ''}}  > 单封多人 </input>
+                                             <input type="radio" name="mode" value="2" {{$email->mode == 2 ? 'checked' : ''}}  > 单封多人 </input>
                                              <span></span>
                                          </label> 
                                     </div>
@@ -83,12 +83,12 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-1">主题</label>
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control" name="subject" id="subject" placeholder="" autofocus required {{$email->subject}} >
+                                        <input type="text" class="form-control" name="subject" id="subject" placeholder="" autofocus required value="{{$email->subject}}" >
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     </div>
                                     <label class="control-label col-md-1">标题</label>
                                     <div class="col-md-4">
-                                       <input type="text" class="form-control" name="title" id="title" placeholder="" {{$email->title }} />
+                                       <input type="text" class="form-control" name="title" id="title" placeholder="" value="{{$email->title }}" />
                                     </div>
                                 </div>
                                 <div class="form-group">
