@@ -132,7 +132,7 @@
                          @if(!$groupList->isEmpty())
                             @foreach($groupList as $group)
                                 <label class="mt-checkbox">
-                                <input type="checkbox" name="group" value="{{$group->id}}" > {{$group->name}}
+                                <input type="checkbox" name="group" value="{{$group->id}}" /> {{$group->name}}
                                 <span></span>
                             </label>                                                   
                             @endforeach
@@ -240,7 +240,7 @@
                 layer.close(index);
                 var groupshtml = "";
                 $("input[name='group']:checked").each(function(){
-                   groupshtml = groupshtml + "<div>" + $(this).text() + "</div>";
+                   groupshtml = groupshtml + "<div>" + $(this).parent().text() + "</div>";
                 });
                 $('#displayGroups').html(groupshtml);
                 $('#count_info').text($("#selectedInfo").text());
