@@ -60,7 +60,7 @@
                                             <td> {{$vo->id}} </td>
                                             <td> {{$vo->subject}} </td>
                                             <td> {{$vo->groups}} </td>
-                                            <td> {{$vo->status}} </td>
+                                            <td> {{$vo->statusLabel}} </td>
                                             <td> {{$vo->created_at}} </td>
                                             <td> {{$vo->read}}/{{$vo->send}} </td>
                                             <td>
