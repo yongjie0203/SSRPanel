@@ -58,7 +58,7 @@
                                     @foreach($list as $vo)
                                         <tr class="odd gradeX">
                                             <td> {{$vo->id}} </td>
-                                            <td> {{$vo->subject}} </td>
+                                            <td> <a href="/marketing/email?id={{$vo->id}}" >{{$vo->subject}}</a> </td>
                                             <td> {{$vo->groups}} </td>
                                             <td> {{$vo->statusLabel}} </td>
                                             <td> {{$vo->created_at}} </td>
