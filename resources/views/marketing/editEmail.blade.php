@@ -109,7 +109,7 @@
                                     <div class="col-md-12">
                                         <input type="hidden" id="action" name="action"  value="save" ></input>                                        
                                         <button type="submit" onclick="$('#action').val($(this).attr('name'))" name="save" class="btn green">保存当前内容</button>
-                                        <button type="submit" onclick="$('#action').val($(this).attr('name'))" name="test" class="btn green">在邮箱中预览</button>
+                                        <button type="button" onclick="$('#action').val($(this).attr('name'));preview();" name="test" class="btn green">在邮箱中预览</button>
                                         <button type="submit" onclick="$('#action').val($(this).attr('name'))" name="start" class="btn green">启动群发任务</button>
                                     </div>
                                 </div>
@@ -174,6 +174,7 @@
             initialFrameWidth:null,        //初始化宽度
             autoClearinitialContent:false, //是否自动清除编辑器初始内容
         });
+        var preto = "";
 
         // ajax同步提交
         function do_submit() {
@@ -187,7 +188,7 @@
             var subject = $('#subject').val(); 
             var action = $('#action').val();
             var content = UE.getEditor('editor').getContent();
-            var preto = "";
+            
             if("2" == format){
                 content = UE.getEditor('editor').getPlainTxt();
             }
@@ -216,6 +217,16 @@
             });
 
             return false;
+        }
+        
+        function preview(){
+            layer.prompt({title: '请输入预览收件人邮箱地址，多个‘;’分隔', formType: 2}, function(text, index){                   
+                    layer.close(index);
+                    preto = text;
+                    if(preto != ""){
+                        do_submit();
+                    }
+                 });
         }
         
         function getSelectedGroup(){
