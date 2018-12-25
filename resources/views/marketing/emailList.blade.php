@@ -46,6 +46,7 @@
                                     <th> 邮件状态</th>
                                     <th> 发送时间 </th>
                                     <th> 阅读人数/发送人数 </th>
+                                    <th> 操作 </th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -62,6 +63,11 @@
                                             <td> {{$vo->status}} </td>
                                             <td> {{$vo->created_at}} </td>
                                             <td> {{$vo->read}}/{{$vo->send}} </td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm blue btn-outline" onclick="editEmail('{{$vo->id}}')">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 @endif
@@ -93,6 +99,10 @@
         function send() {
             //layer.msg("开发中，敬请期待");
             window.location.href ="/marketing/addEmail";
+        }
+        
+        function editEmail(id){
+            window.location.href ="/marketing/editEmail?id="+id;
         }
     </script>
 @endsection
