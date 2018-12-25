@@ -38,7 +38,7 @@
                                     <label class="control-label col-md-1">使用模板</label>
                                     <div class="col-md-11">    
                                         <label class="mt-checkbox">
-                                             <input type="checkbox" name="template" checked value="1" ></input>
+                                             <input type="checkbox" name="template" {{$email->template == 1 ? 'checked' : ''}} value="1" ></input>
                                              <span></span>
                                         </label>
                                     </div>
@@ -48,11 +48,11 @@
                                     <label class="control-label col-md-1">邮件格式</label>
                                     <div class="col-md-11">
                                         <label class="mt-radio">
-                                             <input type="radio" name="format" value="1" > html </input>
+                                             <input type="radio" name="format" value="1" {{$email->format == 1 ? 'checked' : ''}}  > html </input>
                                              <span></span>
                                         </label>
                                         <label class="mt-radio">
-                                             <input type="radio" name="format" value="2" > markdown </input>
+                                             <input type="radio" name="format" value="2" {{$email->format == 2 ? 'checked' : ''}}  > markdown </input>
                                              <span></span>
                                          </label> 
                                     </div>
@@ -63,11 +63,11 @@
                                     <label class="control-label col-md-1">发送模式</label>
                                     <div class="col-md-11">
                                         <label class="mt-radio">
-                                             <input type="radio" name="mode" value="1" > 单封单人 </input>
+                                             <input type="radio" name="mode" value="1" {{$email->mode == 1 ? 'checked' : ''}}  > 单封单人 </input>
                                              <span></span>
                                         </label>
                                         <label class="mt-radio">
-                                             <input type="radio" name="mode" value="2" > 单封多人 </input>
+                                             <input type="radio" name="mode" value="2" {{$email->format == 2 ? 'checked' : ''}}  > 单封多人 </input>
                                              <span></span>
                                          </label> 
                                     </div>
@@ -76,25 +76,25 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-1">收件人</label>
                                     <div class="col-md-10">
-                                        <input type="text" class="form-control" name="to" id="to" placeholder="">
+                                        <input type="text" class="form-control" name="to" id="to" placeholder="" value="{{$email->to}}">
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label class="control-label col-md-1">主题</label>
                                     <div class="col-md-5">
-                                        <input type="text" class="form-control" name="subject" id="subject" placeholder="" autofocus required>
+                                        <input type="text" class="form-control" name="subject" id="subject" placeholder="" autofocus required {{$email->subject}} >
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                     </div>
                                     <label class="control-label col-md-1">标题</label>
                                     <div class="col-md-4">
-                                       <input type="text" class="form-control" name="title" id="title" placeholder=""/>
+                                       <input type="text" class="form-control" name="title" id="title" placeholder="" {{$email->title }} />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-1">邮件内容</label>
                                     <div class="col-md-10">
-                                        <script id="editor" type="text/plain" style="height:400px;"></script>
+                                        <script id="editor" type="text/plain" style="height:400px;">{!! $email->content !!}</script>
                                     </div>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@
                          @if(!$groupList->isEmpty())
                             @foreach($groupList as $group)
                                 <label class="mt-checkbox">
-                                <input type="checkbox" name="group" value="{{$group->id}}" > {{$group->name}}
+                                <input type="checkbox" name="group" {{$group->checked}} value="{{$group->id}}" > {{$group->name}}
                                 <span></span>
                             </label>                                                   
                             @endforeach
