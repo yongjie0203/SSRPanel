@@ -181,11 +181,13 @@ class MarketingController extends Controller
     //邮件查看
     public function email(Request $request){
         $id = $request->get('id');
-        $view['email'] = Email::query()->where('id', $id)->first();
+        $email = Email::query()->where('id', $id)->first();
         $mailable = new freeMail();
         $mailable->email_id = $id;
-        $view['email']->content = $mailable->render();
-        return Response::view('marketing.email', $view);
+        $email->content = $mailable->render();
+        $view['email'] = $email;
+        return var_dump($email);
+        //return Response::view('marketing.email', $view);
     }
 
     // 编辑邮件
