@@ -12,6 +12,7 @@ use App\Http\Models\User;
 use App\Mail\freeMail;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Markdown;
 use Response;
 use Log;
 use DB;
@@ -182,12 +183,15 @@ class MarketingController extends Controller
     public function email(Request $request){
         $id = $request->get('id');
         $email = Email::query()->where('id', $id)->first();
+        if('2'==$email->format){
+            $email->content =  Markdown::parse($email->content);
+        }
         $mailable = new freeMail();
         $mailable->email_id = $id;
-        $email->content = $mailable->render();
+        //$email->content = $mailable->render();
         $view['email'] = $email;
-        return var_dump($email);
-        //return Response::view('marketing.email', $view);
+        //return var_dump($email);
+        return Response::view('marketing.email', $view);
     }
 
     // 编辑邮件
