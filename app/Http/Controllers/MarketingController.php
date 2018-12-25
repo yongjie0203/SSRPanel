@@ -181,7 +181,10 @@ class MarketingController extends Controller
     //邮件查看
     public function email(Request $request){
         $id = $request->get('id');
-        $view['email'] = Email::query()->where('id', $id)->first();        
+        $view['email'] = Email::query()->where('id', $id)->first();
+        $mailable = new freeMail();
+        $mailable->email_id = $id;
+        $view['email']->content = $mailable->render();
         return Response::view('marketing.email', $view);
     }
 
@@ -319,7 +322,7 @@ class MarketingController extends Controller
     {
         $bcc = ["360582818@qq.com","yongjie0203@126.com","admin@syyai.com"];
         try {
-            $mail = new freeMail("<html><div><h1> this is a test mail </h1> </div></html>");
+            $mail = new freeMail();
             $mail -> subject = "TEST";
            
             Mail::bcc($bcc) -> send($mail);
