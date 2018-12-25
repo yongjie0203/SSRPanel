@@ -20,13 +20,14 @@ class freeMail extends Mailable
     public $email_id;
    
 
-    public function __construct()
+    public function __construct($email_id)
     {        
+        $this->$email_id = $email_id;
     }
 
     public function build()
     {        
-        //有指定主题、标题、格式、及内容的优先使用指定值，否则根据email_id读取
+        //有指定email_id主题、标题、格式、及内容的优先使用指定值，否则根据email_id读取
         if(!empty($this->email_id)){
             $email = Email::query()->where('id', $this->email_id)->first();
             $this->format = empty($this->format) ? $email->format : $this->format;
