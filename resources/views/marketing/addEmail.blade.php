@@ -30,7 +30,7 @@
                                     <div class="col-md-11" >
                                         <div class="mt-checkbox-inline">
                                             <button type="button" id="selectUser" class="btn green">选择</button>
-                                            <div id="displayGroups">
+                                            <div id="displayGroups" style="display:inline;pading-left:10px;">
                                             </div>
                                         </div>
                                          <label id="count_info" style="color:red;"></label>
@@ -240,7 +240,7 @@
                 layer.close(index);
                 var groupshtml = "";
                 $("input[name='group']:checked").each(function(){
-                   groupshtml = groupshtml + "<div>" + $(this).parent().text() + "</div>";
+                   groupshtml = groupshtml + "<div style='display:inline;pading:5px ' >" + $(this).parent().text() + "</div>";
                 });
                 $('#displayGroups').html(groupshtml);
                 $('#count_info').text($("#selectedInfo").text());
