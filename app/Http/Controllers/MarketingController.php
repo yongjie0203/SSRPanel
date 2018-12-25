@@ -39,12 +39,14 @@ class MarketingController extends Controller
     {
         $status = $request->get('status');
         //$view['list'] = Marketing::query()->where('type', 1);
-        $query = DB::table('email')->selectRaw("email.id,email.subject,email.status,case email.status when 0 then '未发送' when 1 then '已发送' when 2 then '发送中' when 3 then '发送中' when 4 then '暂停' when -1 then '删除' else email.status end status_label, ,email.read,email.send,email.total,email.created_at,group_concat(email_range_group.name) groups ") 
+        $query = DB::table('email')->selectRaw("email.id,email.subject,email.status,case when  email.status = 0 then '未发送' when  email.status =  1 then '已发送' when  email.status =  2 then '发送中' when  email.status =  3 then '发送中' when  email.status =  4 then '暂停' when  email.status =  -1 then '删除' else email.status end statusLabel ,email.read,email.send,email.total,email.created_at,group_concat(email_range_group.name) groups ") 
                                           ->leftJoin('email_group','email_group.email_id','=','email.id')
                                           ->leftJoin('email_range_group','email_range_group.id','=','email_group.group_id')
+                                          ->where('email.status','!=','-1')
                                           ->groupBy('email.id')
                                           ->groupBy('email.subject')
                                           ->groupBy('email.status')
+                                          ->groupBy('statusLabel')
                                           ->groupBy('email.read')
                                           ->groupBy('email.send')
                                           ->groupBy('email.total')
