@@ -184,10 +184,10 @@ class MarketingController extends Controller
         $id = $request->get('id');
         $email = Email::query()->where('id', $id)->first();
         if('2'==$email->format){
-          //  $email->content =  Markdown::parse($email->content);
+            $email->content =  Markdown::parse($email->content);
         }
-        $mailable = new freeMail();
-        $mailable->email_id = $id;
+        //$mailable = new freeMail();
+        //$mailable->email_id = $id;
         //$email->content = $mailable->render();
         $view['email'] = $email;
         //return var_dump($email);
