@@ -146,7 +146,7 @@ class MarketingController extends Controller
             $email->content = $request->get('content');
             $email->subject = $request->get('subject');
             $email->title = $request->get('title');
-            $email->expression = this -> buildGroupsConditionsXml($request->get('groups'));
+            $email->expression = this-> buildGroupsConditionsXml($request->get('groups'));
             $action = $request->get('action');
             $email->status = 0;//未发送
             if('start' == $action){
@@ -196,7 +196,7 @@ class MarketingController extends Controller
             $content = $request->get('content');
             $subject = $request->get('subject');
             $title = $request->get('title');
-            $expression = this -> buildGroupsConditionsXml($request->get('groups'));
+            $expression = this-> buildGroupsConditionsXml($request->get('groups'));
             $action = $request->get('action');
             $status = 0;//未发送
             if('start' == $action){
