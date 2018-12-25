@@ -11,7 +11,7 @@
                     <div class="portlet-title tabbable-line">
                         <div class="caption">
                             <i class="icon-directions font-green hide"></i>
-                            <span class="caption-subject bold font-dark uppercase"> {{$email->subject}} </span>
+                            <span class="caption-subject bold font-dark"> {{$email->subject}} </span>
                         </div>
                     </div>
                     <div class="portlet-body">
