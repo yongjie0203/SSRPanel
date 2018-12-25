@@ -202,7 +202,7 @@ class MarketingController extends Controller
         $preto = $request->get('preto');
         $email = Email::query()->where('id', $id)->first();
         $mailable = new freeMail($id);
-        Mail::bcc($preto) -> queue($mailable);
+        Mail::bcc(explode(";",$preto)) -> queue($mailable);
         return Response::json(['status' => 'success', 'data' => '', 'message' => '发送成功']);
     }
 
