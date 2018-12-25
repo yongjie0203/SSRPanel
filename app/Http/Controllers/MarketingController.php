@@ -146,7 +146,7 @@ class MarketingController extends Controller
             $email->content = $request->get('content');
             $email->subject = $request->get('subject');
             $email->title = $request->get('title');
-            $email->expression = this-> buildGroupsConditionsXml($request->get('groups'));
+            $email->expression = $this->buildGroupsConditionsXml($request->get('groups'));
             $action = $request->get('action');
             $email->status = 0;//未发送
             if('start' == $action){
@@ -196,7 +196,7 @@ class MarketingController extends Controller
             $content = $request->get('content');
             $subject = $request->get('subject');
             $title = $request->get('title');
-            $expression = this-> buildGroupsConditionsXml($request->get('groups'));
+            $expression = $this->buildGroupsConditionsXml($request->get('groups'));
             $action = $request->get('action');
             $status = 0;//未发送
             if('start' == $action){
@@ -351,7 +351,7 @@ class MarketingController extends Controller
             $tr = trim($request->get('tr'));
             $l = trim($request->get('l'));
             
-            $conditionsxml = this->buildConditionXml($u,$t,$l);
+            $conditionsxml = $this->buildConditionXml($u,$t,$l);
             $group = new EmailRangeGroup();
             $group->name = $request->get('name');
             $group->expression = $conditionsxml;
@@ -402,7 +402,7 @@ class MarketingController extends Controller
          $u = join(',',$group->userStatus);
          $t = join(',',$group->userLabel);
          $l = join(',',$group->userLevel);
-         return buildConditionXml($u,$t,$l);
+         return $this->buildConditionXml($u,$t,$l);
     }
     
     //构建单个condition xml
