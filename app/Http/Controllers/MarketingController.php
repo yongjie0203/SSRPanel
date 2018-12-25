@@ -188,7 +188,7 @@ class MarketingController extends Controller
     {
         $id = $request->get('id');
 
-        if ($request->method() == 'POST') {
+        if ($request->method() == 'POST') {            
             $to = $request->get('to');
             $template = $request->get('template');
             $mode = $request->get('mode');
@@ -207,7 +207,7 @@ class MarketingController extends Controller
             EmailGroup::query()->where('email_id', $id)->delete();
             foreach(explode(",",$request->get('groups')) as $key => $group_id ){
                 $emailGroup = new EmailGroup();
-                $emailGroup->email_id = $email->id;
+                $emailGroup->email_id = $id;
                 $emailGroup->group_id = $group_id;
                 $emailGroup->save();
             }
