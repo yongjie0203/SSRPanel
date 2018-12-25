@@ -240,7 +240,7 @@ class MarketingController extends Controller
             //可选分组
             $view['groupList'] = DB::table('email_range_group')
             ->selectRaw("email_range_group.id,email_range_group.name,if(email_group.email_id is null,'','checked') checked")            
-            ->leftJoin('email_group',function($join){
+            ->leftJoin('email_group',function($join) use ($id) {
                   $join->on('email_group.group_id', '=', 'email_range_group.id')
                        ->where('email_group.email_id', '=', $id);
              })
