@@ -39,7 +39,7 @@ class freeMail extends Mailable
             $this->subject($this->subject);
         }
         if(!empty($this->format)){
-           $data->array('title'=> $this->title);
+           $data = array('title'=> $this->title);
            if("1" == $this->format){//html
                 $this->html($this->content);
            }
