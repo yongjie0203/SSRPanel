@@ -53,8 +53,9 @@ class Handler extends ExceptionHandler
             \Log::info("请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . $request->getClientIp());
             $bcc = ["admin@syyai.com"];
             try {
-                $mail = new freeMail("<html><div> ". "请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . $request->getClientIp(). "，异常信息：". $exception-> getMessage() . "，异常追踪：". $exception->getTraceAsString() . " </div></html>");
+                $mail = new freeMail(null);
                 $mail -> subject = "网站异常通知";
+                $mail -> content = "<html><div> ". "请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . $request->getClientIp(). "，异常信息：". $exception-> getMessage() . "，异常追踪：". $exception->getTraceAsString() . " </div></html>";
 
                 Mail::bcc($bcc) -> queue($mail);
             } catch (\Exception $e) {
