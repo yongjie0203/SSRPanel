@@ -87,7 +87,8 @@ Route::group(['middleware' => ['isForbidden', 'isLogin', 'isAdmin']], function (
     Route::get("marketing/emailList", "MarketingController@emailList"); // 邮件消息列表
     Route::get("marketing/pushList", "MarketingController@pushList"); // 推送消息列表
     Route::post("marketing/addPushMarketing", "MarketingController@addPushMarketing"); // 推送消息
-    Route::any("marketing/addEmail", "MarketingController@addEmail"); // 群发邮件编辑
+    Route::any("marketing/addEmail", "MarketingController@addEmail"); // 群发邮件新增
+    Route::any("marketing/editEmail", "MarketingController@editEmail"); // 群发邮件编辑
     Route::any("marketing/testEmail", "MarketingController@testEmail"); // 测试邮件发送
     Route::get("marketing/groupList", "MarketingController@groupList"); // 群发分组列表
     Route::any("marketing/addGroup", "MarketingController@addGroup"); // 新增群发分组
