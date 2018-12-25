@@ -187,8 +187,15 @@
             var subject = $('#subject').val(); 
             var action = $('#action').val();
             var content = UE.getEditor('editor').getContent();
+            var preto = "";
             if("2" == format){
                 content = UE.getEditor('editor').getPlainTxt();
+            }
+            if("test" == action){
+                 layer.prompt({title: '请输入预览收件人邮箱地址，多个‘;’分隔', formType: 2}, function(text, index){                   
+                    layer.close(index);
+                    preto = text;
+                 });
             }
             
             var groups = getSelectedGroup().join(",");
@@ -197,7 +204,7 @@
                 type: "POST",
                 url: "{{url('marketing/editEmail')}}",
                 async: false,
-                data: {_token:_token, title: title, groups:groups,template:template, format:format, mode:mode, content:content, to:to ,subject:subject,action:action,id:id},
+                data: {_token:_token, title: title, groups:groups,template:template, format:format, mode:mode, content:content, to:to ,subject:subject,action:action,id:id,preto:preto},
                 dataType: 'json',
                 success: function (ret) {
                     layer.msg(ret.message, {time:1000}, function() {
