@@ -243,7 +243,7 @@ class MarketingController extends Controller
             ->leftJoin('email_group',function($join){
                   $join->on('email_group.group_id', '=', 'email_range_group.id')
                        ->where('email_group.email_id', '=', $id);
-             });
+             })
             ->where('email_range_group.status','=',1)
             ->get();
             $view['selectedGroups'] = EmailGroup::query()->where('email_id', $id)->get();
