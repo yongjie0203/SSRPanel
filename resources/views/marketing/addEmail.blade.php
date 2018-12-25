@@ -30,6 +30,8 @@
                                     <div class="col-md-11" >
                                         <div class="mt-checkbox-inline">
                                             <button type="button" id="selectUser" class="btn green">选择</button>
+                                            <div id="displayGroups">
+                                            </div>
                                         </div>
                                          <label id="count_info" style="color:red;"></label>
                                     </div>
@@ -37,10 +39,14 @@
                                <div class="form-group">
                                     <label class="control-label col-md-1">使用模板</label>
                                     <div class="col-md-11">    
-                                        <label class="mt-checkbox">
-                                             <input type="checkbox" name="template" checked value="1" ></input>
+                                        <label class="mt-radio">                                            
+                                             <input type="radio" name="template" value="0" >不使用系统模板</input>                                                                                         
                                              <span></span>
                                         </label>
+                                        <label class="mt-radio">                                            
+                                             <input type="radio" name="template" value="1" >使用系统模板</input>
+                                             <span></span>
+                                        </label>                                        
                                     </div>
                                 </div>
                                 
@@ -173,7 +179,7 @@
         function do_submit() {
             var _token = '{{csrf_token()}}';
             var title = $('#title').val();
-            var template = $("input[name='template']").is(':checked') ? 1 : 0;
+            var template = $("input[name='template']:checked").val();
             var format = $("input[name='format']:checked").val();
             var mode = $("input[name='mode']:checked").val();
             var to = $('#to').val();
@@ -232,6 +238,11 @@
              
              $(document).on('click','#closeSelect',function(){
                 layer.close(index);
+                var groupshtml = "";
+                $("input[name='group']:checked").each(function(){
+                   groupshtml = groupshtml + "<div>" + $(this).text() + "</div>";
+                });
+                $('#displayGroups').html(groupshtml);
                 $('#count_info').text($("#selectedInfo").text());
              });
              
