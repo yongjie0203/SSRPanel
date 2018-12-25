@@ -101,9 +101,10 @@
                             <div class="form-actions">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="submit" class="btn green">保存当前内容</button>
-                                        <button type="button" class="btn green">在邮箱中预览</button>
-                                        <button type="button" class="btn green">启动群发任务</button>
+                                        <input type="hidden" id="action" name="action"  value="save" ></input>
+                                        <button type="submit" onclick="$('#action').val($(this).attr('name'))" name="save" class="btn green">保存当前内容</button>
+                                        <button type="submit" onclick="$('#action').val($(this).attr('name'))" name="test" class="btn green">在邮箱中预览</button>
+                                        <button type="submit" onclick="$('#action').val($(this).attr('name'))" name="start" class="btn green">启动群发任务</button>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +177,8 @@
             var format = $("input[name='format']:checked").val();
             var mode = $("input[name='mode']:checked").val();
             var to = $('#to').val();
-            var subject = $('#subject').val();            
+            var subject = $('#subject').val(); 
+            var action = $('#action').val();
             var content = UE.getEditor('editor').getContent();
             if("2" == format){
                 content = UE.getEditor('editor').getPlainTxt();
@@ -188,7 +190,7 @@
                 type: "POST",
                 url: "{{url('marketing/addEmail')}}",
                 async: false,
-                data: {_token:_token, title: title, groups:groups,template:template, format:format, mode:mode, content:content, to:to ,subject:subject},
+                data: {_token:_token, title: title, groups:groups,template:template, format:format, mode:mode, content:content, to:to ,subject:subject,action:action},
                 dataType: 'json',
                 success: function (ret) {
                     layer.msg(ret.message, {time:1000}, function() {
