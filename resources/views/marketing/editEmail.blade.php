@@ -214,7 +214,7 @@
         }
         
         function preview(){
-            layer.prompt({title: '请输入预览收件人邮箱地址，多个‘;’分隔', formType: 2}, function(text, index){                   
+            layer.prompt({title: '请输入预览收件人邮箱地址，多个‘;’分隔', formType: 0}, function(text, index){                   
                     layer.close(index);
                     preto = text;
                     if(preto != ""){
