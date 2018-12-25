@@ -52,9 +52,11 @@ class freeMail extends Mailable
            //1为使用系统统一空白模板，0为不使用模板
            if("1" == $this->template){//Markdown
                 $this->view("emails.freeMail")->with($data);
-           }else{
-                $this->html($this->content);
            }
+        }
+        else{
+            //html作为默认发送
+            $this->html($this->content);
         }
         
         return $this;
