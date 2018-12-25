@@ -46,11 +46,11 @@ class MarketingController extends Controller
                                           ->groupBy('email.id')
                                           ->groupBy('email.subject')
                                           ->groupBy('email.status')
-                                          ->groupBy('statusLabel')
+                                          ->groupBy("case when  email.status = 0 then '未发送' when  email.status =  1 then '已发送' when  email.status =  2 then '发送中' when  email.status =  3 then '发送中' when  email.status =  4 then '暂停' when  email.status =  -1 then '删除' else email.status end")
                                           ->groupBy('email.read')
                                           ->groupBy('email.send')
                                           ->groupBy('email.total')
-                                          ->groupBy('email.created_at')
+                                          ->groupBy('email.updated_at')
                                           ->orderBy('email.id','desc');
                                        
         if ($status != '') {
