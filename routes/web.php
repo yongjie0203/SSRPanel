@@ -1,7 +1,7 @@
 <?php
 
 Route::get('s/{code}', 'SubscribeController@index'); // 节点订阅地址
-Route::get("img/{email_id}/{task_id}/read.png", "MarketingController@read"); // 邮件阅读记录
+Route::get("email/img/{email_id}/{task_id}/read", "MarketingController@read"); // 邮件阅读记录
 
 Route::group(['middleware' => ['isForbidden', 'affiliate']], function () {
     Route::get('lang/{locale}', 'AuthController@switchLang'); // 语言切换
