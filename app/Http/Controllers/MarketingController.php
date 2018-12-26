@@ -132,6 +132,9 @@ class MarketingController extends Controller
         return $marketing->save();
     }
     
+    public function read($email_id,$task_id,Request $request){
+        return 'ok';
+    }
  
 
     // 添加邮件
