@@ -102,7 +102,7 @@
                                     <div class="col-md-10">
                                         <script id="editor" type="text/plain" style="height:400px;"></script>
                                     </div>
-                                    <input type="hidden" id="content_text" value="{!! $email->content !!}"/>
+                                    <textarea type="hidden" id="content_text" style="display:none;">{!! $email->content !!}</textarea>
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -177,7 +177,7 @@
         });
         ue.addListener("ready", function () {
         　　// editor准备好之后才可以使用
-        　　ue.setContent($('#content_text').val());
+        　　ue.setContent($('#content_text').text());
 
         });
         var preto = "";
