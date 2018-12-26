@@ -450,17 +450,17 @@ class MarketingController extends Controller
         $group->userLabel = array();    
         if(!empty($s->xpath("/conditions/condition[@table='user' and @column='status' and @relation='or']"))){
             foreach($s->xpath("/conditions/condition[@table='user' and @column='status' and @relation='or']") as $v){
-                $group->userStatus = array_merge($group->userStatus,  explode(',',$v));
+                $group->userStatus = array_unique(array_merge($group->userStatus,  explode(',',$v)));
             }
         }
         if(!empty($s->xpath("/conditions/condition[@table='user' and @column='level' and @relation='or']"))){
             foreach($s->xpath("/conditions/condition[@table='user' and @column='level' and @relation='or']") as $v){
-                $group->userLevel = array_merge($group->userLevel,  explode(',',$v));
+                $group->userLevel = array_unique(array_merge($group->userLevel,  explode(',',$v)));
             }
         }
         if(!empty($s->xpath("/conditions/condition[@table='user_label' and @column='label_id' and @relation='or']"))){
             foreach($s->xpath("/conditions/condition[@table='user_label' and @column='label_id' and @relation='or']") as $v){
-                $group->userLabel = array_merge($group->userLabel,  explode(',',$v));
+                $group->userLabel = array_unique(array_merge($group->userLabel,  explode(',',$v)));
             }
         }
         return $group;
