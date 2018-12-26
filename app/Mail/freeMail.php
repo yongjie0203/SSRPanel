@@ -24,7 +24,7 @@ class freeMail extends Mailable
 
     public function __construct($email_id)
     {        
-        $this->$email_id = $email_id;
+        $this->email_id = $email_id;
     }
 
     public function build()
