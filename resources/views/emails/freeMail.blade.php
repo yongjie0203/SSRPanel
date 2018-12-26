@@ -7,7 +7,7 @@
                     <tbody>
                     <tr style="padding:0;text-align:left;vertical-align:top">
                         <td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#333;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:19px;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-                            <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                            <table style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
                                 <tbody>
                                 <tr style="padding:0;text-align:left;vertical-align:top">
 
@@ -37,7 +37,7 @@
                     <tbody>
                     <tr style="padding:0;text-align:left;vertical-align:top">
                         <td style="-moz-hyphens:auto;-webkit-hyphens:auto;Margin:0;border-collapse:collapse!important;color:#333;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:19px;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-                            <table class="row container-header-row" style="background-color:#5c97bd;border-collapse:collapse;border-spacing:0;color:#f3f3f3;display:table;padding:0;padding-bottom:8px;padding-top:8px;position:relative;text-align:left;vertical-align:top;width:100%">
+                            <table class="container-header-row" style="background-color:#5c97bd;border-collapse:collapse;border-spacing:0;color:#f3f3f3;display:table;padding:0;padding-bottom:8px;padding-top:8px;position:relative;text-align:left;vertical-align:top;width:100%">
                                 <tbody>
                                 <tr style="padding:0;text-align:left;vertical-align:top">
                                     <th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#333;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:19px;margin:0 auto;padding:0;padding-bottom:0;padding-left:16px;padding-right:16px;text-align:left;width:564px">
@@ -59,7 +59,7 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+                            <table style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
                                 <tbody>
                                 <tr style="padding:0;text-align:left;vertical-align:top">
                                     <th class="small-12 large-12 columns first last" style="Margin:0 auto;color:#333;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:19px;margin:0 auto;padding:0;padding-bottom:0;padding-left:16px;padding-right:16px;text-align:left;width:564px">
@@ -69,7 +69,7 @@
                                     <th style="Margin:0;color:#333;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:19px;margin:0;padding:0;text-align:left">
                                         <div class="release" style="padding-top:5px;padding-left:20px;padding-bottom:20px;">
                                             {!! $content !!}
-                                        </div>
+                                        </div>                                        
                                     </th>
                                     <th class="expander" style="Margin:0;color:#333;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:19px;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
                                 </tr>
