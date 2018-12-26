@@ -422,9 +422,9 @@ class MarketingController extends Controller
          $group->userLabel = array();
          foreach ($expressions as $key => $expression) {
             $item = $this->xmlToArray($expression->expression);
-            $group->userStatus = array_merge($group->userStatus, $item->userStatus);
-            $group->userLevel = array_merge($group->userLevel , $item->userLevel);
-            $group->userLabel = array_merge($group->userLabel , $item->userLabel);
+            $group->userStatus = array_unique(array_merge($group->userStatus, $item->userStatus));
+            $group->userLevel = array_unique(array_merge($group->userLevel , $item->userLevel));
+            $group->userLabel = array_unique(array_merge($group->userLabel , $item->userLabel));
          }
          $u = join(',',$group->userStatus);
          $t = join(',',$group->userLabel);
