@@ -100,8 +100,9 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-1">邮件内容</label>
                                     <div class="col-md-10">
-                                        <script id="editor" type="text/plain" style="height:400px;">{!! $email->content !!}</script>
+                                        <script id="editor" type="text/plain" style="height:400px;"></script>
                                     </div>
+                                    <input type="hidden" id="content_text" value="{!! $email->content !!}"/>
                                 </div>
                             </div>
                             <div class="form-actions">
@@ -173,6 +174,11 @@
             initialContent:'',             //初始化编辑器的内容
             initialFrameWidth:null,        //初始化宽度
             autoClearinitialContent:false, //是否自动清除编辑器初始内容
+        });
+        ue.addListener("ready", function () {
+        　　// editor准备好之后才可以使用
+        　　ue.setContent($('#content_text').val());
+
         });
         var preto = "";
 
