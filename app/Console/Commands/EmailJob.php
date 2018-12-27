@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Http\Models\User;
 use App\Http\Models\Email;
 use App\Http\Models\EmailTask;
+use App\Http\Models\EmailRangeGroup;
 use Log;
 use DB;
 use Mail;
