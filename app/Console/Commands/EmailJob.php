@@ -80,7 +80,8 @@ class EmailJob extends Command
                         $emailTask->save();
                     }
                 }              
-    
+             $data = ['status'=>3];//发送中
+             Email::query()->where('id', $email->id)->update($data);
          
         }
     }
