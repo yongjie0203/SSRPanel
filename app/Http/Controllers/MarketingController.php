@@ -136,9 +136,9 @@ class MarketingController extends Controller
         $to = $request->get('to');
         if(!empty($to)){
             $tos = explode(";",$to);
-             $unionQuery = DB::selectRaw('null,null,null');
+             $unionQuery = DB::newQuery();
              foreach($tos as $key => $a){
-                $unionQuery->union(DB::selectRaw($a.',null,null'));
+                $unionQuery->union(DB::newQuery()->selectRaw($a.',null,null'));
              }
              return $unionQuery->toSql();
            
