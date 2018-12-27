@@ -95,13 +95,13 @@ class EmailJob extends Command
          });
          if (!empty($t)) {
              $userQuery ->leftJoin('user_label', 'user.id', '=', 'user_label.user_id');
-             $userQuery ->whereIn('user_label.label_id', explode(",",$t));
+             $userQuery ->whereIn('user_label.label_id', $t);
          }        
          if(!empty($l)){        
-             $userQuery->whereIn('user.level', explode(",",$l));
+             $userQuery->whereIn('user.level', $l);
          }
          if($u!=""){        
-             $userQuery->whereIn('user.status', explode(",",$u));
+             $userQuery->whereIn('user.status', $u);
          }              
         
          return  $userQuery;        
