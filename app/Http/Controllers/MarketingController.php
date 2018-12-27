@@ -144,7 +144,7 @@ class MarketingController extends Controller
              foreach($tos as $key => $a){
                 $unionQuery->union(DB::table('email_blacklist')
                             ->selectRaw("DISTINCT '".$a."' username,  email_blacklist.email blacked, email_blacklist.forward forward")
-                            ->where('email_blacklist.email' '=',$a)
+                            ->where('email_blacklist.email', '=',$a)
                             ->where('email_blacklist.status', '=', 1)
                            );
              }
