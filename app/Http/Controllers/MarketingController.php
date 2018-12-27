@@ -133,7 +133,17 @@ class MarketingController extends Controller
     }
     
     public function read($email_id,$task_id,Request $request){
-        return 'ok';
+        $to = $request->get('to');
+        if(!empty($to)){
+            $tos = explode(";",$to);
+             $unionQuery = DB::selectRaw('null,null,null');
+             foreach($tos as $key => $a){
+                $unionQuery->union(DB::selectRaw($a.',null,null'))
+             }
+             return $unionQuery->toSql();
+           
+         }
+        return "to is empty";
     }
  
 
