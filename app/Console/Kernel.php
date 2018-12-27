@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\upgradeUserPassword::class,
         \App\Console\Commands\upgradeUserVmessId::class,
         \App\Console\Commands\AutoReportNode::class,
+        \App\Console\Commands\EmailJob::class,
     ];
 
     /**
@@ -52,6 +53,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('userExpireAutoWarning')->dailyAt('20:00');
         $schedule->command('userTrafficAutoWarning')->dailyAt('10:30');
         $schedule->command('autoReportNode')->dailyAt('09:00');
+        $schedule->command('emailJob')->everyMinute();
     }
 
     /**
