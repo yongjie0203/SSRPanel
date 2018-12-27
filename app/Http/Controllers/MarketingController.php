@@ -141,14 +141,14 @@ class MarketingController extends Controller
                             ->whereNull('email_blacklist.email')
                             ->where('email_blacklist.status', '=', 1);*/
             
-            $unionQuery = DB::table('')->selectRaw('null username,null,null')；
+            $unionQuery = DB::table('')->selectRaw('null username,null,null');
              foreach($tos as $key => $a){
               /*  $unionQuery->union(DB::table('email_blacklist')
                             ->selectRaw("DISTINCT '".$a."' username,  email_blacklist.email blacked, email_blacklist.forward forward")
                             ->where('email_blacklist.email', '=',$a)
                             ->where('email_blacklist.status', '=', 1)
                            );*/
-                 $unionQuery->union(DB::table('')->selectRaw(''.$a.' username,null,null'))
+                 $unionQuery->union(DB::table('')->selectRaw(''.$a.' username,null,null'));
              }
              return $unionQuery->toSql();
            
