@@ -8,6 +8,8 @@ use App\Http\Models\User;
 use App\Http\Models\Email;
 use App\Http\Models\EmailTask;
 use App\Http\Models\EmailRangeGroup;
+use App\Mail\freeMail;
+use Carbon\Carbon;
 use Log;
 use DB;
 use Mail;
@@ -34,11 +36,36 @@ class EmailJob extends Command
         $jobStartTime = microtime(true);
 
         $this->createEmailTask();
+        $this->sendEmailTask();
 
         $jobEndTime = microtime(true);
         $jobUsedTime = round(($jobEndTime - $jobStartTime), 4);
 
         Log::info('执行定时任务【' . $this->description . '】，耗时' . $jobUsedTime . '秒');
+    }
+    
+    public function sendEmailTask(){
+        $status = array('3');//处于发送中状态的数据,一次只取一个邮件任务，以保证发送数量不超过设定值
+        $email = Email::query()->whereIn('status', $status)->orderBy('start_at')->orderBy('updated_at')->orderBy('id')->first();
+        $taskList = EmailTask:query()
+                            ->where('email_id',$email->id)
+                            ->where('status','0')
+                            ->where('start_at','>=',strtotime(date('Y-m-d H:i:s')))
+                            ->where('start_at','<=',strtotime(date('Y-m-d H:i:s', strtotime("+60 seconds"))))
+                            ->orderBy('start_at')->get();//等待发送的task
+        foreach ($taskList as &$task) { 
+            $when = Carbon::parse($task->start_at);
+            $mailable = new freeMail($email->id);
+            $mailable->content .= $email->to;
+            $mailable->content .= $when;
+            Mail:bcc(['admin@syy.com'])->later($when, $mailable);
+            $data = ['status'=>5];//队列中
+            EmailTask::query()->where('id', $task->id)->update($data);
+        }
+        if(0 = sizeof($taskList)){
+            $data = ['status'=>1];//已发送
+            Email::query()->where('id', $email->id)->update($data);
+        }
     }
 
     public function createEmailTask(){
@@ -60,7 +87,7 @@ class EmailJob extends Command
                         $emailTask->email_id = $email->id;
                         $emailTask->to = $user;
                         $emailTask->status = $taskStatus;//等待发送
-                        $emailTask->start_at = strtotime( " +".$total." seconds " );
+                        $emailTask->start_at = strtotime(date('Y-m-d H:i:s', strtotime("+" .$total. " seconds")));
                         $emailTask->created_at = date('Y-m-d H:i:s');
                         $emailTask->save();
                     }
@@ -75,7 +102,7 @@ class EmailJob extends Command
                         $emailTask->email_id = $email->id;
                         $emailTask->to = join(';',$task);
                         $emailTask->status = $taskStatus;//等待发送
-                        $emailTask->start_at = strtotime( " +".$total." seconds " );
+                        $emailTask->start_at = strtotime(date('Y-m-d H:i:s', strtotime("+" .$total. " seconds")));
                         $emailTask->created_at = date('Y-m-d H:i:s');
                         $emailTask->save();
                     }
