@@ -68,6 +68,7 @@ class EmailJob extends Command
                 if('2'== $email->mode){//单封多人人
                     $tasks = array_chunk($users,$this->singleLimit);
                     $wait = 60*60/$this->hourLimit;
+                    $total = 0;
                     foreach($tasks as $key => $task){      
                         $total = $total + $wait;
                         $emailTask = new EmailTask();
