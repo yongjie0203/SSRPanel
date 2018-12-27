@@ -47,7 +47,7 @@ class EmailJob extends Command
     public function sendEmailTask(){
         $status = array('3');//处于发送中状态的数据,一次只取一个邮件任务，以保证发送数量不超过设定值
         $email = Email::query()->whereIn('status', $status)->orderBy('start_at')->orderBy('updated_at')->orderBy('id')->first();
-        $taskList = EmailTask:query()
+        $taskList = EmailTask::query()
                             ->where('email_id',$email->id)
                             ->where('status','0')
                             ->where('start_at','>=',strtotime(date('Y-m-d H:i:s')))
