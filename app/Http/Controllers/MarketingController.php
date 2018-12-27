@@ -136,9 +136,17 @@ class MarketingController extends Controller
         $to = $request->get('to');
         if(!empty($to)){
             $tos = explode(";",$to);
-             $unionQuery = DB::select("select null,null,null");
+             $unionQuery = DB::table('email_blacklist')
+                            ->selectRaw('DISTINCT null username,  email_blacklist.email blacked, email_blacklist.forward forward')
+                            ->whereNull('email_blacklist.email')
+                            ->where('email_blacklist.status', '=', 1);
+           
              foreach($tos as $key => $a){
-                $unionQuery->union(DB::select('select '.$a.',null,null'));
+                $unionQuery->union(DB::table('email_blacklist')
+                            ->selectRaw("DISTINCT '".$a."' username,  email_blacklist.email blacked, email_blacklist.forward forward")
+                            ->where('email_blacklist.email' '=',$a)
+                            ->where('email_blacklist.status', '=', 1)
+                           );
              }
              return $unionQuery->toSql();
            
