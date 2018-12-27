@@ -107,7 +107,7 @@ class EmailJob extends Command
                         $emailTask->save();
                     }
                 }              
-             $data = ['status'=>3];//发送中
+             $data = ['status'=>3,'total'=>sizeof($users)];//发送中
              Email::query()->where('id', $email->id)->update($data);
          
         }
