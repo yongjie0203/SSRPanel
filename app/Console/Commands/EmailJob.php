@@ -62,7 +62,7 @@ class EmailJob extends Command
             $data = ['status'=>5];//队列中
             EmailTask::query()->where('id', $task->id)->update($data);
         }
-        if(0 = sizeof($taskList)){
+        if(0 == sizeof($taskList)){
             $data = ['status'=>1];//已发送
             Email::query()->where('id', $email->id)->update($data);
         }
