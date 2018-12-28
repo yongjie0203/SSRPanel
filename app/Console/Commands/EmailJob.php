@@ -61,7 +61,7 @@ class EmailJob extends Command
             $mailable = new freeMail($email->id);
             $mailable->content .= $email->to;
             $mailable->content .= $when;
-            Mail:bcc(['admin@syy.com'])->later($when, $mailable);
+            Mail::bcc(['admin@syy.com'])->later($when, $mailable);
             $data = ['status'=>5];//队列中
             EmailTask::query()->where('id', $task->id)->update($data);
         }
