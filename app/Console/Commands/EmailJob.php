@@ -48,6 +48,7 @@ class EmailJob extends Command
         $status = array('3');//处于发送中状态的数据,一次只取一个邮件任务，以保证发送数量不超过设定值
         $email = Email::query()->whereIn('status', $status)->orderBy('start_at')->orderBy('updated_at')->orderBy('id')->first();
         if(empty($email)){
+            Log::info('没有需要发送的邮件');
            return ;
         }
         $taskList = EmailTask::query()
@@ -57,7 +58,9 @@ class EmailJob extends Command
                             ->where('start_at','<=',date('Y-m-d H:i:s', strtotime("+60 seconds")))
                             ->orderBy('start_at')->get();//等待发送的task
         foreach ($taskList as &$task) { 
+            Log::info('开始任务');
             $when = Carbon::parse($task->start_at);
+            Log::info('开始任务'.$when);
             $mailable = new freeMail($email->id);
             $mailable->content .= $email->to;
             $mailable->content .= $when;
@@ -66,6 +69,7 @@ class EmailJob extends Command
             EmailTask::query()->where('id', $task->id)->update($data);
         }
         if(0 == sizeof($taskList)){
+            Log::info('没有需要发送的任务');
             $data = ['status'=>1];//已发送
             Email::query()->where('id', $email->id)->update($data);
         }
