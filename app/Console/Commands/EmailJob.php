@@ -90,7 +90,7 @@ class EmailJob extends Command
                         $emailTask->email_id = $email->id;
                         $emailTask->to = $user;
                         $emailTask->status = $taskStatus;//等待发送
-                        $emailTask->start_at = strtotime(date('Y-m-d H:i:s', strtotime("+" .$total. " seconds")));
+                        $emailTask->start_at = date('Y-m-d H:i:s', strtotime("+" .$total. " seconds"));
                         $emailTask->created_at = date('Y-m-d H:i:s');
                         $emailTask->save();
                     }
@@ -105,7 +105,7 @@ class EmailJob extends Command
                         $emailTask->email_id = $email->id;
                         $emailTask->to = join(';',$task);
                         $emailTask->status = $taskStatus;//等待发送
-                        $emailTask->start_at = strtotime(date('Y-m-d H:i:s', strtotime("+" .$total. " seconds")));
+                        $emailTask->start_at = date('Y-m-d H:i:s', strtotime("+" .$total. " seconds"));
                         $emailTask->created_at = date('Y-m-d H:i:s');
                         $emailTask->save();
                     }
