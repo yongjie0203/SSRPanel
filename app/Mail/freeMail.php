@@ -20,7 +20,14 @@ class freeMail extends Mailable
     public $title;
     public $template;
     public $email_id;
-   
+    public $task_id;
+    public $task;
+    
+    
+    public function addRead(){
+        
+        $this->content .= "<div style='display:none;' ><img src='" .$url. "' /></div>";
+    }
 
     public function __construct($email_id)
     {        
@@ -28,7 +35,14 @@ class freeMail extends Mailable
     }
 
     public function build()
-    {        
+    {   
+        if(!empty($this->task)){            
+            $this->email_id = $this->task->email_id;
+        }
+        if(!empty($this->task_id)){
+            $this->task =  EmailTask::query()->where('id', $this->task_id)->first();
+            $this->email_id = $this->task->email_id;
+        }
         //有指定email_id主题、标题、格式、及内容的优先使用指定值，否则根据email_id读取
         if(!empty($this->email_id)){
             $email = Email::query()->where('id', $this->email_id)->first();
@@ -60,5 +74,5 @@ class freeMail extends Mailable
         }
         
         return $this;
-    }
+    }    
 }
