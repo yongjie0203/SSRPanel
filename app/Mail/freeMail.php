@@ -23,11 +23,14 @@ class freeMail extends Mailable
     public $email_id;
     public $task_id;
     public $task;
+    public $mode;
     protected static $systemConfig;
     
     
-    public function addRead(){
-        $url = $systemConfig['']
+    public function addRead(){        
+        $url1 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read?u=' .$task->to;
+        $url2 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read';
+        $url = $this->mode == '1' ? $url1 : $url2;        
         $this->content .= "<div style='display:none;' ><img src='" .$url. "' /></div>";
     }
 
@@ -54,6 +57,7 @@ class freeMail extends Mailable
             $this->content = empty($this->content) ? $email->content : $this->content;
             $this->title = empty($this->title) ? $email->title : $this->title;
             $this->template = empty($this->template) ? $email->template : $this->template;
+            $this->mode = empty($this->mode) ? $email->mode : $this->mode;
         }
         if(!empty($this->subject)){
             $this->subject($this->subject);
@@ -64,6 +68,7 @@ class freeMail extends Mailable
                 $this->content = Markdown::parse($this->content);
            }
         }
+        $this->addRead();
         $data = array('title'=> $this->title,'content'=>$this->content);
         if(!empty($this->template)){           
            //1为使用系统统一空白模板，0为不使用模板
