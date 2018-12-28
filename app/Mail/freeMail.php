@@ -27,11 +27,13 @@ class freeMail extends Mailable
     protected static $systemConfig;
     
     
-    public function addRead(){        
-        $url1 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read?u=' .$task->to;
-        $url2 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read';
-        $url = $this->mode == '1' ? $url1 : $url2;        
-        $this->content .= "<div style='display:none;' ><img src='" .$url. "' /></div>";
+    public function addRead(){ 
+        if(!empty($this->mail_id) && !empty($this->task_id)){
+            $url1 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read?u=' .$task->to;
+            $url2 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read';
+            $url = $this->mode == '1' ? $url1 : $url2;        
+            $this->content .= "<div style='display:none;' ><img src='" .$url. "' /></div>";
+        }        
     }
 
     public function __construct($email_id)
