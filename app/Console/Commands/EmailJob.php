@@ -54,7 +54,7 @@ class EmailJob extends Command
         $taskList = EmailTask::query()
                             ->where('email_id',$email->id)
                             ->where('status','0')
-                            ->where('start_at','>=',date('Y-m-d H:i:s'))
+                           // ->where('start_at','>=',date('Y-m-d H:i:s'))
                             ->where('start_at','<=',date('Y-m-d H:i:s', strtotime("+60 seconds")))
                             ->orderBy('start_at')->get();//等待发送的task
         foreach ($taskList as &$task) { 
