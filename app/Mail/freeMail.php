@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Http\Models\Email;
+use App\Components\Helpers;
 use Illuminate\Mail\Markdown;
 use DB;
 
@@ -22,16 +23,18 @@ class freeMail extends Mailable
     public $email_id;
     public $task_id;
     public $task;
+    protected static $systemConfig;
     
     
     public function addRead(){
-        
+        $url = $systemConfig['']
         $this->content .= "<div style='display:none;' ><img src='" .$url. "' /></div>";
     }
 
     public function __construct($email_id)
     {        
         $this->email_id = $email_id;
+        self::$systemConfig = Helpers::systemConfig();
     }
 
     public function build()
