@@ -176,6 +176,8 @@ class MarketingController extends Controller
             $email->status = 0;//未发送
             if('start' == $action){
                 $email->status = 2;//启动发送
+                $email->send = 0;//启动发送发送次数重置
+                $email->read = 0;//启动发送阅读次数重置
             }                        
             $email->user_id = Auth::user()->id;
             $email->created_at = date('Y-m-d H:i:s');
