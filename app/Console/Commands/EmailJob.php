@@ -61,7 +61,7 @@ class EmailJob extends Command
             Log::info('开始任务');
             $when = Carbon::parse($task->start_at);
             //$later = strtotime($task->start_at) - strtotime('now');
-            Log::info('开始任务'.$later);
+            Log::info('开始任务'.$when);
             $mailable = new freeMail($email->id);
             $mailable->content .= $email->to;
             $mailable->content .= $when;
