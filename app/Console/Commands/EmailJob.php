@@ -82,14 +82,14 @@ class EmailJob extends Command
                 $group = $this->xmlToArray($email->expression);     
                 $userQuery = $this->getUserQuery($group->userStatus,$group->userLabel,$group->userLevel );
                 $usersInfo = $userQuery->get()->toArray();
-                $users = array_unique(array_merge(array_column($usersInfo,'to'),explode(",",$email->to)));
+                $users = array_unique(array_merge(array_column($usersInfo,'to'),explode(";",$email->to)));
                 $taskStatus = $email->status == '2' ? 0 : 2;// $taskStatus0等待发送2暂停发送
                 if('1'== $email->mode){//单封单人
                     //根据每小时可发送数量，计算发送间隔
                     $wait = 60*60/$this->hourLimit;
                     $total = 0;
                     foreach($users as $key => $user){      
-                        $total = $total + $wait;
+                        $total = ceil($total + $wait);
                         $emailTask = new EmailTask();
                         $emailTask->email_id = $email->id;
                         $emailTask->to = $user;
