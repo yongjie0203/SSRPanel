@@ -249,12 +249,7 @@ class MarketingController extends Controller
             $expression = $this->buildGroupsConditionsXml($request->get('groups'));
             $action = $request->get('action');
             $status = 0;//未发送
-            if('start' == $action){
-                $status = 2;//启动发送
-                $email->send = 0;//启动发送发送次数重置
-                $email->read = 0;//启动发送阅读次数重置
-                $message = '启动成功';
-            }                        
+                                   
             
             $updated_at = date('Y-m-d H:i:s');
             EmailGroup::query()->where('email_id', $id)->delete();
@@ -270,13 +265,19 @@ class MarketingController extends Controller
                 'template' =>$template,
                 'mode' =>$mode,
                 'format' => $format,
-                'content' => $content,
+                'content' => $content,                
                 'subject'    => $subject,
-                'title' => $title,
+                'title' => $title,                
                 'expression' => $expression,
                 'status' => $status,
                 'updated_at' => $updated_at
             ];
+            if('start' == $action){
+               $data['status'] = 2;//启动发送                
+               $data['read'] = 0;
+               $data['send'] = 0;
+               $message = '启动成功';
+            } 
 
             $ret = Email::query()->where('id', $id)->update($data);
             if ($ret) {
