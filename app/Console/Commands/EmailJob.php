@@ -60,11 +60,9 @@ class EmailJob extends Command
         foreach ($taskList as &$task) { 
             Log::info('开始任务');
             $when = Carbon::parse($task->start_at);
-            //$later = strtotime($task->start_at) - strtotime('now');
+            
             Log::info('开始任务'.$when);
-            $mailable = new freeMail($email->id);
-            $mailable->content .= $email->to;
-            $mailable->content .= $when;
+            $mailable = new freeMail($email->id);       
             $mailable->task = $task;
             Mail::bcc(['admin@syyai.com'])->later($when, $mailable);
             $data = ['status'=>5];//队列中
