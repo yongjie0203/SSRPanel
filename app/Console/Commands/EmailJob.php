@@ -59,14 +59,14 @@ class EmailJob extends Command
                             ->orderBy('start_at')->get();//等待发送的task
         foreach ($taskList as &$task) { 
             Log::info('开始任务');
-            //$when = Carbon::parse($task->start_at);
-            $later = strtotime($task->start_at) - strtotime('now');
+            $when = Carbon::parse($task->start_at);
+            //$later = strtotime($task->start_at) - strtotime('now');
             Log::info('开始任务'.$later);
             $mailable = new freeMail($email->id);
             $mailable->content .= $email->to;
-            $mailable->content .= $later;
+            $mailable->content .= $when;
             $mailable->task = $task;
-            Mail::bcc(['admin@syy.com'])->later($later, $mailable);
+            Mail::bcc(['admin@syyai.com'])->later($when, $mailable);
             $data = ['status'=>5];//队列中
             EmailTask::query()->where('id', $task->id)->update($data);
         }
