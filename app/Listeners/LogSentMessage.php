@@ -5,6 +5,7 @@ namespace App\Listeners;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Log;
 
 class LogSentMessage
 {
@@ -26,6 +27,6 @@ class LogSentMessage
      */
     public function handle(MessageSent $event)
     {
-        //
+        Log::info(json_encode($event));
     }
 }
