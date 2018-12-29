@@ -178,6 +178,7 @@ class MarketingController extends Controller
                 $email->status = 2;//启动发送
                 $email->send = 0;//启动发送发送次数重置
                 $email->read = 0;//启动发送阅读次数重置
+                $message = '启动成功';
             }                        
             $email->user_id = Auth::user()->id;
             $email->created_at = date('Y-m-d H:i:s');
@@ -235,7 +236,8 @@ class MarketingController extends Controller
     public function editEmail(Request $request)
     {
         $id = $request->get('id');
-
+        $message = '保存成功';
+        $status = 'success';
         if ($request->method() == 'POST') {            
             $to = $request->get('to');
             $template = $request->get('template');
@@ -249,6 +251,9 @@ class MarketingController extends Controller
             $status = 0;//未发送
             if('start' == $action){
                 $status = 2;//启动发送
+                $email->send = 0;//启动发送发送次数重置
+                $email->read = 0;//启动发送阅读次数重置
+                $message = '启动成功';
             }                        
             
             $updated_at = date('Y-m-d H:i:s');
@@ -279,7 +284,7 @@ class MarketingController extends Controller
                     //发送测试邮件
                     return $this->preview($request);
                 }
-                return Response::json(['status' => 'success', 'data' => '', 'message' => '保存成功']);
+                return Response::json(['status' => 'success', 'data' => '', 'message' => '操作成功']);
             } else {
                 return Response::json(['status' => 'fail', 'data' => '', 'message' => '操作失败']);
             }
