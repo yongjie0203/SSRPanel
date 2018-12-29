@@ -24,17 +24,11 @@ class freeMail extends Mailable
     public $task_id;
     public $task;
     public $mode;
+    public $read_img_url;
     protected static $systemConfig;
     
     
-    public function addRead(){ 
-        if(!empty($this->mail_id) && !empty($this->task_id)){
-            $url1 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read?u=' .$task->to;
-            $url2 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read';
-            $url = $this->mode == '1' ? $url1 : $url2;        
-            $this->content .= "<div style='display:none;' ><img src='" .$url. "' /></div>";
-        }        
-    }
+
 
     public function __construct($email_id)
     {        
@@ -49,7 +43,7 @@ class freeMail extends Mailable
         }
         if(!empty($this->task_id)){
             $this->task =  EmailTask::query()->where('id', $this->task_id)->first();
-            $this->email_id = $this->task->email_id;
+            $this->email_id = $this->task->email_id;            
         }
         //有指定email_id主题、标题、格式、及内容的优先使用指定值，否则根据email_id读取
         if(!empty($this->email_id)){
@@ -61,6 +55,11 @@ class freeMail extends Mailable
             $this->template = empty($this->template) ? $email->template : $this->template;
             $this->mode = empty($this->mode) ? $email->mode : $this->mode;
         }
+        if(!empty($this->email_id) && !empty($this->task_id)){
+            $url1 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read?u=' .$task->to;
+            $url2 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read';
+            $this->read_img_url = $this->mode == '1' ? $url1 : $url2;
+        }  
         if(!empty($this->subject)){
             $this->subject($this->subject);
         }
@@ -70,17 +69,20 @@ class freeMail extends Mailable
                 $this->content = Markdown::parse($this->content);
            }
         }
-        $this->addRead();
-        $data = array('title'=> $this->title,'content'=>$this->content);
+        
+        $data = array('title'=> $this->title,'content'=>$this->content,'read_img_url'=>$this->read_img_url);
         if(!empty($this->template)){           
-           //1为使用系统统一空白模板，0为不使用模板
-           if("1" == $this->template){//Markdown
+           //1为使用系统统一空白模板，0为空白模板
+           if("0" == $this->template){//Markdown
+                $this->view("emails.blankMail")->with($data);
+           }
+           if("1" == $this->template){
                 $this->view("emails.freeMail")->with($data);
            }
         }
         else{
-            //html作为默认发送
-            $this->html($this->content);
+            //空白模板作为默认发送           
+            $this->view("emails.blankMail")->with($data);          
         }
         
         return $this;
