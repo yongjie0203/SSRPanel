@@ -30,6 +30,10 @@ class LogSentMessage
      */
     public function handle(MessageSent $event)
     {
+        $json = json_encode($event);
+        if(strpos($json,'email_id') == false){
+            return;
+        }
         $task = $event->data['task'];
         if(!empty($task)){
             $data = ['status'=>1];//已发送
