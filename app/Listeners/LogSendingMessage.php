@@ -27,6 +27,6 @@ class LogSendingMessage
      */
     public function handle(MessageSending $event)
     {
-        Log::info(json_encode($event));
+       // Log::info(json_encode($event));
     }
 }
