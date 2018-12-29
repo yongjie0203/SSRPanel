@@ -30,7 +30,7 @@ class LogSentMessage
      */
     public function handle(MessageSent $event)
     {
-        $task = $event->data->task;
+        $task = $event->data['task'];
         if(!empty($task)){
             $data = ['status'=>1];//已发送
             EmailTask::query()->where('id', $task->id)->update($data);
