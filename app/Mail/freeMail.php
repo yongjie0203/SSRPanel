@@ -7,6 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Http\Models\Email;
+use App\Http\Models\EmailTask;
 use App\Components\Helpers;
 use Illuminate\Mail\Markdown;
 use DB;
