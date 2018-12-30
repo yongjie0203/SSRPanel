@@ -7,6 +7,7 @@ use App\Http\Models\Email;
 use App\Http\Models\EmailGroup;
 use App\Http\Models\EmailRangeGroup;
 use App\Http\Models\EmailReadLog;
+use App\Http\Models\EmailTask;
 use App\Http\Models\Label;
 use App\Http\Models\Level;
 use App\Http\Models\User;
