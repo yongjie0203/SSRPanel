@@ -147,12 +147,12 @@ class MarketingController extends Controller
         $mail_read = 0;
         if(!empty($u)){
             //单封单人
-           $task_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.email) read')->where('task_id',$task_id)->first()['read'];
-           $mail_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.email) read')->where('email_id',$email_id)->first()['read'];
+           $task_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.email) `read`')->where('task_id',$task_id)->first()['read'];
+           $mail_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.email) `read`')->where('email_id',$email_id)->first()['read'];
         }else{
             //单封多人
-           $task_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.ip) read')->where('task_id',$task_id)->first()['read'];
-           $mail_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.ip) read')->where('email_id',$email_id)->first()['read'];
+           $task_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.ip) `read`')->where('task_id',$task_id)->first()['read'];
+           $mail_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.ip) `read`')->where('email_id',$email_id)->first()['read'];
         }
         
               
