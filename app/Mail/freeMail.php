@@ -40,6 +40,7 @@ class freeMail extends Mailable
     {   
         if(!empty($this->task)){            
             $this->email_id = $this->task->email_id;
+            $this->task_id = $this->task->id;
         }
         if(!empty($this->task_id)){
             $this->task =  EmailTask::query()->where('id', $this->task_id)->first();
@@ -56,7 +57,7 @@ class freeMail extends Mailable
             $this->mode = empty($this->mode) ? $email->mode : $this->mode;
         }
         if(!empty($this->email_id) && !empty($this->task)){
-            $url1 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read?u=' .$task->to;
+            $url1 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read?u=' .$this->task->to;
             $url2 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read';
             $this->read_img_url = $this->mode == '1' ? $url1 : $url2;
         }  
