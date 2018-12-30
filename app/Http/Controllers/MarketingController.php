@@ -6,6 +6,7 @@ use App\Http\Models\Marketing;
 use App\Http\Models\Email;
 use App\Http\Models\EmailGroup;
 use App\Http\Models\EmailRangeGroup;
+use App\Http\Models\EmailReadLog;
 use App\Http\Models\Label;
 use App\Http\Models\Level;
 use App\Http\Models\User;
@@ -133,27 +134,33 @@ class MarketingController extends Controller
     }
     
     public function read($email_id,$task_id,Request $request){
-        $to = $request->get('to');
-        if(!empty($to)){
-            $tos = explode(";",$to);
-            /* $unionQuery = DB::table('email_blacklist')
-                            ->selectRaw('DISTINCT null username,  email_blacklist.email blacked, email_blacklist.forward forward')
-                            ->whereNull('email_blacklist.email')
-                            ->where('email_blacklist.status', '=', 1);*/
-            
-            $unionQuery = DB::table('')->selectRaw('null username,null,null');
-             foreach($tos as $key => $a){
-              /*  $unionQuery->union(DB::table('email_blacklist')
-                            ->selectRaw("DISTINCT '".$a."' username,  email_blacklist.email blacked, email_blacklist.forward forward")
-                            ->where('email_blacklist.email', '=',$a)
-                            ->where('email_blacklist.status', '=', 1)
-                           );*/
-                 $unionQuery->union(DB::table('')->selectRaw(''.$a.' username,null,null'));
-             }
-             return $unionQuery->toSql();
-           
-         }
-        return "to is empty";
+        $u = $request->get('u');
+        $readLog = new EmailReadLog();
+        $readLog->email_id = $email_id;
+        $readLog->task_id = $task_id;
+        $readLog->ip = '';
+        $readLog->email = $u;
+        $readLog->save();
+        $task = EmailTask::query()->where('id',$task_id)->first();
+        $task_read = 0;
+        $mail_read = 0;
+        if(!empty($u)){
+            //单封单人
+           $task_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.email) read')->where('task_id',$task_id)->first()['read'];
+           $mail_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.email) read')->where('email_id',$email_id)->first()['read'];
+        }else(
+            //单封多人
+           $task_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.ip) read')->where('task_id',$task_id)->first()['read'];
+           $mail_read = DB::table('email_read_log')->selectRaw('count(distinct email_read_log.ip) read')->where('email_id',$email_id)->first()['read'];
+        )
+        
+              
+        $data = ['read'=> $task_read];
+        EmailTask::query()->where('id', $task_id)->update($data);
+        $data = ['read'=> $mail_read];
+        Email::query()->where('id', $email_id)->update($data);
+        
+        return "ok";
     }
  
 
