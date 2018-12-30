@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Http\Models\EmailTask;
 use App\Http\Models\Email;
 use Log;
+use DB;
 
 
 class LogSentMessage
@@ -41,7 +42,7 @@ class LogSentMessage
             $send = DB::table('email_task')->selectRaw("sum(length(email_task.to)-length(replace(email_task.to,'@','')))  send")
                 ->where('email_task.email_id',$task->email_id)
                 ->where('email_task.status',1)
-                ->first()['to'];
+                ->get()->toArray()[0]->send;
             
             $emailData = ['send'=> $send];
             Email::query()->where('id', $task->email_id)->update($emailData);
