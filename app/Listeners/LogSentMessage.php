@@ -38,8 +38,12 @@ class LogSentMessage
         if(!empty($task)){
             $data = ['status'=>1];//已发送
             EmailTask::query()->where('id', $task->id)->update($data);
-            $eamil = Email::query()->where('id', $task->email_id)->first();
-            $emailData = ['send'=> $eamil->send + 1];//发送数量加1
+            $send = DB::table('email_task')->selectRaw("sum(length(email_task.to)-length(replace(email_task.to,'@','')))  send")
+                ->where('email_task.email_id',$task->email_id)
+                ->where('email_task.status',1)
+                ->first()['to'];
+            
+            $emailData = ['send'=> $send];
             Email::query()->where('id', $task->email_id)->update($emailData);
         }
        
