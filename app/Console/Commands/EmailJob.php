@@ -104,7 +104,7 @@ class EmailJob extends Command
                     $wait = 60*60/$this->hourLimit;
                     $total = 0;
                     foreach($tasks as $key => $task){      
-                        $total = $total + $wait;
+                        $total = ceil($total + $wait);
                         $emailTask = new EmailTask();
                         $emailTask->email_id = $email->id;
                         $emailTask->to = join(';',$task);
