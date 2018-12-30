@@ -55,7 +55,7 @@ class freeMail extends Mailable
             $this->template = empty($this->template) ? $email->template : $this->template;
             $this->mode = empty($this->mode) ? $email->mode : $this->mode;
         }
-        if(!empty($this->email_id) && !empty($this->task_id)){
+        if(!empty($this->email_id) && !empty($this->task)){
             $url1 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read?u=' .$task->to;
             $url2 = self::$systemConfig['website_url'] . '/email/img/'.$this->email_id .'/'. $this->task_id . '/read';
             $this->read_img_url = $this->mode == '1' ? $url1 : $url2;
