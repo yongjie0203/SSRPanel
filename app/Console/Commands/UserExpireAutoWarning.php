@@ -51,7 +51,7 @@ class UserExpireAutoWarning extends Command
             $lastCanUseDays = ceil(round(strtotime($user->expire_time) - strtotime(date('Y-m-d H:i:s'))) / 3600 / 24);
             if ($lastCanUseDays == 0) {
                 $title = '账号过期提醒';
-                $content = '您的账号将于今天晚上【24:00】过期。';
+                $content = '您的账号今天晚上【24:00】过期。';
 
                 try {
                     Mail::to($user->username)->send(new userExpireWarningToday());
@@ -65,7 +65,7 @@ class UserExpireAutoWarning extends Command
                     continue;
                 }
                 $title = '账号过期提醒';
-                $content = '您的账号还剩' . $lastCanUseDays . '天即将过期。';
+                $content = '您的账号' . $lastCanUseDays . '天后过期。';
 
                 try {
                     Mail::to($user->username)->send(new userExpireWarning($lastCanUseDays));
