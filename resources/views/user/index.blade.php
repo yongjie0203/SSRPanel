@@ -105,7 +105,7 @@
                                             <div class="tab-pane" id="tools4">
                                               	
                                                 <ol>
-                                                  	<li> 请从客服处获取App Store账号密码，以下客户端择其一即可。</li>
+                                                  	<li> 请从客服QQ:360582818处获取App Store账号密码，以下客户端择其一即可。</li>
                                                     @if(Agent::is('iPhone') || Agent::is('iPad'))
                                                         @if(Agent::is('Safari'))
                                                             <li> <a href="{{$ipa_list}}" target="_blank">点击此处在线安装Shadowrocket</a>,安装完成后请点<a href="{{asset('doc/iOS使用帮助.pdf')}}" target="_blank">这里</a>查看详细使用帮助。</li>
