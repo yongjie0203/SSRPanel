@@ -26,9 +26,10 @@
                             <div class="col-md-3 col-sm-4 col-xs-12">
                                 <select class="form-control" name="status" id="status" onChange="doSearch()">
                                     <option value="" @if(Request::get('status') == '') selected @endif>状态</option>
-                                    <option value="0" @if(Request::get('status') == '0') selected @endif>等待发送</option>
-                                    <option value="-1" @if(Request::get('status') == '-1') selected @endif>失败</option>
-                                    <option value="1" @if(Request::get('status') == '1') selected @endif>成功</option>
+                                    <option value="0" @if(Request::get('status') == '0') selected @endif>未发送</option>
+                                    <option value="2,3" @if(Request::get('status') == '2,3') selected @endif>发送中</option>
+                                    <option value="4" @if(Request::get('status') == '4') selected @endif>暂停</option>
+                                    <option value="1" @if(Request::get('status') == '1') selected @endif>已发送</option>
                                 </select>
                             </div>
                             <div class="col-md-3 col-sm-4 col-xs-12">
@@ -103,6 +104,10 @@
         
         function editEmail(id){
             window.location.href ="/marketing/editEmail?id="+id;
+        }
+        
+        function doSearch(){
+        
         }
     </script>
 @endsection
