@@ -132,7 +132,7 @@
                                             </div>
                                             <div class="tab-pane" id="tools5">
                                                 <ol>
-                                                    <li> <a href="{{asset('clients/shadowsocksr-android-3.5.4.apk')}}" target="_blank">点击此处</a>下载客户端并启动，完成后请点<a href="{{asset('doc/Android使用帮助.pdf')}}" target="_blank">这里</a>查看详细使用帮助。 </li>
+                                                    <li> <a href="{{asset('clients/shadowsocksr-android-3.5.4.apk')}}" target="_blank">点击此处</a>下载客户端并启动，完成后请点<a href="{{asset('doc/Android使用帮助.pdf')}}" target="_blank">这里</a>查看详细使用帮助。<a href="/article?id=4">视频教程点这里</a> </li>
                                                     <li> 单击左上角的shadowsocksR进入配置文件页，点击右下角的“+”号，点击“添加/升级SSR订阅”，填入订阅信息并保存 </li>
                                                     <li> 选中任意一个节点，返回软件首页 </li>
                                                     <li> 在软件首页处找到“路由”选项，并将其改为“绕过局域网及中国大陆地址” </li>
