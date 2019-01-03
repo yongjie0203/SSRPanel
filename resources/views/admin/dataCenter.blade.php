@@ -67,7 +67,7 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
-                            var option = {title:{text:'近30天订单额'},xAxis:{type:'category',data:ret.data.date},yAxis:{type:'value'},series:[{data:ret.data.amount,type:'line',itemStyle : { normal: {label : {show: true}}} }]};;
+                            var option = {title:{text:'近30天订单额'},xAxis:{type:'category',data:ret.data.date,axisLabel:{interval:0,rotate:-40}},yAxis:{type:'value'},series:[{data:ret.data.amount,type:'line',itemStyle : { normal: {label : {show: true}}} }]};;
                             orderDataMonthlyEchart.setOption(option);                            
                         }                       
                     }
