@@ -79,7 +79,7 @@ class DataCenterController extends Controller
         $sql .= "     GROUP BY DATE_FORMAT(`order`.created_at,'%Y-%m-%d') ";
         $sql .= "     ) o on t.date = o.date ";
         $sql .= "     order by t.date";
-        
+        return $sql;
         $dbdata = DB::table(DB:raw('($sql) as t'))
                     ->selectRaw('date,amount')
                     ->get()
