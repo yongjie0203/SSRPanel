@@ -64,7 +64,7 @@ class DataCenterController extends Controller
    }
     
    public function orderDataLast30Day(){
-        $sql = "SELECT t.date,if(o.amount is null ,0,o.amount) amount from ( ";
+       /* $sql = "SELECT t.date,if(o.amount is null ,0,o.amount) amount from ( ";
         $sql .= "SELECT DATE_FORMAT(date_add(now(), interval -1*x.d day),'%Y-%m-%d') date ";
         $sql .= " FROM ";
         $sql .= " (SELECT 0 AS d UNION ALL  SELECT 1   UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL ";
@@ -86,6 +86,7 @@ class DataCenterController extends Controller
                     ->toArray();
         $date = array_column($dbdata,'date');
         $amount = array_column($dbdata,'amount');
-        return Response::json(['status' => 'success', 'data' => ['date'=>$date,'amount'=>$amount], 'message' => '成功']);
+        return Response::json(['status' => 'success', 'data' => ['date'=>$date,'amount'=>$amount], 'message' => '成功']);*/
+       return "ok";
    }
 }
