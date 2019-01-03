@@ -62,8 +62,9 @@ class DataCenterController extends Controller
        $time = array_column($dbdata,'time');
        return Response::json(['status' => 'success', 'data' => ['hours'=>$hours,'users'=>$users,'time'=>$time], 'message' => '成功']);
    }
-    
-   public function orderDataLast30Day(){
+   
+    //最近30天订单额数据
+   public function orderDataDaily(){
        
        return "ok";
    }
