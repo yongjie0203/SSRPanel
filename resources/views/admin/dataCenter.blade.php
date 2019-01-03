@@ -8,6 +8,7 @@
         <div >          
             <div id="node-used-monthly" style="width:95%;height:300px" ></div>
             <div id="user-online-data-monthly" style="width:95%;height:300px" ></div>
+            <div id="order-data-monthly" style="width:95%;height:300px" ></div>
         </div> 
         
         
@@ -23,10 +24,11 @@
          $(function() {
              var nodeUsedMonthlyEchart = echarts.init(document.getElementById('node-used-monthly'));
              var userOnlineDataMonthlyEchart = echarts.init(document.getElementById('user-online-data-monthly'));
+             var orderDataMonthlyEchart = echarts.init(document.getElementById('order-data-monthly'));
              nodeUsedMonthly();
              userOnlinDataMonthly();
              
-             
+             //节点30天用量
              function nodeUsedMonthly(){
                  $.ajax({
                     type: "GET",
@@ -41,6 +43,7 @@
                 });
              }
              
+             //用户30天在线分布情况
              function userOnlinDataMonthly(){
                 $.ajax({
                     type: "GET",
@@ -50,6 +53,21 @@
                         if (ret.status == 'success') {  
                             var option = {title:{text:'近30天用户在线时间分布'},xAxis:{type:'category',data:ret.data.hours},yAxis:{type:'value'},series:[{data:ret.data.users,type:'line'}]};;
                             userOnlineDataMonthlyEchart.setOption(option);                            
+                        }                       
+                    }
+                });
+             }
+             
+             //30天内订单数据
+             function orderDataMonthly(){
+                $.ajax({
+                    type: "GET",
+                    url: "{{url('dataCenter/orderDataMonthly')}}",
+                    async: false,                  
+                    success: function (ret) {                        
+                        if (ret.status == 'success') {  
+                            var option = {title:{text:'近30天订单额'},xAxis:{type:'category',data:ret.data.date},yAxis:{type:'value'},series:[{data:ret.data.amount,type:'line'}]};;
+                            orderDataMonthlyEchart.setOption(option);                            
                         }                       
                     }
                 });
