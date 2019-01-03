@@ -52,7 +52,7 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
-                            var option = {title:{text:'近30天用户在线时间分布'},xAxis:{type:'category',data:ret.data.hours},yAxis:{type:'value'},series:[{data:ret.data.users,type:'line'}]};;
+                            var option = {title:{text:'近30天用户在线时间分布'},xAxis:{type:'category',data:ret.data.hours},yAxis:{type:'value'},series:[{data:ret.data.users,type:'line',itemStyle : { normal: {label : {show: true}}} }]};;
                             userOnlineDataMonthlyEchart.setOption(option);                            
                         }                       
                     }
@@ -67,7 +67,7 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
-                            var option = {title:{text:'近30天订单额'},xAxis:{type:'category',data:ret.data.date},yAxis:{type:'value'},series:[{data:ret.data.amount,type:'line'}]};;
+                            var option = {title:{text:'近30天订单额'},xAxis:{type:'category',data:ret.data.date},yAxis:{type:'value'},series:[{data:ret.data.amount,type:'line',itemStyle : { normal: {label : {show: true}}} }]};;
                             orderDataMonthlyEchart.setOption(option);                            
                         }                       
                     }
