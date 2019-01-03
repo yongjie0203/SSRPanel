@@ -63,7 +63,7 @@ class DataCenterController extends Controller
        return Response::json(['status' => 'success', 'data' => ['hours'=>$hours,'users'=>$users,'time'=>$time], 'message' => '成功']);
    }
     
-   pulic function orderDataLast30Day(){
+   public function orderDataLast30Day(){
         $sql = "SELECT t.date,if(o.amount is null ,0,o.amount) amount from ( ";
         $sql .= "SELECT DATE_FORMAT(date_add(now(), interval -1*x.d day),'%Y-%m-%d') date ";
         $sql .= " FROM ";
@@ -79,8 +79,9 @@ class DataCenterController extends Controller
         $sql .= "     GROUP BY DATE_FORMAT(`order`.created_at,'%Y-%m-%d') ";
         $sql .= "     ) o on t.date = o.date ";
         $sql .= "     order by t.date";
-        return $sql;
-        $dbdata = DB::select($sql)                    
+        
+        $dbdata = DB::table(DB:raw('($sql) as t'))
+                    ->selectRaw('date,amount')
                     ->get()
                     ->toArray();
         $date = array_column($dbdata,'date');
