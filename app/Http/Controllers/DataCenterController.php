@@ -80,8 +80,7 @@ class DataCenterController extends Controller
         $sql .= "     ) o on t.date = o.date ";
         $sql .= "     order by t.date";
         
-        $dbdata = DB::table(DB:raw('($sql) as t'))
-                    ->selectRaw('date,amount')
+        $dbdata = DB::select($sql)                    
                     ->get()
                     ->toArray();
         $date = array_column($dbdata,'date');
