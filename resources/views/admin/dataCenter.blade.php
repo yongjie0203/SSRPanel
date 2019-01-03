@@ -27,6 +27,7 @@
              var orderDataMonthlyEchart = echarts.init(document.getElementById('order-data-monthly'));
              nodeUsedMonthly();
              userOnlinDataMonthly();
+             orderDataMonthly();
              
              //节点30天用量
              function nodeUsedMonthly(){
