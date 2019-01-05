@@ -56,7 +56,7 @@ class MarketingController extends Controller
                                           ->orderBy('email.id','desc');
                                        
         if ($status != '') {
-            $query->where('email.status', $status);
+            $query->whereIn('email.status', explode(',',$status));
         }
 
         $view['list'] = $query->paginate(15);
