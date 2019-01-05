@@ -94,6 +94,7 @@
     </div>
     <form action="{{url('marketing/emailList')}}" method="post" id="searchForm" class="form-horizontal">
         <input type="hidden" id="status" name="status" value="" />
+        <input type="hidden" id="_token" name="_token" value="{{csrf_token()}}" />
     </form>
     <!-- END CONTENT BODY -->
 @endsection
