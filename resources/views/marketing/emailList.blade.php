@@ -24,7 +24,7 @@
                     <div class="portlet-body">
                         <div class="row">
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                                <select class="form-control" name="status" id="status" onChange="doSearch()">
+                                <select class="form-control" id="sel-status" onChange="doSearch()">
                                     <option value="" @if(Request::get('status') == '') selected @endif>状态</option>
                                     <option value="0" @if(Request::get('status') == '0') selected @endif>未发送</option>
                                     <option value="2,3" @if(Request::get('status') == '2,3') selected @endif>发送中</option>
@@ -92,6 +92,9 @@
         </div>
         <!-- END PAGE BASE CONTENT -->
     </div>
+    <form action="{{url('marketing/emailList')}}" method="post" id="searchForm" class="form-horizontal">
+        <input type="hidden" id="status" name="status" value="" />
+    </form>
     <!-- END CONTENT BODY -->
 @endsection
 @section('script')
@@ -107,7 +110,8 @@
         }
         
         function doSearch(){
-        
+            $("#status").val($("#sel-status").val());
+            $("#searchForm").submit();
         }
     </script>
 @endsection
