@@ -177,7 +177,7 @@
         });
         ue.addListener("ready", function () {
         　　// editor准备好之后才可以使用
-        　　ue.setContent($('#content_text').text());
+        　　ue.setContent($('#content_text').text().replace(/\r\n|\r|\r/g,'\r\n'));
 
         });
         var preto = "";
