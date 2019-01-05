@@ -85,7 +85,7 @@ Route::group(['middleware' => ['isForbidden', 'isLogin', 'isAdmin']], function (
     Route::post('admin/resetUserTraffic', 'AdminController@resetUserTraffic'); // 重置用户流量
     Route::post('admin/handleUserBalance', 'AdminController@handleUserBalance'); // 用户余额充值
     Route::post("admin/switchToUser", "AdminController@switchToUser"); // 转换成某个用户的身份
-    Route::get("marketing/emailList", "MarketingController@emailList"); // 邮件消息列表
+    Route::any("marketing/emailList", "MarketingController@emailList"); // 邮件消息列表
     Route::get("marketing/pushList", "MarketingController@pushList"); // 推送消息列表
     Route::post("marketing/addPushMarketing", "MarketingController@addPushMarketing"); // 推送消息
     Route::any("marketing/addEmail", "MarketingController@addEmail"); // 群发邮件新增
