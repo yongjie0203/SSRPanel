@@ -565,6 +565,7 @@ class AdminController extends Controller
                 $ssNode->traffic_rate = $request->get('traffic_rate') ? $request->get('traffic_rate') : 1;
                 $ssNode->bandwidth = $request->get('bandwidth');
                 $ssNode->traffic = $request->get('traffic');
+		$ssNode->traffic_reset_date = $request->get('traffic_reset_date');
                 $ssNode->monitor_url = $request->get('monitor_url') ? $request->get('monitor_url') : '';
                 $ssNode->is_subscribe = intval($request->get('is_subscribe'));
                 $ssNode->ssh_port = $request->get('ssh_port') ? intval($request->get('ssh_port')) : 22;
@@ -624,7 +625,8 @@ class AdminController extends Controller
             $view['group_list'] = SsGroup::query()->get();
             $view['country_list'] = Country::query()->orderBy('country_code', 'asc')->get();
             $view['label_list'] = Label::query()->orderBy('sort', 'desc')->orderBy('id', 'asc')->get();
-
+	    $view['day_list'] = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
+	    
             return Response::view('admin.addNode', $view);
         }
     }
@@ -680,6 +682,7 @@ class AdminController extends Controller
                     'traffic_rate'    => $request->get('traffic_rate'),
                     'bandwidth'       => $request->get('bandwidth'),
                     'traffic'         => $request->get('traffic'),
+	  	    'traffic_reset_date'         => $request->get('traffic_reset_date'),
                     'monitor_url'     => $request->get('monitor_url'),
                     'is_subscribe'    => intval($request->get('is_subscribe')),
                     'ssh_port'        => intval($request->get('ssh_port')),
@@ -761,6 +764,7 @@ class AdminController extends Controller
             $view['group_list'] = SsGroup::query()->get();
             $view['country_list'] = Country::query()->orderBy('country_code', 'asc')->get();
             $view['label_list'] = Label::query()->orderBy('sort', 'desc')->orderBy('id', 'asc')->get();
+	    $view['day_list'] = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30];
 
             return Response::view('admin.editNode', $view);
         }
