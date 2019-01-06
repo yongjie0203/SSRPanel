@@ -89,4 +89,27 @@ class DataCenterController extends Controller
         return Response::json(['status' => 'success', 'data' => ['date'=>$date,'amount'=>$amount], 'message' => '成功']);       
    }
     
+   public function nodeUsedCyclicity(){
+        $sql = " select t.id,t.name,t.traffic,t.used , t.used/t.traffic percent from(
+                 select ss_node.id,ss_node.name, ss_node.traffic,sum((user_traffic_log.u+user_traffic_log.d)/user_traffic_log.rate)/(1024*1024*1024) used from ss_node
+                 left join (
+                 select ss_node.id, case when DATEDIFF(concat( date_format( now(),'%Y-%m-' ), ss_node.traffic_reset_date),now()) > 0 then DATE_ADD(str_to_date(concat( date_format( now(),'%Y-%m-' ), ss_node.traffic_reset_date),'%Y-%m-%d'),INTERVAL -1 month)
+                 when DATEDIFF(concat( date_format( now(),'%Y-%m-' ), ss_node.traffic_reset_date),now()) = 0 then str_to_date(concat( date_format( now(),'%Y-%m-' ), ss_node.traffic_reset_date),'%Y-%m-%d') 
+                 when DATEDIFF(concat( date_format( now(),'%Y-%m-' ), ss_node.traffic_reset_date),now()) < 0 then str_to_date(concat( date_format( now(),'%Y-%m-' ), ss_node.traffic_reset_date),'%Y-%m-%d') 
+                 else str_to_date(concat( date_format( now(),'%Y-%m-' ), ss_node.traffic_reset_date),'%Y-%m-%d')  end as startdate
+                 from ss_node) startdate
+                 on startdate.id = ss_node.id
+                 left join user_traffic_log on user_traffic_log.node_id = ss_node.id
+                 where FROM_UNIXTIME(user_traffic_log.log_time,'%Y-%m-%d') >= startdate.startdate
+                 group by ss_node.id,ss_node.name, ss_node.traffic
+                 ) t";
+       $dbdata = DB::table(DB::raw('('.$sql.') t'))
+                    ->selectRaw('id,t.name,traffic,used ,percent')
+                    ->get()
+                    ->toArray();
+        $name = array_column($dbdata,'name');
+        $percent = array_column($dbdata,'percent');
+        return Response::json(['status' => 'success', 'data' => ['name'=>$name,'percent'=>$percent], 'message' => '成功']); 
+   }
+    
 }
