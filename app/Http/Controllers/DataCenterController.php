@@ -90,7 +90,7 @@ class DataCenterController extends Controller
    }
     
    public function nodeUsedCyclicity(){
-        $sql = " select t.id,t.name,t.traffic,t.used , t.used/t.traffic percent from(
+        $sql = " select t.id,t.name,t.traffic,t.used , t.used/t.traffic*100 percent from(
                  select ss_node.id,ss_node.name, ss_node.traffic,sum((user_traffic_log.u+user_traffic_log.d)/user_traffic_log.rate)/(1024*1024*1024) used from ss_node
                  left join (
                  select ss_node.id, case when DATEDIFF(concat( date_format( now(),'%Y-%m-' ), ss_node.traffic_reset_date),now()) > 0 then DATE_ADD(str_to_date(concat( date_format( now(),'%Y-%m-' ), ss_node.traffic_reset_date),'%Y-%m-%d'),INTERVAL -1 month)
@@ -105,6 +105,7 @@ class DataCenterController extends Controller
                  ) t";
        $dbdata = DB::table(DB::raw('('.$sql.') t'))
                     ->selectRaw('id,t.name,traffic,used ,percent')
+                    ->orderBy('percent')
                     ->get()
                     ->toArray();
         $name = array_column($dbdata,'name');
