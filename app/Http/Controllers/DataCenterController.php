@@ -100,7 +100,7 @@ class DataCenterController extends Controller
                  from ss_node) startdate
                  on startdate.id = ss_node.id
                  left join user_traffic_log on user_traffic_log.node_id = ss_node.id
-                 where FROM_UNIXTIME(user_traffic_log.log_time,'%Y-%m-%d') >= startdate.startdate
+                 and FROM_UNIXTIME(user_traffic_log.log_time,'%Y-%m-%d') >= startdate.startdate
                  group by ss_node.id,ss_node.name, ss_node.traffic
                  ) t";
        $dbdata = DB::table(DB::raw('('.$sql.') t'))
