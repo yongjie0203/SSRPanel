@@ -175,7 +175,7 @@
                                                             <div class="input-group">
                                                                 <select class="form-control" name="traffic_reset_date" id="traffic_reset_date" >
                                                                     @foreach ($day_list as $day)
-                                                                    <option value="{{$day}}" {{1 == $day ? 'selected' : ''}}>$day</option>
+                                                                    <option value="{{$day}}" {{1 == $day ? 'selected' : ''}}>{{$day}}</option>
                                                                     @endforeach                                                                    
                                                                 </select>                                                                
                                                                 <span class="input-group-addon">日</span>
