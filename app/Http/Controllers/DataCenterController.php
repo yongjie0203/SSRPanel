@@ -105,7 +105,7 @@ class DataCenterController extends Controller
                  ) t";
        $dbdata = DB::table(DB::raw('('.$sql.') t'))
                     ->selectRaw('id,t.name,traffic,used ,percent')
-                    ->orderBy('percent')
+                    ->orderBy('percent','desc')
                     ->get()
                     ->toArray();
         $name = array_column($dbdata,'name');
