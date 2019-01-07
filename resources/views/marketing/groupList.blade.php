@@ -46,9 +46,9 @@
                                                 <td> {{$group->count}} </td>
                                                 <td> {{$group->created_at}} </td>
                                                 <td style="text-align: center;">
-                                                    <button type="button" class="btn btn-sm blue btn-outline" onclick="editGroup('{{$group->id}}')">
+                                                   <!-- <button type="button" class="btn btn-sm blue btn-outline" onclick="editGroup('{{$group->id}}')">
                                                         <i class="fa fa-pencil"></i>
-                                                    </button>
+                                                    </button> -->
                                                     <button type="button" class="btn btn-sm red btn-outline" onclick="delGroup('{{$group->id}}')">
                                                         <i class="fa fa-trash"></i>
                                                     </button>
