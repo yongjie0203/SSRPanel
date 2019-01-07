@@ -566,7 +566,10 @@ class AdminController extends Controller
                 $ssNode->bandwidth = $request->get('bandwidth');
                 $ssNode->traffic = $request->get('traffic');
 <<<<<<< HEAD
+<<<<<<< HEAD
 		$ssNode->traffic_reset_date = $request->get('traffic_reset_date');
+=======
+>>>>>>> parent of 710e8e91... 节点加入NAT支持
 =======
 >>>>>>> parent of 710e8e91... 节点加入NAT支持
                 $ssNode->monitor_url = $request->get('monitor_url') ? $request->get('monitor_url') : '';
@@ -686,7 +689,10 @@ class AdminController extends Controller
                     'bandwidth'       => $request->get('bandwidth'),
                     'traffic'         => $request->get('traffic'),
 <<<<<<< HEAD
+<<<<<<< HEAD
 	  	    'traffic_reset_date'         => $request->get('traffic_reset_date'),
+=======
+>>>>>>> parent of 710e8e91... 节点加入NAT支持
 =======
 >>>>>>> parent of 710e8e91... 节点加入NAT支持
                     'monitor_url'     => $request->get('monitor_url'),
