@@ -40,14 +40,12 @@ CREATE TABLE `ss_node` (
   `obfs_param` VARCHAR(128) NULL DEFAULT '' COMMENT '混淆参数',
   `traffic_rate` FLOAT NOT NULL DEFAULT '1.00' COMMENT '流量比率',
   `bandwidth` INT(11) NOT NULL DEFAULT '100' COMMENT '出口带宽，单位M',
-  `traffic` BIGINT(20) NOT NULL DEFAULT '1000' COMMENT '每月可用流量，单位G',
+  `traffic` INT(20) NOT NULL DEFAULT '1000' COMMENT '每月可用流量，单位G',
   `monitor_url` VARCHAR(255) NULL DEFAULT NULL COMMENT '监控地址',
   `is_subscribe` TINYINT(4) NULL DEFAULT '1' COMMENT '是否允许用户订阅该节点：0-否、1-是',
+  `is_nat` TINYINT(4) NOT NULL DEFAULT '0' COMMENT '是否为NAT机：0-否、1-是',
   `ssh_port` SMALLINT(6) UNSIGNED NOT NULL DEFAULT '22' COMMENT 'SSH端口',
   `is_tcp_check` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '是否开启检测: 0-不开启、1-开启',
-  `icmp` TINYINT(4) NOT NULL DEFAULT '1' COMMENT 'ICMP检测：-2-内外都不通、-1-内不通外通、0-外不通内通、1-内外都通',
-  `tcp` TINYINT(4) NOT NULL DEFAULT '1' COMMENT 'TCP检测：-2-内外都不通、-1-内不通外通、0-外不通内通、1-内外都通',
-  `udp` TINYINT(4) NOT NULL DEFAULT '1' COMMENT 'ICMP检测：-2-内外都不通、-1-内不通外通、0-外不通内通、1-内外都通',
   `compatible` TINYINT(4) NULL DEFAULT '0' COMMENT '兼容SS',
   `single` TINYINT(4) NULL DEFAULT '0' COMMENT '单端口多用户：0-否、1-是',
   `single_force` TINYINT(4) NULL DEFAULT NULL COMMENT '模式：0-兼容模式、1-严格模式',
@@ -108,9 +106,7 @@ CREATE TABLE `ss_node_label` (
   `node_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
   `label_id` int(11) NOT NULL DEFAULT '0' COMMENT '标签ID',
   PRIMARY KEY (`id`),
-  INDEX `idx` (`node_id`,`label_id`),
-  INDEX `idx_node_id` (`node_id`),
-  INDEX `idx_label_id` (`label_id`)
+  INDEX `idx_node_label` (`node_id`,`label_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='节点标签';
 
 
@@ -158,6 +154,7 @@ CREATE TABLE `user` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE INDEX `unq_username` (`username`),
   INDEX `idx_search` (`enable`, `status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户';
 
@@ -208,9 +205,7 @@ CREATE TABLE `user_traffic_log` (
   `traffic` varchar(32) NOT NULL COMMENT '产生流量',
   `log_time` int(11) NOT NULL COMMENT '记录时间',
   PRIMARY KEY (`id`),
-  INDEX `idx_user` (`user_id`),
-  INDEX `idx_node` (`node_id`),
-  INDEX `idx_user_node` (`user_id`,`node_id`) USING BTREE
+  INDEX `idx_user_node_time` (`user_id`, `node_id`, `log_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户流量日志';
 
 
@@ -361,7 +356,15 @@ INSERT INTO `config` VALUES ('71', 'is_verify_register', 0);
 INSERT INTO `config` VALUES ('72', 'node_daily_report', 0);
 INSERT INTO `config` values ('73', 'mix_subscribe', 0);
 INSERT INTO `config` values ('74', 'rand_subscribe', 0);
-
+INSERT INTO `config` values ('75', 'is_custom_subscribe', 0);
+INSERT INTO `config` values ('76', 'is_alipay', 0);
+INSERT INTO `config` VALUES ('77', 'alipay_sign_type', 'MD5');
+INSERT INTO `config` VALUES ('78', 'alipay_partner', '');
+INSERT INTO `config` VALUES ('79', 'alipay_key', '');
+INSERT INTO `config` VALUES ('80', 'alipay_private_key', '');
+INSERT INTO `config` VALUES ('81', 'alipay_public_key', '');
+INSERT INTO `config` VALUES ('82', 'alipay_transport', 'http');
+INSERT INTO `config` VALUES ('83', 'alipay_currency', 'USD');
 
 -- ----------------------------
 -- Table structure for `article`
@@ -371,6 +374,7 @@ CREATE TABLE `article` (
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
   `author` varchar(50) DEFAULT '' COMMENT '作者',
   `summary` varchar(255) DEFAULT '' COMMENT '简介',
+  `logo` varchar(255) DEFAULT '' COMMENT 'LOGO',
   `content` text COMMENT '内容',
   `type` tinyint(4) DEFAULT '1' COMMENT '类型：1-文章、2-公告',
   `is_del` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否删除',
@@ -871,7 +875,6 @@ CREATE TABLE `user_traffic_daily` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`),
-  INDEX `idx_user` (`user_id`) USING BTREE,
   INDEX `idx_user_node` (`user_id`,`node_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户每日流量统计';
 
@@ -890,7 +893,6 @@ CREATE TABLE `user_traffic_hourly` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`),
-  INDEX `idx_user` (`user_id`) USING BTREE,
   INDEX `idx_user_node` (`user_id`,`node_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户每小时流量统计';
 
@@ -952,9 +954,7 @@ CREATE TABLE `user_label` (
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
   `label_id` int(11) NOT NULL DEFAULT '0' COMMENT '标签ID',
   PRIMARY KEY (`id`),
-  INDEX `idx` (`user_id`,`label_id`),
-  INDEX `idx_user_id` (`user_id`),
-  INDEX `idx_label_id` (`label_id`)
+  INDEX `idx_user_label` (`user_id`,`label_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='用户标签';
 
 
@@ -966,9 +966,7 @@ CREATE TABLE `goods_label` (
   `goods_id` INT(11) NOT NULL DEFAULT '0' COMMENT '商品ID',
   `label_id` INT(11) NOT NULL DEFAULT '0' COMMENT '标签ID',
   PRIMARY KEY (`id`),
-  INDEX `idx` (`goods_id`, `label_id`),
-  INDEX `idx_goods_id` (`goods_id`),
-  INDEX `idx_label_id` (`label_id`)
+  INDEX `idx_goods_label` (`goods_id`, `label_id`)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品标签';
 
 
@@ -1137,7 +1135,9 @@ CREATE TABLE `ss_node_ip` (
   `type` char(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'tcp' COMMENT '类型：tcp、udp',
   `ip` text COLLATE utf8mb4_unicode_ci COMMENT '连接IP：每个IP用,号隔开',
   `created_at` int(11) NOT NULL DEFAULT '0' COMMENT '上报时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  INDEX `idx_node` (`node_id`),
+  INDEX `idx_port` (`port`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 

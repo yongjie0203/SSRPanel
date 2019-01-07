@@ -26,6 +26,8 @@ use App\Http\Models\User;
 use App\Http\Models\UserBalanceLog;
 use App\Http\Models\UserBanLog;
 use App\Http\Models\UserLabel;
+use App\Http\Models\UserLoginLog;
+use App\Http\Models\UserScoreLog;
 use App\Http\Models\UserSubscribe;
 use App\Http\Models\UserTrafficDaily;
 use App\Http\Models\UserTrafficHourly;
@@ -255,7 +257,7 @@ class AdminController extends Controller
 
             if ($user->id) {
                 // 生成用户标签
-                $this->makeUserLabels($user->id, $request->get('labels', []));
+                $this->makeUserLabels($user->id, $request->get('labels'));
 
                 // 写入用户流量变动记录
                 Helpers::addUserTrafficModifyLog($user->id, 0, 0, toGB($request->get('transfer_enable', 0)), '后台手动添加用户');
@@ -310,7 +312,7 @@ class AdminController extends Controller
                 $user->save();
 
                 // 初始化默认标签
-                if (count(self::$systemConfig['initial_labels_for_user']) > 0) {
+                if (!empty(self::$systemConfig['initial_labels_for_user'])) {
                     $labels = explode(',', self::$systemConfig['initial_labels_for_user']);
                     $this->makeUserLabels($user->id, $labels);
                 }
@@ -355,7 +357,7 @@ class AdminController extends Controller
             $usage = $request->get('usage');
             $pay_way = $request->get('pay_way');
             $status = $request->get('status');
-            $labels = $request->get('labels', []);
+            $labels = $request->get('labels');
             $enable_time = $request->get('enable_time');
             $expire_time = $request->get('expire_time');
             $remark = str_replace("eval", "", str_replace("atob", "", $request->get('remark')));
@@ -474,14 +476,28 @@ class AdminController extends Controller
     {
         $id = $request->get('id');
 
-        if ($id === 1) {
+        if ($id <= 1) {
             return Response::json(['status' => 'fail', 'data' => '', 'message' => '系统管理员不可删除']);
         }
 
-        $user = User::query()->where('id', $id)->delete();
-        if ($user) {
+        DB::beginTransaction();
+        try {
+            User::query()->where('id', $id)->delete();
+            UserSubscribe::query()->where('user_id', $id)->delete();
+            UserBanLog::query()->where('user_id', $id)->delete();
+            UserLabel::query()->where('user_id', $id)->delete();
+            UserScoreLog::query()->where('user_id', $id)->delete();
+            UserBalanceLog::query()->where('user_id', $id)->delete();
+            UserTrafficModifyLog::query()->where('user_id', $id)->delete();
+            UserLoginLog::query()->where('user_id', $id)->delete();
+
+            DB::commit();
+
             return Response::json(['status' => 'success', 'data' => '', 'message' => '删除成功']);
-        } else {
+        } catch (\Exception $e) {
+            Log::error($e);
+            DB::rollBack();
+
             return Response::json(['status' => 'fail', 'data' => '', 'message' => '删除失败']);
         }
     }
@@ -562,12 +578,13 @@ class AdminController extends Controller
                 $ssNode->protocol_param = $request->get('protocol_param') ? $request->get('protocol_param') : '';
                 $ssNode->obfs = $request->get('obfs') ? $request->get('obfs') : '';
                 $ssNode->obfs_param = $request->get('obfs_param') ? $request->get('obfs_param') : '';
-                $ssNode->traffic_rate = $request->get('traffic_rate') ? $request->get('traffic_rate') : 1;
-                $ssNode->bandwidth = $request->get('bandwidth');
-                $ssNode->traffic = $request->get('traffic');
-		        $ssNode->traffic_reset_date = $request->get('traffic_reset_date');
+                $ssNode->traffic_rate = $request->get('traffic_rate') ? $request->get('traffic_rate') : 1;		        
+                $ssNode->bandwidth = $request->get('bandwidth') ? $request->get('bandwidth') : 1000;
+                $ssNode->traffic = $request->get('traffic') ? $request->get('traffic') : 1000;
+                $ssNode->traffic_reset_date = $request->get('traffic_reset_date');
                 $ssNode->monitor_url = $request->get('monitor_url') ? $request->get('monitor_url') : '';
                 $ssNode->is_subscribe = intval($request->get('is_subscribe'));
+                $ssNode->is_nat = intval($request->get('is_nat'));
                 $ssNode->ssh_port = $request->get('ssh_port') ? intval($request->get('ssh_port')) : 22;
                 $ssNode->is_tcp_check = intval($request->get('is_tcp_check'));
                 $ssNode->compatible = intval($request->get('compatible'));
@@ -680,11 +697,12 @@ class AdminController extends Controller
                     'obfs'            => $request->get('obfs'),
                     'obfs_param'      => $request->get('obfs_param'),
                     'traffic_rate'    => $request->get('traffic_rate'),
-                    'bandwidth'       => $request->get('bandwidth'),
-                    'traffic'         => $request->get('traffic'),
-	  	            'traffic_reset_date'         => $request->get('traffic_reset_date'),
-                    'monitor_url'     => $request->get('monitor_url'),
+                    'bandwidth'       => $request->get('bandwidth') ? $request->get('bandwidth') : 1000,
+                    'traffic'         => $request->get('traffic') ? $request->get('traffic') : 1000,
+                    'traffic_reset_date'         => $request->get('traffic_reset_date'),
+                    'monitor_url'     => $request->get('monitor_url') ? $request->get('monitor_url') : '',
                     'is_subscribe'    => intval($request->get('is_subscribe')),
+                    'is_nat'          => intval($request->get('is_nat')),
                     'ssh_port'        => intval($request->get('ssh_port')),
                     'is_tcp_check'    => intval($request->get('is_tcp_check')),
                     'compatible'      => intval($request->get('compatible')),
@@ -879,17 +897,42 @@ class AdminController extends Controller
     public function addArticle(Request $request)
     {
         if ($request->method() == 'POST') {
+            // LOGO
+            $logo = '';
+            if ($request->hasFile('logo')) {
+                $file = $request->file('logo');
+                $fileType = $file->getClientOriginalExtension();
+
+                // 验证文件合法性
+                if (!in_array($fileType, ['jpg', 'png', 'jpeg', 'bmp'])) {
+                    Session::flash('errorMsg', 'LOGO不合法');
+
+                    return Redirect::back()->withInput();
+                }
+
+                $logoName = date('YmdHis') . mt_rand(1000, 2000) . '.' . $fileType;
+                $move = $file->move(base_path() . '/public/upload/image/', $logoName);
+                $logo = $move ? '/upload/image/' . $logoName : '';
+            }
+
             $article = new Article();
             $article->title = $request->get('title');
             $article->type = $request->get('type', 1);
-            $article->author = $request->get('author');
+            $article->author = '管理员';
             $article->summary = $request->get('summary');
-            $article->content = $request->get('content');
+            $article->logo = $logo;
+            $article->content = $request->get('editorValue');
             $article->is_del = 0;
             $article->sort = $request->get('sort', 0);
             $article->save();
 
-            return Response::json(['status' => 'success', 'data' => '', 'message' => '添加成功']);
+            if ($article->id) {
+                Session::flash('successMsg', '添加成功');
+            } else {
+                Session::flash('errorMsg', '添加失败');
+            }
+
+            return Redirect::to('admin/articleList');
         } else {
             return Response::view('admin.addArticle');
         }
@@ -903,26 +946,48 @@ class AdminController extends Controller
         if ($request->method() == 'POST') {
             $title = $request->get('title');
             $type = $request->get('type');
-            $author = $request->get('author');
             $summary = $request->get('summary');
-            $content = $request->get('content');
+            $content = $request->get('editorValue');
             $sort = $request->get('sort');
 
+            // 商品LOGO
+            $logo = '';
+            if ($request->hasFile('logo')) {
+                $file = $request->file('logo');
+                $fileType = $file->getClientOriginalExtension();
+
+                // 验证文件合法性
+                if (!in_array($fileType, ['jpg', 'png', 'jpeg', 'bmp'])) {
+                    Session::flash('errorMsg', 'LOGO不合法');
+
+                    return Redirect::back()->withInput();
+                }
+
+                $logoName = date('YmdHis') . mt_rand(1000, 2000) . '.' . $fileType;
+                $move = $file->move(base_path() . '/public/upload/image/', $logoName);
+                $logo = $move ? '/upload/image/' . $logoName : '';
+            }
+
             $data = [
-                'title'   => $title,
                 'type'    => $type,
-                'author'  => $author,
+                'title'   => $title,
                 'summary' => $summary,
                 'content' => $content,
                 'sort'    => $sort
             ];
 
+            if ($logo) {
+                $data['logo'] = $logo;
+            }
+
             $ret = Article::query()->where('id', $id)->update($data);
             if ($ret) {
-                return Response::json(['status' => 'success', 'data' => '', 'message' => '编辑成功']);
+                Session::flash('successMsg', '编辑成功');
             } else {
-                return Response::json(['status' => 'fail', 'data' => '', 'message' => '编辑失败']);
+                Session::flash('errorMsg', '编辑失败');
             }
+
+            return Redirect::to('admin/editArticle?id=' . $id);
         } else {
             $view['article'] = Article::query()->where('id', $id)->first();
 
@@ -1050,14 +1115,14 @@ class AdminController extends Controller
         // 已使用流量
         $view['totalTraffic'] = flowAutoShow($query->sum('u') + $query->sum('d'));
 
-        $trafficLogList = $query->orderBy('id', 'desc')->paginate(20)->appends($request->except('page'));
-        foreach ($trafficLogList as &$trafficLog) {
-            $trafficLog->u = flowAutoShow($trafficLog->u);
-            $trafficLog->d = flowAutoShow($trafficLog->d);
-            $trafficLog->log_time = date('Y-m-d H:i:s', $trafficLog->log_time);
+        $list = $query->orderBy('id', 'desc')->paginate(20)->appends($request->except('page'));
+        foreach ($list as &$vo) {
+            $vo->u = flowAutoShow($vo->u);
+            $vo->d = flowAutoShow($vo->d);
+            $vo->log_time = date('Y-m-d H:i:s', $vo->log_time);
         }
 
-        $view['trafficLogList'] = $trafficLogList;
+        $view['list'] = $list;
 
         return Response::view('admin.trafficLog', $view);
     }
@@ -1983,7 +2048,7 @@ EOF;
 
         // 演示环境禁止修改特定配置项
         if (env('APP_DEMO')) {
-            if (in_array($name, ['website_url', 'push_bear_send_key', 'push_bear_qrcode', 'youzan_client_id', 'youzan_client_secret', 'kdt_id', 'is_forbid_china'])) {
+            if (in_array($name, ['website_url', 'min_rand_score', 'max_rand_score', 'push_bear_send_key', 'push_bear_qrcode', 'youzan_client_id', 'youzan_client_secret', 'kdt_id', 'is_forbid_china', 'alipay_partner', 'alipay_key', 'alipay_transport', 'alipay_sign_type', 'alipay_private_key', 'alipay_public_key'])) {
                 return Response::json(['status' => 'fail', 'data' => '', 'message' => '演示环境禁止修改该配置']);
             }
         }
@@ -1996,6 +2061,22 @@ EOF;
         // 如果是返利比例，则需要除100
         if (in_array($name, ['referral_percent'])) {
             $value = intval($value) / 100;
+        }
+
+        // 用有赞云支付不可用AliPay
+        if (in_array($name, ['is_youzan']) && $name) {
+            $is_alipay = Config::query()->where('name', 'is_alipay')->first();
+            if ($is_alipay->value) {
+                return Response::json(['status' => 'fail', 'data' => '', 'message' => '已经在使用【AliPay支付】']);
+            }
+        }
+
+        // 用AliPay支付不可用有赞云支付
+        if (in_array($name, ['is_alipay']) && $name) {
+            $is_youzan = Config::query()->where('name', 'is_youzan')->first();
+            if ($is_youzan->value) {
+                return Response::json(['status' => 'fail', 'data' => '', 'message' => '已经在使用【有赞云支付】']);
+            }
         }
 
         // 更新配置
@@ -2388,12 +2469,12 @@ EOF;
     }
 
     // 生成用户标签
-    private function makeUserLabels($userId, $labels = [])
+    private function makeUserLabels($userId, $labels)
     {
-        if (!empty($labels)) {
-            // 先删除该用户所有的标签
-            UserLabel::query()->where('user_id', $userId)->delete();
+        // 先删除该用户所有的标签
+        UserLabel::query()->where('user_id', $userId)->delete();
 
+        if (!empty($labels) && is_array($labels)) {
             foreach ($labels as $label) {
                 $userLabel = new UserLabel();
                 $userLabel->user_id = $userId;
@@ -2402,5 +2483,5 @@ EOF;
             }
         }
     }
-   
+
 }

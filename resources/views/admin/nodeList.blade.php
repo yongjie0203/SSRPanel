@@ -39,7 +39,7 @@
                                     <th> 类型 </th>
                                     <th> 名称 </th>
                                     <th> IP </th>
-                                    <th> 绑定域名 </th>
+                                    <th> 域名 </th>
                                     <th> 状态 </th>
                                     <th> 在线 </th>
                                     <th> <span class="node-flow"><a href="javascript:showFlowTips();">产生流量</a></span> </th>
@@ -57,7 +57,10 @@
                                         @foreach($nodeList as $node)
                                             <tr class="odd gradeX">
                                                 <td> {{$node->id}} </td>
-                                                <td> {{$node->type == 2 ? 'V2Ray' : 'Shadowsocks(R)'}} </td>
+                                                <td>
+                                                    <span class="label {{$node->status ? 'label-info' : 'label-default'}}">{{$node->type == 2 ? 'V2Ray' : 'ShadowsocksR'}}</span>
+                                                    <span class="label {{$node->status ? 'label-info' : 'label-default'}}">{{$node->is_nat ? 'NAT' : ''}}</span>
+                                                </td>
                                                 <td> {{$node->name}} </td>
                                                 <td> <span class="label {{$node->status ? 'label-danger' : 'label-default'}}">{{$node->ip}}</span> </td>
                                                 <td> <span class="label {{$node->status ? 'label-danger' : 'label-default'}}">{{$node->server}}</span> </td>
@@ -71,15 +74,22 @@
                                                     @if(!$node->is_subscribe) <span class="label label-info"><s>订</s></span> @endif
                                                 </td>
                                                 <td>
-                                                    <button type="button" class="btn btn-sm blue btn-outline" onclick="editNode('{{$node->id}}')">
-                                                        <i class="fa fa-pencil"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm purple btn-outline" onclick="nodeMonitor('{{$node->id}}')">
-                                                        <i class="fa fa-area-chart"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-sm red btn-outline" onclick="delNode('{{$node->id}}')">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
+                                                    <div class="btn-group">
+                                                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:;" aria-expanded="false"> 操作
+                                                            <i class="fa fa-angle-down"></i>
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li>
+                                                                <a href="javascript:editNode('{{$node->id}}');"> 编辑 </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:delNode('{{$node->id}}');"> 删除 </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:nodeMonitor('{{$node->id}}');"> 流量概况 </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -153,5 +163,14 @@
                 time: 1200
             });
         }
+
+        // 修正table的dropdown
+        $('.table-scrollable').on('show.bs.dropdown', function () {
+            $('.table-scrollable').css( "overflow", "inherit" );
+        });
+
+        $('.table-scrollable').on('hide.bs.dropdown', function () {
+            $('.table-scrollable').css( "overflow", "auto" );
+        });
     </script>
 @endsection

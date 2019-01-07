@@ -11,7 +11,6 @@ use App\Http\Models\UserSubscribe;
 use App\Http\Models\UserSubscribeLog;
 use Illuminate\Http\Request;
 use Redirect;
-use DB;
 
 /**
  * 订阅控制器
@@ -87,6 +86,13 @@ class SubscribeController extends Controller
 
         // 控制客户端最多获取节点数
         $scheme = '';
+
+        // 展示到期时间和剩余流量
+        if (self::$systemConfig['is_custom_subscribe']) {
+            $scheme .= $this->expireDate($user);
+            $scheme .= $this->lastTraffic($user);
+        }
+
         foreach ($nodeList as $key => $node) {
             // 控制显示的节点数
             if (self::$systemConfig['subscribe_max'] && $key >= self::$systemConfig['subscribe_max']) {
@@ -94,23 +100,42 @@ class SubscribeController extends Controller
             }
 
             // 获取分组名称
-            $group = SsGroup::query()->where('id', $node['group_id'])->first();
+            if ($node['type'] == 1) {
+                $group = SsGroup::query()->where('id', $node['group_id'])->first();
 
-            $obfs_param = $user->obfs_param ? $user->obfs_param : $node['obfs_param'];
-            $protocol_param = $node['single'] ? $user->port . ':' . $user->passwd : $user->protocol_param;
+                $obfs_param = $user->obfs_param ? $user->obfs_param : $node['obfs_param'];
+                $protocol_param = $node['single'] ? $user->port . ':' . $user->passwd : $user->protocol_param;
 
-            // 生成ssr scheme
-            $ssr_str = ($node['server'] ? $node['server'] : $node['ip']) . ':' . ($node['single'] ? $node['single_port'] : $user->port);
-            $ssr_str .= ':' . ($node['single'] ? $node['single_protocol'] : $user->protocol) . ':' . ($node['single'] ? $node['single_method'] : $user->method);
-            $ssr_str .= ':' . ($node['single'] ? $node['single_obfs'] : $user->obfs) . ':' . ($node['single'] ? base64url_encode($node['single_passwd']) : base64url_encode($user->passwd));
-            $ssr_str .= '/?obfsparam=' . base64url_encode($obfs_param);
-            $ssr_str .= '&protoparam=' . ($node['single'] ? base64url_encode($user->port . ':' . $user->passwd) : base64url_encode($protocol_param));
-            $ssr_str .= '&remarks=' . base64url_encode($node['name']);
-            $ssr_str .= '&group=' . base64url_encode(empty($group) ? '' : $group->name);
-            $ssr_str .= '&udpport=0';
-            $ssr_str .= '&uot=0';
-            $ssr_str = base64url_encode($ssr_str);
-            $scheme .= 'ssr://' . $ssr_str . "\n";
+                // 生成ssr scheme
+                $ssr_str = ($node['server'] ? $node['server'] : $node['ip']) . ':' . ($node['single'] ? $node['single_port'] : $user->port);
+                $ssr_str .= ':' . ($node['single'] ? $node['single_protocol'] : $user->protocol) . ':' . ($node['single'] ? $node['single_method'] : $user->method);
+                $ssr_str .= ':' . ($node['single'] ? $node['single_obfs'] : $user->obfs) . ':' . ($node['single'] ? base64url_encode($node['single_passwd']) : base64url_encode($user->passwd));
+                $ssr_str .= '/?obfsparam=' . base64url_encode($obfs_param);
+                $ssr_str .= '&protoparam=' . ($node['single'] ? base64url_encode($user->port . ':' . $user->passwd) : base64url_encode($protocol_param));
+                $ssr_str .= '&remarks=' . base64url_encode($node['name']);
+                $ssr_str .= '&group=' . base64url_encode(empty($group) ? '' : $group->name);
+                $ssr_str .= '&udpport=0';
+                $ssr_str .= '&uot=0';
+                $ssr_str = base64url_encode($ssr_str);
+                $scheme .= 'ssr://' . $ssr_str . "\n";
+            } else {
+                // 生成v2ray scheme
+                $v2_json = [
+                    "v"    => "2",
+                    "ps"   => $node['name'],
+                    "add"  => $node['server'] ? $node['server'] : $node['ip'],
+                    "port" => $node['v2_port'],
+                    "id"   => $user['vmess_id'],
+                    "aid"  => $node['v2_alter_id'],
+                    "net"  => $node['v2_net'],
+                    "type" => $node['v2_type'],
+                    "host" => $node['v2_host'],
+                    "path" => $node['v2_path'],
+                    "tls"  => $node['v2_tls'] == 1 ? "tls" : ""
+                ];
+
+                $scheme .= 'vmess://' . base64url_encode(json_encode($v2_json)) . "\n";
+            }
         }
 
         exit(base64url_encode($scheme));
@@ -131,5 +156,33 @@ class SubscribeController extends Controller
     private function noneNode()
     {
         return base64url_encode('ssr://' . base64url_encode('8.8.8.8:8888:origin:none:plain:' . base64url_encode('0000') . '/?obfsparam=&protoparam=&remarks=' . base64url_encode('无可用节点或账号被封禁或订阅被封禁') . '&group=' . base64url_encode('VPN') . '&udpport=0&uot=0') . "\n");
+    }
+
+    /**
+     * 过期时间
+     *
+     * @param object $user
+     *
+     * @return string
+     */
+    private function expireDate($user)
+    {
+        $text = '到期时间：' . $user->expire_time;
+
+        return 'ssr://' . base64url_encode('8.8.8.8:8888:origin:none:plain:' . base64url_encode('0000') . '/?obfsparam=&protoparam=&remarks=' . base64url_encode($text) . '&group=' . base64url_encode('默认') . '&udpport=0&uot=0') . "\n";
+    }
+
+    /**
+     * 剩余流量
+     *
+     * @param object $user
+     *
+     * @return string
+     */
+    private function lastTraffic($user)
+    {
+        $text = '剩余流量：' . flowAutoShow($user->transfer_enable - $user->u - $user->d);
+
+        return 'ssr://' . base64url_encode('9.9.9.9:8888:origin:none:plain:' . base64url_encode('0000') . '/?obfsparam=&protoparam=&remarks=' . base64url_encode($text) . '&group=' . base64url_encode('默认') . '&udpport=0&uot=0') . "\n";
     }
 }
