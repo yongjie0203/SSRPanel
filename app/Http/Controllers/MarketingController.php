@@ -432,7 +432,7 @@ class MarketingController extends Controller
     
     public function delGroup(Request $request){
         $id = trim($request->get('id'));
-        $ret = EmailRangeGroup::query()-where('id',$id)->update(['status'=>0]);
+        $ret = EmailRangeGroup::query()->where('id',$id)->update(['status'=>0]);
         if($ret){
             return Response::json(['status' => 'success', 'data' => '', 'message' => '删除成功']);
         }else{
