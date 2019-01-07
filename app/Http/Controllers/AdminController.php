@@ -565,13 +565,7 @@ class AdminController extends Controller
                 $ssNode->traffic_rate = $request->get('traffic_rate') ? $request->get('traffic_rate') : 1;
                 $ssNode->bandwidth = $request->get('bandwidth');
                 $ssNode->traffic = $request->get('traffic');
-<<<<<<< HEAD
-<<<<<<< HEAD
-		$ssNode->traffic_reset_date = $request->get('traffic_reset_date');
-=======
->>>>>>> parent of 710e8e91... 节点加入NAT支持
-=======
->>>>>>> parent of 710e8e91... 节点加入NAT支持
+		        $ssNode->traffic_reset_date = $request->get('traffic_reset_date');
                 $ssNode->monitor_url = $request->get('monitor_url') ? $request->get('monitor_url') : '';
                 $ssNode->is_subscribe = intval($request->get('is_subscribe'));
                 $ssNode->ssh_port = $request->get('ssh_port') ? intval($request->get('ssh_port')) : 22;
@@ -688,13 +682,7 @@ class AdminController extends Controller
                     'traffic_rate'    => $request->get('traffic_rate'),
                     'bandwidth'       => $request->get('bandwidth'),
                     'traffic'         => $request->get('traffic'),
-<<<<<<< HEAD
-<<<<<<< HEAD
-	  	    'traffic_reset_date'         => $request->get('traffic_reset_date'),
-=======
->>>>>>> parent of 710e8e91... 节点加入NAT支持
-=======
->>>>>>> parent of 710e8e91... 节点加入NAT支持
+	  	            'traffic_reset_date'         => $request->get('traffic_reset_date'),
                     'monitor_url'     => $request->get('monitor_url'),
                     'is_subscribe'    => intval($request->get('is_subscribe')),
                     'ssh_port'        => intval($request->get('ssh_port')),
