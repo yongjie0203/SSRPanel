@@ -34,6 +34,8 @@ class AutoCheckNodeStatus extends Command
                 $this->checkNodes();
             } elseif (Cache::get('tcp_check_time') <= time()) {
                 $this->checkNodes();
+            } else {
+                Log::info('下次TCP阻断检测时间：' . date('Y-m-d H:i:s', Cache::get('tcp_check_time')));
             }
         }
 
@@ -48,7 +50,7 @@ class AutoCheckNodeStatus extends Command
     {
         $title = "节点异常警告";
 
-        $nodeList = SsNode::query()->where('status', 1)->where('is_tcp_check', 1)->get();
+        $nodeList = SsNode::query()->where('status', 1)->where('is_tcp_check', 1)->where('is_nat', 0)->get();
         foreach ($nodeList as $node) {
             $tcpCheck = $this->tcpCheck($node->ip);
             if (false !== $tcpCheck) {
@@ -80,11 +82,11 @@ class AutoCheckNodeStatus extends Command
                         }
 
                         if ($times < self::$systemConfig['tcp_check_warning_times']) {
-                            Cache::increment('tcp_check_warning_times_' . $node->id);
+                            Cache::increment($cacheKey);
 
                             $this->notifyMaster($title, "节点**{$node->name}【{$node->ip}】**：**" . $text . "**", $node->name, $node->server);
                         } elseif ($times >= self::$systemConfig['tcp_check_warning_times']) {
-                            Cache::forget('tcp_check_warning_times_' . $node->id);
+                            Cache::forget($cacheKey);
                             SsNode::query()->where('id', $node->id)->update(['status' => 0]);
 
                             $this->notifyMaster($title, "节点**{$node->name}【{$node->ip}】**：**" . $text . "**，节点自动进入维护状态", $node->name, $node->server);
@@ -118,11 +120,17 @@ class AutoCheckNodeStatus extends Command
      */
     private function tcpCheck($ip)
     {
-        $url = 'https://ipcheck.need.sh/api_v2.php?ip=' . $ip;
-        $ret = $this->curlRequest($url);
-        $ret = json_decode($ret);
-        if (!$ret || $ret->result != 'success') {
-            Log::warning("【TCP阻断检测】ipcheck.need.sh的TCP阻断检测接口挂了");
+        try {
+            $url = 'https://ipcheck.need.sh/api_v2.php?ip=' . $ip;
+            $ret = $this->curlRequest($url);
+            $ret = json_decode($ret);
+            if (!$ret || $ret->result != 'success') {
+                Log::warning("【TCP阻断检测】检测" . $ip . "时，接口返回异常");
+
+                return false;
+            }
+        } catch (\Exception $e) {
+            Log::warning("【TCP阻断检测】检测" . $ip . "时，接口请求超时");
 
             return false;
         }
@@ -204,17 +212,15 @@ class AutoCheckNodeStatus extends Command
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 500);
-        // 为保证第三方服务器与微信服务器之间数据传输的安全性，所有微信接口采用https方式调用，必须使用下面2行代码打开ssl安全校验。
-        // 如果在部署过程中代码在此处验证失败，请到 http://curl.haxx.se/ca/cacert.pem 下载新的证书判别文件。
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Accept: application/json', // 请求报头
-            'Content-Type: application/json', // 实体报头
-            'Content-Length: ' . strlen($data)
-        ]);
+//        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//            'Accept: application/json', // 请求报头
+//            'Content-Type: application/json', // 实体报头
+//            'Content-Length: ' . strlen($data)
+//        ]);
 
         // 如果data有数据，则用POST请求
         if ($data) {
