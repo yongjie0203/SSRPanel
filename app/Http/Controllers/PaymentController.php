@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Components\Helpers;
 use App\Components\Yzy;
+use App\Components\AlipaySubmit;
 use App\Http\Models\Coupon;
 use App\Http\Models\Goods;
 use App\Http\Models\Order;
@@ -37,6 +38,7 @@ class PaymentController extends Controller
     {
         $goods_id = intval($request->get('goods_id'));
         $coupon_sn = $request->get('coupon_sn');
+        $pay_type = $request->get('pay_type');
 
         $goods = Goods::query()->where('is_del', 0)->where('status', 1)->where('id', $goods_id)->first();
         if (!$goods) {
@@ -44,7 +46,7 @@ class PaymentController extends Controller
         }
 
         // 判断是否开启有赞云支付
-        if (!self::$systemConfig['is_youzan']) {
+        if (!self::$systemConfig['is_youzan'] && !self::$systemConfig['is_alipay']) {
             return Response::json(['status' => 'fail', 'data' => '', 'message' => '创建支付单失败：系统并未开启在线支付功能']);
         }
 
@@ -116,6 +118,13 @@ class PaymentController extends Controller
             $orderSn = date('ymdHis') . mt_rand(100000, 999999);
             $sn = makeRandStr(12);
 
+            // 支付方式
+            if (self::$systemConfig['is_youzan']) {
+                $pay_way = 2;
+            } elseif (self::$systemConfig['is_alipay']) {
+                $pay_way = 4;
+            }
+
             // 生成订单
             $order = new Order();
             $order->order_sn = $orderSn;
@@ -126,17 +135,38 @@ class PaymentController extends Controller
             $order->amount = $amount;
             $order->expire_at = date("Y-m-d H:i:s", strtotime("+" . $goods->days . " days"));
             $order->is_expire = 0;
-            $order->pay_way = 2;
+            $order->pay_way = $pay_way;
             $order->status = 0;
             $order->save();
 
             // 生成支付单
-            $yzy = new Yzy();
-            $result = $yzy->createQrCode($goods->name, $amount * 100, $orderSn);
-            if (isset($result['error_response'])) {
-                Log::error('【有赞云】创建二维码失败：' . $result['error_response']['msg']);
+            if (self::$systemConfig['is_youzan']) {
+                $yzy = new Yzy();
+                $result = $yzy->createQrCode($goods->name, $amount * 100, $orderSn);
+                if (isset($result['error_response'])) {
+                    Log::error('【有赞云】创建二维码失败：' . $result['error_response']['msg']);
 
-                throw new \Exception($result['error_response']['msg']);
+                    throw new \Exception($result['error_response']['msg']);
+                }
+            } elseif (self::$systemConfig['is_alipay']) {
+                $parameter = [
+                    "service"        => "create_forex_trade", // WAP:create_forex_trade_wap ,即时到帐:create_forex_trade
+                    "partner"        => self::$systemConfig['alipay_partner'],
+                    "notify_url"     => self::$systemConfig['website_url'] . "/api/alipay", // 异步回调接口
+                    "return_url"     => self::$systemConfig['website_url'],
+                    "out_trade_no"   => $orderSn,  // 订单号
+                    "subject"        => "Package", // 订单名称
+                    //"total_fee"      => $amount, // 金额
+                    "rmb_fee"        => $amount,   // 使用RMB标价，不再使用总金额
+                    "body"           => "",        // 商品描述，可为空
+                    "currency"       => self::$systemConfig['alipay_currency'], // 结算币种
+                    "product_code"   => "NEW_OVERSEAS_SELLER",
+                    "_input_charset" => "utf-8"
+                ];
+
+                // 建立请求
+                $alipaySubmit = new AlipaySubmit(self::$systemConfig['alipay_sign_type'], self::$systemConfig['alipay_partner'], self::$systemConfig['alipay_key'], self::$systemConfig['alipay_private_key']);
+                $result = $alipaySubmit->buildRequestForm($parameter, "post", "确认");
             }
 
             $payment = new Payment();
@@ -146,10 +176,14 @@ class PaymentController extends Controller
             $payment->order_sn = $orderSn;
             $payment->pay_way = 1;
             $payment->amount = $amount;
-            $payment->qr_id = $result['response']['qr_id'];
-            $payment->qr_url = $result['response']['qr_url'];
-            $payment->qr_code = $result['response']['qr_code'];
-            $payment->qr_local_url = $this->base64ImageSaver($result['response']['qr_code']);
+            if (self::$systemConfig['is_youzan']) {
+                $payment->qr_id = $result['response']['qr_id'];
+                $payment->qr_url = $result['response']['qr_url'];
+                $payment->qr_code = $result['response']['qr_code'];
+                $payment->qr_local_url = $this->base64ImageSaver($result['response']['qr_code']);
+            } elseif (self::$systemConfig['is_alipay']) {
+                $payment->qr_code = $result;
+            }
             $payment->status = 0;
             $payment->save();
 
@@ -164,8 +198,13 @@ class PaymentController extends Controller
             }
 
             DB::commit();
-
-            return Response::json(['status' => 'success', 'data' => $sn, 'message' => '创建订单成功，正在转到付款页面，请稍后']);
+	    
+            if (self::$systemConfig['is_alipay']) {
+                // Alipay返回支付信息
+                return Response::json(['status' => 'success', 'data' => $result, 'message' => '创建订单成功，正在转到付款页面，请稍后']);
+            } else {
+                return Response::json(['status' => 'success', 'data' => $sn, 'message' => '创建订单成功，正在转到付款页面，请稍后']);
+            }
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -198,6 +237,7 @@ class PaymentController extends Controller
         $view['website_logo'] = self::$systemConfig['website_logo'];
         $view['website_analytics'] = self::$systemConfig['website_analytics'];
         $view['website_customer_service'] = self::$systemConfig['website_customer_service'];
+        $view['is_alipay'] = self::$systemConfig['is_alipay'];
 
         return Response::view('payment.detail', $view);
     }

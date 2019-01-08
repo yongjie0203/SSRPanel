@@ -13,7 +13,6 @@ use App\Http\Models\Level;
 use App\Http\Models\Order;
 use App\Http\Models\ReferralApply;
 use App\Http\Models\ReferralLog;
-use App\Http\Models\SsConfig;
 use App\Http\Models\SsGroup;
 use App\Http\Models\SsNodeInfo;
 use App\Http\Models\SsNodeLabel;
@@ -65,7 +64,7 @@ class UserController extends Controller
         $view['notice'] = Article::query()->where('type', 2)->where('is_del', 0)->orderBy('id', 'desc')->first();
         $view['ipa_list'] = 'itms-services://?action=download-manifest&url=' . self::$systemConfig['website_url'] . '/clients/ipa.plist';
         $view['goodsList'] = Goods::query()->where('type', 3)->where('status', 1)->where('is_del', 0)->orderBy('sort', 'desc')->orderBy('price', 'asc')->limit(10)->get(); // 余额充值商品，只取10个
-        $view['userLoginLog'] = UserLoginLog::query()->where('user_id', Auth::user()->id)->orderBy('id', 'desc')->limit(10)->get(); // 近期登录日志
+        $view['userLoginLog'] = UserLoginLog::query()->where('user_id', Auth::user()->id)->orderBy('id', 'desc')->limit(5)->get(); // 近期登录日志
 
         // 推广返利是否可见
         if (!Session::has('referral_status')) {
@@ -107,6 +106,7 @@ class UserController extends Controller
             ->orderBy('ss_node.id', 'asc')
             ->get();
 
+        $allNodes = ''; // 全部节点SSR链接，用于一键复制所有节点
         foreach ($nodeList as &$node) {
             // 获取分组名称
             $group = SsGroup::query()->where('id', $node->group_id)->first();
@@ -152,6 +152,8 @@ class UserController extends Controller
                 $node->txt = $txt;
                 $node->ssr_scheme = $ssr_scheme;
                 $node->ss_scheme = $node->compatible ? $ss_scheme : ''; // 节点兼容原版才显示
+
+                $allNodes .= $ssr_scheme . '|';
             } else {
                 // 生成v2ray scheme
                 $v2_json = [
@@ -195,6 +197,7 @@ class UserController extends Controller
             $node->labels = SsNodeLabel::query()->with('labelInfo')->where('node_id', $node->id)->get();
         }
 
+        $view['allNodes'] = rtrim($allNodes, "|");
         $view['nodeList'] = $nodeList;
 
         return Response::view('user.index', $view);
@@ -289,6 +292,7 @@ class UserController extends Controller
             }
 
             Session::flash('errorMsg', '非法请求');
+
             return Redirect::to('profile#tab_1');
         } else {
             $view['info'] = User::query()->where('id', Auth::user()->id)->first();
@@ -576,8 +580,8 @@ class UserController extends Controller
                     return Response::json(['status' => 'fail', 'data' => '', 'message' => '支付失败：商品不可重复购买']);
                 }
             }
-      
-      	    // 单个商品限购
+
+            // 单个商品限购
             if ($goods->is_limit == 1) {
                 $noneExpireOrderExist = Order::query()->where('status', '>=', 0)->where('user_id', Auth::user()->id)->where('goods_id', $goods_id)->exists();
                 if ($noneExpireOrderExist) {
@@ -774,6 +778,7 @@ class UserController extends Controller
 
             $view['goods'] = $goods;
             $view['is_youzan'] = self::$systemConfig['is_youzan'];
+            $view['is_alipay'] = self::$systemConfig['is_alipay'];
 
             return Response::view('user.buy', $view);
         }
