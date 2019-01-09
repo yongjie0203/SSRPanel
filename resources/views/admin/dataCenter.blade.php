@@ -59,7 +59,7 @@
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
                             //var option = {title:{text:'节点近30天内使用量'},color:['#3398DB'],tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},xAxis:[{type:'category',data:ret.data.x,axisTick:{alignWithLabel:true},axisLabel:{interval:0,rotate:-40},axisTick:{alignWithLabel:true}}],yAxis:[{type:'value'}],series:[{name:'用量',type:'bar',barWidth:'60%',data:ret.data.y}]};
-                            var option = {title:{text:'节点近30天内使用量',subtext:'单位:GB'},tooltip:{trigger:'axis'},legend:{data:['最近30天']},toolbox:{show:true,feature:{mark:{show:true},dataView:{show:true,readOnly:false},magicType:{show:true,type:['bar']},restore:{show:true},saveAsImage:{show:true}}},calculable:true,xAxis:[{type:'value',boundaryGap:[0,0.01]}],yAxis:[{type:'category',data:ret.data.x}],series:[{name:'占比',type:'bar',data:ret.data.y}]};
+                            var option = {title:{text:'节点近30天内使用量',subtext:'单位:GB'},tooltip:{trigger:'axis'},legend:{data:['最近30天']},toolbox:{show:true,feature:{mark:{show:true},dataView:{show:true,readOnly:false},magicType:{show:true,type:['bar']},restore:{show:true},saveAsImage:{show:true}}},calculable:true,xAxis:[{type:'value',boundaryGap:[0,0.01]}],yAxis:[{type:'category',data:ret.data.x}],series:[{name:'用量',type:'bar',data:ret.data.y}]};
                             nodeUsedMonthlyEchart.setOption(option);                           
                         }                       
                     }
