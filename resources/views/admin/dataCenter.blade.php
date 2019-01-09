@@ -42,7 +42,8 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
-                            var option = {title:{text:'重置日至今使用量'},color:['#3398DB'],tooltip:{trigger: 'item',formatter: '{b}:\n{c}%',axisPointer:{type:'shadow'}},grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},xAxis:[{type:'category',data:ret.data.name,axisTick:{alignWithLabel:true},axisLabel:{interval:0,rotate:-40},axisTick:{alignWithLabel:true}}],yAxis:[{type:'value',axisLabel: {show: true,interval: 'auto',formatter: '{value} %' }}],series:[{name:'用量',type:'bar',barWidth:'60%',data:ret.data.percent}]};
+                            //var option = {title:{text:'重置日至今使用总量占比'},color:['#3398DB'],tooltip:{trigger: 'item',formatter: '{b}:\n{c}%',axisPointer:{type:'shadow'}},grid:{left:'3%',right:'4%',bottom:'3%',containLabel:true},xAxis:[{type:'category',data:ret.data.name,axisTick:{alignWithLabel:true},axisLabel:{interval:0,rotate:-40},axisTick:{alignWithLabel:true}}],yAxis:[{type:'value',axisLabel: {show: true,interval: 'auto',formatter: '{value} %' }}],series:[{name:'用量',type:'bar',barWidth:'60%',data:ret.data.percent}]};
+                            var option = {title:{text:'节点流量占总可用流量比例',subtext:'最近30天'},tooltip:{trigger:'axis'},legend:{data:['最近30天']},toolbox:{show:true,feature:{mark:{show:true},dataView:{show:true,readOnly:false},magicType:{show:true,type:['bar']},restore:{show:true},saveAsImage:{show:true}}},calculable:true,xAxis:[{type:'value',boundaryGap:[0,0.01]}],yAxis:[{type:'category',data:ret.data.name}],series:[{name:'占比',type:'bar',data:ret.data.percent}]};
                             nodeUsedCyclicityEchart.setOption(option);                           
                         }                       
                     }
