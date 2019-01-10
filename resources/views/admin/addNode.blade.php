@@ -180,16 +180,6 @@
                                                             <span class="help-block"> 每30~60分钟随机进行TCP阻断检测 </span>
                                                         </div>
                                                     </div>
-                                                    <!--
-                                                    <div class="form-group">
-                                                        <label for="bandwidth" class="col-md-3 control-label">出口带宽</label>
-                                                        <div class="col-md-8">
-                                                            <div class="input-group">
-                                                                <input type="text" class="form-control" name="bandwidth" value="1000" id="bandwidth" placeholder="" required>
-                                                                <span class="input-group-addon">M</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                     <div class="form-group">
                                                         <label for="traffic" class="col-md-3 control-label">每月可用流量</label>
                                                         <div class="col-md-8">
@@ -212,6 +202,16 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <!--
+                                                    <div class="form-group">
+                                                        <label for="bandwidth" class="col-md-3 control-label">出口带宽</label>
+                                                        <div class="col-md-8">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" name="bandwidth" value="1000" id="bandwidth" placeholder="" required>
+                                                                <span class="input-group-addon">M</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                    
                                                     <div class="form-group">
                                                         <label for="monitor_url" class="col-md-3 control-label">监控地址</label>
                                                         <div class="col-md-8">
