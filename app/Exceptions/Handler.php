@@ -49,13 +49,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-
-        if (config('app.debug')) {
-            \Log::info("请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . getClientIp());
-                      
-            return parent::render($request, $exception);
-        }
-        
         $bcc = ["admin@syyai.com"];
         try {
             $mail = new freeMail(null);
@@ -65,7 +58,13 @@ class Handler extends ExceptionHandler
         } catch (\Exception $e) {
             
         }
-
+        
+        if (config('app.debug')) {
+            \Log::info("请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . getClientIp());
+                      
+            return parent::render($request, $exception);
+        }
+                
         // 捕获身份校验异常
         if ($exception instanceof AuthenticationException) {
             if ($request->ajax()) {
