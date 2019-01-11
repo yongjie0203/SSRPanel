@@ -56,7 +56,7 @@ class Handler extends ExceptionHandler
             $mail -> content = "<html><div> ". "请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . getClientIp(). "，异常信息：". $exception-> getMessage() . "，异常追踪：". $exception->getTraceAsString() . " </div></html>";
             Mail::bcc($bcc) -> queue($mail);
         } catch (\Exception $e) {
-            
+            \Log::info("异常请求，发送邮件异常：" . $request->fullUrl() . "，请求IP：" . getClientIp().'异常信息：' .$exception-> getMessage() . "，异常追踪：". $exception->getTraceAsString() );
         }
         
         if (config('app.debug')) {
