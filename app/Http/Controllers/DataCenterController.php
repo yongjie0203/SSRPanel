@@ -116,7 +116,7 @@ class DataCenterController extends Controller
     
    //最近30天用户在线数量
    public function onlineUsersMonthly(){
-        $sql = "SELECT t.date,l.users from (
+        $sql = " SELECT t.date,l.users from (
                 SELECT DATE_FORMAT(date_add(now(), interval -1*x.d day),'%Y-%m-%d') date
                 FROM
                     (SELECT 0 AS d UNION ALL  SELECT 1   UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL
