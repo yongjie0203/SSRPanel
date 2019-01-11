@@ -52,19 +52,18 @@ class Handler extends ExceptionHandler
 
         if (config('app.debug')) {
             \Log::info("请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . getClientIp());
-            $bcc = ["admin@syyai.com"];
-            try {
-                $mail = new freeMail(null);
-                $mail -> subject = "网站异常通知";
-                $mail -> content = "<html><div> ". "请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . getClientIp(). "，异常信息：". $exception-> getMessage() . "，异常追踪：". $exception->getTraceAsString() . " </div></html>";
-
-                Mail::bcc($bcc) -> queue($mail);
-            } catch (\Exception $e) {
-               
-            }
-            
+                      
             return parent::render($request, $exception);
-
+        }
+        
+        $bcc = ["admin@syyai.com"];
+        try {
+            $mail = new freeMail(null);
+            $mail -> subject = "网站异常通知";
+            $mail -> content = "<html><div> ". "请求导致异常的地址：" . $request->fullUrl() . "，请求IP：" . getClientIp(). "，异常信息：". $exception-> getMessage() . "，异常追踪：". $exception->getTraceAsString() . " </div></html>";
+            Mail::bcc($bcc) -> queue($mail);
+        } catch (\Exception $e) {
+            
         }
 
         // 捕获身份校验异常
