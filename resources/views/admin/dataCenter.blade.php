@@ -10,6 +10,7 @@
             <div id="node-used-monthly" style="width:95%;height:300px" ></div>
             <div id="user-online-data-monthly" style="width:95%;height:300px" ></div>
             <div id="order-data-monthly" style="width:95%;height:300px" ></div>
+            <div id="online-users-monthly" style="width:95%;height:300px" ></div>
         </div> 
         
         
@@ -28,11 +29,13 @@
              var nodeUsedMonthlyEchart = echarts.init(document.getElementById('node-used-monthly'));
              var userOnlineDataMonthlyEchart = echarts.init(document.getElementById('user-online-data-monthly'));
              var orderDataMonthlyEchart = echarts.init(document.getElementById('order-data-monthly'));
+             var onlineUsersMonthlyEchart = echarts.init(document.getElementById('online-users-monthly'));
              
              nodeUsedCyclicity();
              nodeUsedMonthly();
              userOnlinDataMonthly();
              orderDataMonthly();
+             onlineUsersMonthly();
              
              //流量重置日至今使用量百分百
              function nodeUsedCyclicity(){
@@ -91,6 +94,21 @@
                         if (ret.status == 'success') {  
                             var option = {title:{text:'近30天订单额'},xAxis:{type:'category',data:ret.data.date,axisLabel:{interval:0,rotate:-40}},yAxis:{type:'value'},series:[{data:ret.data.amount,type:'line',itemStyle : { normal: {label : {show: true}}} }]};;
                             orderDataMonthlyEchart.setOption(option);                            
+                        }                       
+                    }
+                });
+             }
+             
+             //30天内每天在线用户数
+             function onlineUsersMonthly(){
+                $.ajax({
+                    type: "GET",
+                    url: "{{url('dataCenter/onlineUsersMonthly')}}",
+                    async: false,                  
+                    success: function (ret) {                        
+                        if (ret.status == 'success') {  
+                            var option = {title:{text:'近30天用户在线数量'},xAxis:{type:'category',data:ret.data.date,axisLabel:{interval:0,rotate:-40}},yAxis:{type:'value'},series:[{data:ret.data.users,type:'line',itemStyle : { normal: {label : {show: true}}} }]};;
+                            onlineUsersMonthlyEchart.setOption(option);                            
                         }                       
                     }
                 });
