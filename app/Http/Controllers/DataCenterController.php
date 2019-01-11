@@ -126,7 +126,7 @@ class DataCenterController extends Controller
                     SELECT 29 UNION ALL SELECT 30 ) x)
                 t
                 LEFT JOIN (
-                SELECT FROM_UNIXTIME(user_traffic_log.log_time,'%Y-%m-%d') date ,count(DISTINCT user_traffic_log.user_id) users from `user_traffic_log` 
+                SELECT FROM_UNIXTIME(user_traffic_log.log_time,'%Y-%m-%d') date ,count(DISTINCT user_traffic_log.user_id) users from user_traffic_log 
                 GROUP BY FROM_UNIXTIME(user_traffic_log.log_time,'%Y-%m-%d')
                 ) l on t.date = l.date
                 order by t.date ";
