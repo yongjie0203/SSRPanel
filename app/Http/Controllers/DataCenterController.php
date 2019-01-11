@@ -117,19 +117,15 @@ class DataCenterController extends Controller
    //最近30天用户在线数量
    public function onlineUsersMonthly(){
         $sql = " SELECT t.date,l.users from (
-                SELECT DATE_FORMAT(date_add(now(), interval -1*x.d day),'%Y-%m-%d') date
-                FROM
-                    (SELECT 0 AS d UNION ALL  SELECT 1   UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL
+                SELECT DATE_FORMAT(date_add(now(), interval -1*x.d day),'%Y-%m-%d') date  FROM(SELECT 0 AS d UNION ALL  SELECT 1   UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL
                     SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL
                     SELECT 15 UNION ALL SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19 UNION ALL SELECT 20 UNION ALL SELECT 21 UNION ALL
                     SELECT 22 UNION ALL SELECT 23 UNION ALL SELECT 24 UNION ALL SELECT 25 UNION ALL SELECT 26 UNION ALL SELECT 27 UNION ALL SELECT 28 UNION ALL
-                    SELECT 29 UNION ALL SELECT 30 ) x)
-                t
+                    SELECT 29 UNION ALL SELECT 30 ) x)  t
                 LEFT JOIN (
                 SELECT FROM_UNIXTIME(user_traffic_log.log_time,'%Y-%m-%d') date ,count(DISTINCT user_traffic_log.user_id) users from user_traffic_log 
                 GROUP BY FROM_UNIXTIME(user_traffic_log.log_time,'%Y-%m-%d')
-                ) l on t.date = l.date
-                order by t.date ";
+                ) l on t.date = l.date  order by t.date ";
        $dbdata = DB::table(DB::raw('('.$sql.') t'))
                     ->selectRaw('date,users')
                     ->orderBy('date','asc')
