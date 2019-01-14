@@ -9,10 +9,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Http\Models\Email;
 use App\Http\Models\EmailTask;
 use App\Components\Helpers;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Mail\Markdown;
 use DB;
 
-class freeMail extends Mailable
+class freeMail extends Mailable implements Renderable
 {
     use Queueable, SerializesModels;
 
@@ -28,6 +30,18 @@ class freeMail extends Mailable
     public $read_img_url;
     protected static $systemConfig;
     
+    /**
+     * Render the mailable into a view.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function render()
+    {
+        Container::getInstance()->call([$this, 'build']);
+        return Container::getInstance()->make('mailer')->render(
+            $this->buildView(), $this->buildViewData()
+        );
+    }
     
 
 
