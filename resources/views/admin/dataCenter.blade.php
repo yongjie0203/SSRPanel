@@ -11,7 +11,7 @@
             <div id="user-online-data-monthly" style="width:95%;height:300px" ></div>
             <div id="order-data-monthly" style="width:95%;height:300px" ></div>
             <div id="online-users-monthly" style="width:95%;height:300px" ></div>
-            <div id="users-online-scatter-monthly" style="width:95%;height:300px" ></div>
+            <div id="user-online-scatter-monthly" style="width:95%;height:300px" ></div>
         </div> 
         
         
@@ -31,14 +31,14 @@
              var userOnlineDataMonthlyEchart = echarts.init(document.getElementById('user-online-data-monthly'));
              var orderDataMonthlyEchart = echarts.init(document.getElementById('order-data-monthly'));
              var onlineUsersMonthlyEchart = echarts.init(document.getElementById('online-users-monthly'));
-             var usersOnlineScatterMonthly = echarts.init(document.getElementById('users-online-scatter-monthly'));
+             var userOnlineScatterMonthlyEchart = echarts.init(document.getElementById('user-online-scatter-monthly'));
              
              nodeUsedCyclicity();
              nodeUsedMonthly();
              userOnlinDataMonthly();
              orderDataMonthly();
              onlineUsersMonthly();
-             usersOnlineScatterMonthly();
+             userOnlineScatterMonthly();
              
              //流量重置日至今使用量百分百
              function nodeUsedCyclicity(){
@@ -125,7 +125,7 @@
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
                             var option = {title:{text:'近30天用户在线分布'},xAxis:{scale:true},yAxis:{scale:true},series:[{type:'effectScatter',symbolSize:10},{type:'scatter',data:ret.data}]};
-                            usersOnlineScatterMonthly.setOption(option);                            
+                            userOnlineScatterMonthlyEchart.setOption(option);                            
                         }                       
                     }
                 });
