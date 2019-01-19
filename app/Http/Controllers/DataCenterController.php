@@ -148,7 +148,7 @@ class DataCenterController extends Controller
                     ->toArray();
         $user_id = array_column($dbdata,'user_id');
         $log_time = array_column($dbdata,'log_time');
-        return Response::json(['status' => 'success', 'data' => ['time'=>$log_time,'users'=>$user_id], 'message' => '成功']); 
+        return Response::json(['status' => 'success', 'data' => $dbdata, 'message' => '成功']); 
    }
     
 }
