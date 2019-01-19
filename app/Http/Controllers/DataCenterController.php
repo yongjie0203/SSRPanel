@@ -136,4 +136,19 @@ class DataCenterController extends Controller
         return Response::json(['status' => 'success', 'data' => ['date'=>$date,'users'=>$users], 'message' => '成功']); 
    }
     
+   //最近30天用户在线分布
+   public function userOnlineScatterMonthly(){
+        $sql = "  select distinct user_traffic_log.user_id,UNIX_TIMESTAMP(FROM_UNIXTIME(user_traffic_log.log_time,'%Y-%m-%d %H:00:00')) log_time from user_traffic_log order by user_traffic_log.user_id desc ";
+       
+       $dbdata = DB::table(DB::raw('('.$sql.') t'))
+                    ->selectRaw('user_id,log_time')
+                    ->orderBy('user_id','desc')
+                    ->orderBy('log_time','desc')
+                    ->get()
+                    ->toArray();
+        $user_id = array_column($dbdata,'user_id');
+        $log_time = array_column($dbdata,'log_time');
+        return Response::json(['status' => 'success', 'data' => ['time'=>$log_time,'users'=>$user_id], 'message' => '成功']); 
+   }
+    
 }
