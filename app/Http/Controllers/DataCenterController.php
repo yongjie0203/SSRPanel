@@ -147,9 +147,9 @@ class DataCenterController extends Controller
                     ->get()
                     ->toArray();
         
-        $data = new array();
+        $data = array();
         foreach ($dbdata as &$item){
-            $it = new array();
+            $it = array();
             array_push($it,$item->user_id);
             array_push($it,$item->log_time);                  
             array_push($data,$it);
