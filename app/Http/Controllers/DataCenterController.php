@@ -147,10 +147,12 @@ class DataCenterController extends Controller
                     ->get()
                     ->toArray();
         
-        $data = [];
+        $data = new array();
         foreach ($dbdata as &$item){
-            $it = [$item->user_id,$item->log_time];            
-            array_push($a,$it);
+            $it = new array();
+            array_push($it,$item->user_id);
+            array_push($it,$item->log_time);                  
+            array_push($data,$it);
         }
        
         return Response::json(['status' => 'success', 'data' => $data, 'message' => '成功']); 
