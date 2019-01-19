@@ -118,6 +118,7 @@ Route::group(['middleware' => ['isForbidden', 'isLogin', 'isAdmin']], function (
     Route::get('dataCenter/orderDataMonthly', 'DataCenterController@orderDataMonthly'); // 近30天订单额统计 
     Route::get('dataCenter/nodeUsedCyclicity', 'DataCenterController@nodeUsedCyclicity'); // 根据流量重置日统计节点使用量
     Route::get('dataCenter/onlineUsersMonthly', 'DataCenterController@onlineUsersMonthly'); // 最近30每天用户在线数量统计
+    Route::get('dataCenter/userOnlineScatterMonthly', 'DataCenterController@userOnlineScatterMonthly'); // 最近30每天用户在线分布
 });
 
 Route::group(['middleware' => ['isForbidden', 'isLogin']], function () {
