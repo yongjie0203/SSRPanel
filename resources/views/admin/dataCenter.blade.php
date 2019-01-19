@@ -124,7 +124,7 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
-                            var option = {title:{text:'近30天用户在线分布'},xAxis:{scale:true},yAxis:{scale:true},series:[{type:'effectScatter',symbolSize:10},{type:'scatter',data:ret.data}]};
+                            var option = {title:{text:'近30天用户在线分布'},xAxis:{scale:true},yAxis:{scale:true},series:[{type:'effectScatter',symbolSize:10},{type:'scatter',symbolSize: 1,data:ret.data}]};
                             userOnlineScatterMonthlyEchart.setOption(option);                            
                         }                       
                     }
