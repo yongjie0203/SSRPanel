@@ -150,7 +150,7 @@ class DataCenterController extends Controller
         $log_time = array_column($dbdata,'log_time');
         $data = [];
         foreach ($dbdata as &$item){
-            $it = [$item['user_id'],$item['log_time']];            
+            $it = [$item.user_id,$item.log_time];            
             array_push($a,$it);
         }
        
