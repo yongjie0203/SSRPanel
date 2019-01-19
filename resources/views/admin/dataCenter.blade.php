@@ -117,7 +117,7 @@
                 });
              }
              
-             function usersOnlineScatterMonthly(){
+             function userOnlineScatterMonthly(){
                 $.ajax({
                     type: "GET",
                     url: "{{url('dataCenter/userOnlineScatterMonthly')}}",
