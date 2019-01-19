@@ -11,6 +11,7 @@
             <div id="user-online-data-monthly" style="width:95%;height:300px" ></div>
             <div id="order-data-monthly" style="width:95%;height:300px" ></div>
             <div id="online-users-monthly" style="width:95%;height:300px" ></div>
+            <div id="users-online-scatter-monthly" style="width:95%;height:300px" ></div>
         </div> 
         
         
@@ -30,12 +31,14 @@
              var userOnlineDataMonthlyEchart = echarts.init(document.getElementById('user-online-data-monthly'));
              var orderDataMonthlyEchart = echarts.init(document.getElementById('order-data-monthly'));
              var onlineUsersMonthlyEchart = echarts.init(document.getElementById('online-users-monthly'));
+             var usersOnlineScatterMonthly = echarts.init(document.getElementById('users-online-scatter-monthly'));
              
              nodeUsedCyclicity();
              nodeUsedMonthly();
              userOnlinDataMonthly();
              orderDataMonthly();
              onlineUsersMonthly();
+             usersOnlineScatterMonthly();
              
              //流量重置日至今使用量百分百
              function nodeUsedCyclicity(){
@@ -109,6 +112,20 @@
                         if (ret.status == 'success') {  
                             var option = {title:{text:'近30天用户在线数量'},xAxis:{type:'category',data:ret.data.date,axisLabel:{interval:0,rotate:-40}},yAxis:{type:'value'},series:[{data:ret.data.users,type:'line',itemStyle : { normal: {label : {show: true}}} }]};;
                             onlineUsersMonthlyEchart.setOption(option);                            
+                        }                       
+                    }
+                });
+             }
+             
+             function usersOnlineScatterMonthly(){
+                $.ajax({
+                    type: "GET",
+                    url: "{{url('dataCenter/userOnlineScatterMonthly')}}",
+                    async: false,                  
+                    success: function (ret) {                        
+                        if (ret.status == 'success') {  
+                            var option = {title:{text:'近30天用户在线分布'},xAxis:{scale:true},yAxis:{scale:true},series:[{type:'effectScatter',symbolSize:10},{type:'scatter',data:ret.data}]};
+                            usersOnlineScatterMonthly.setOption(option);                            
                         }                       
                     }
                 });
