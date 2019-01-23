@@ -68,7 +68,7 @@
                                 <tr style="padding:0;text-align:left;vertical-align:top">
                                     <th style="Margin:0;color:#333;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:19px;margin:0;padding:0;text-align:left">
                                         <div class="release" style="padding-top:5px;padding-left:20px;padding-bottom:20px;">
-                                            <p>您的流量已使用【{{$usedPercent}}%】，为了确保您可以继续正常使用我们的服务，请及时续费。(联系客服QQ：360582818)</p>
+                                            <p>您的流量已使用【{{$usedPercent}}%】，为了确保您可以继续正常使用我们的服务，请及时登录登录<a href="https://syyai.com" target="_blank">https://syyai.com</a>进行续费。</p>
                                         </div>
                                     </th>
                                     <th class="expander" style="Margin:0;color:#333;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:19px;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
