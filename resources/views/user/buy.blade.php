@@ -81,6 +81,7 @@
                         <a class="btn btn-lg green hidden-print" onclick="onlinePay(4)"> 支付宝扫码 </a>
                     @endif
                   	@if($goods->type <= 2)
+                        <a class="btn btn-lg red hidden-print uppercase" href="https://item.taobao.com/item.htm?id=586226576216" target="_blank" > 获取抵用券 </a>
                         <a class="btn btn-lg blue hidden-print uppercase" onclick="pay()"> {{trans('home.service_pay_button')}} </a>
                   	@endif
                 </div>
