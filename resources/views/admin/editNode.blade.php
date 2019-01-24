@@ -222,6 +222,19 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label for="traffic" class="col-md-3 control-label">每月流量重置日</label>
+                                                    <div class="col-md-8">
+                                                        <div class="input-group">
+                                                            <select class="form-control" name="traffic_reset_date" id="traffic_reset_date" >
+                                                                @foreach ($day_list as $day)
+                                                                <option value="{{$day}}" {{1 == $day ? 'selected' : ''}}>{{$day}}</option>
+                                                                @endforeach                                                                    
+                                                            </select>                                                                
+                                                            <span class="input-group-addon">日</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
                                                     <label for="monitor_url" class="col-md-3 control-label">监控地址</label>
                                                     <div class="col-md-8">
                                                         <input type="text" class="form-control right" name="monitor_url" value="{{$node->monitor_url}}" id="monitor_url" placeholder="节点实时监控地址">
@@ -526,6 +539,7 @@
             var obfs_param = $('#obfs_param').val();
             var bandwidth = $('#bandwidth').val();
             var traffic = $('#traffic').val();
+            var traffic_reset_date = $('#traffic_reset_date').val();
             var monitor_url = $('#monitor_url').val();
             var is_subscribe = $("input:radio[name='is_subscribe']:checked").val();
             var is_nat = $("input:radio[name='is_nat']:checked").val();
@@ -576,6 +590,7 @@
                     obfs_param: obfs_param,
                     bandwidth: bandwidth,
                     traffic: traffic,
+                    traffic_reset_date: traffic_reset_date,
                     monitor_url: monitor_url,
                     is_subscribe: is_subscribe,
                     is_nat: is_nat,
