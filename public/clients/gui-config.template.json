@@ -1,7 +1,7 @@
 {
 	"configs" : $configs,
 	"index" : $index,
-	"random" : true,
+	"random" : false,
 	"sysProxyMode" : 3,
 	"shareOverLan" : true,
 	"localPort" : 1080,
