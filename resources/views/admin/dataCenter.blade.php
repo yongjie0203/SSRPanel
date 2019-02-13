@@ -96,7 +96,7 @@
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
                             var amount = sumAmount(ret.data.amount);
-                            var title = '近30天订单额' + amount;
+                            var title = '近30天订单额' +  Math.floor(amount * 100)/100;
                             var option = {title:{text:title},xAxis:{type:'category',data:ret.data.date,axisLabel:{interval:0,rotate:-40}},yAxis:{type:'value'},series:[{data:ret.data.amount,type:'line',itemStyle : { normal: {label : {show: true}}} }]};;
                             orderDataMonthlyEchart.setOption(option);                            
                         }                       
