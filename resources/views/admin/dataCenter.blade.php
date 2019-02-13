@@ -95,7 +95,9 @@
                     async: false,                  
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
-                            var option = {title:{text:'近30天订单额'},xAxis:{type:'category',data:ret.data.date,axisLabel:{interval:0,rotate:-40}},yAxis:{type:'value'},series:[{data:ret.data.amount,type:'line',itemStyle : { normal: {label : {show: true}}} }]};;
+                            var amount = sumAmount(ret.data.amount);
+                            var title = '近30天订单额' + amount;
+                            var option = {title:{text:title},xAxis:{type:'category',data:ret.data.date,axisLabel:{interval:0,rotate:-40}},yAxis:{type:'value'},series:[{data:ret.data.amount,type:'line',itemStyle : { normal: {label : {show: true}}} }]};;
                             orderDataMonthlyEchart.setOption(option);                            
                         }                       
                     }
@@ -129,6 +131,15 @@
                         }                       
                     }
                 });
+             }
+             
+             //数组求和
+             function sumAmount(items){
+                var sum = 0;
+                items.each(function(item){
+                    sum += item;
+                });
+                return sum;
              }
              
          });
