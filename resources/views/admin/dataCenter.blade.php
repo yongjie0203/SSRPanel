@@ -135,11 +135,7 @@
              
              //数组求和
              function sumAmount(items){
-                var sum = 0;
-                items.each(function(item){
-                    sum += item;
-                });
-                return sum;
+               return eval(items.join("+"));
              }
              
          });
