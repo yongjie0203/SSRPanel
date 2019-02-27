@@ -89,7 +89,7 @@ class SubscribeController extends Controller
 
         // 展示到期时间和剩余流量
         if (self::$systemConfig['is_custom_subscribe']) {
-            $scheme .= $this->expireDate($user);
+            $scheme .= $this->expireDate($user,$nodeList[0]);
            // $scheme .= $this->lastTraffic($user);
         }
         
@@ -167,11 +167,26 @@ class SubscribeController extends Controller
      *
      * @return string
      */
-    private function expireDate($user)
+    private function expireDate($user,$node)
     {
-        $text = '到期时间：' . $user->expire_time .'[不可用请勿使用该节点]';
+        $text = '到期时间：' . $user->expire_time;
+        $group = SsGroup::query()->where('id', $node['group_id'])->first();
 
-        return 'ssr://' . base64url_encode('8.8.8.8:8888:origin:none:plain:' . base64url_encode('0000') . '/?obfsparam=&protoparam=&remarks=' . base64url_encode($text) . '&group=' . base64url_encode('默认') . '&udpport=0&uot=0') . "\n";
+        $obfs_param = $user->obfs_param ? $user->obfs_param : $node['obfs_param'];
+        $protocol_param = $node['single'] ? $user->port . ':' . $user->passwd : $user->protocol_param;
+
+        // 生成ssr scheme
+        $ssr_str = ($node['server'] ? $node['server'] : $node['ip']) . ':' . ($node['single'] ? $node['single_port'] : $user->port);
+        $ssr_str .= ':' . ($node['single'] ? $node['single_protocol'] : $user->protocol) . ':' . ($node['single'] ? $node['single_method'] : $user->method);
+        $ssr_str .= ':' . ($node['single'] ? $node['single_obfs'] : $user->obfs) . ':' . ($node['single'] ? base64url_encode($node['single_passwd']) : base64url_encode($user->passwd));
+        $ssr_str .= '/?obfsparam=' . base64url_encode($obfs_param);
+        $ssr_str .= '&protoparam=' . ($node['single'] ? base64url_encode($user->port . ':' . $user->passwd) : base64url_encode($protocol_param));
+        $ssr_str .= '&remarks=' . base64url_encode($text);
+        $ssr_str .= '&group=' . base64url_encode(empty($group) ? '' : $group->name);
+        $ssr_str .= '&udpport=0';
+        $ssr_str .= '&uot=0';
+        $ssr_str = base64url_encode($ssr_str);
+        return $ssr_str;
     }
 
     /**
