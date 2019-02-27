@@ -77,13 +77,6 @@ class SubscribeController extends Controller
             exit($this->noneNode());
         }
 
-        // 打乱数组
-        if (self::$systemConfig['rand_subscribe']) {
-            if (self::$systemConfig['subscribe_max']) {
-                shuffle($nodeList);
-            }
-        }
-
         // 控制客户端最多获取节点数
         $scheme = '';
 
@@ -93,7 +86,12 @@ class SubscribeController extends Controller
            // $scheme .= $this->lastTraffic($user);
         }
         
-        $expireDate = '['. $user->expire_time .']';
+        // 打乱数组
+        if (self::$systemConfig['rand_subscribe']) {
+            if (self::$systemConfig['subscribe_max']) {
+                shuffle($nodeList);
+            }
+        }
 
         foreach ($nodeList as $key => $node) {
             // 控制显示的节点数
