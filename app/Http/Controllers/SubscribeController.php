@@ -90,7 +90,7 @@ class SubscribeController extends Controller
         // 展示到期时间和剩余流量
         if (self::$systemConfig['is_custom_subscribe']) {
             $scheme .= $this->expireDate($user);
-            $scheme .= $this->lastTraffic($user);
+           // $scheme .= $this->lastTraffic($user);
         }
         
         $expireDate = '['. $user->expire_time .']';
@@ -169,7 +169,7 @@ class SubscribeController extends Controller
      */
     private function expireDate($user)
     {
-        $text = '到期时间：' . $user->expire_time;
+        $text = '到期时间：' . $user->expire_time .'[不可用请勿使用该节点]';
 
         return 'ssr://' . base64url_encode('8.8.8.8:8888:origin:none:plain:' . base64url_encode('0000') . '/?obfsparam=&protoparam=&remarks=' . base64url_encode($text) . '&group=' . base64url_encode('默认') . '&udpport=0&uot=0') . "\n";
     }
