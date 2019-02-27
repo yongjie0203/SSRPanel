@@ -92,6 +92,8 @@ class SubscribeController extends Controller
             $scheme .= $this->expireDate($user);
             $scheme .= $this->lastTraffic($user);
         }
+        
+        $expireDate = '['. $user->expire_time .']';
 
         foreach ($nodeList as $key => $node) {
             // 控制显示的节点数
@@ -112,7 +114,7 @@ class SubscribeController extends Controller
                 $ssr_str .= ':' . ($node['single'] ? $node['single_obfs'] : $user->obfs) . ':' . ($node['single'] ? base64url_encode($node['single_passwd']) : base64url_encode($user->passwd));
                 $ssr_str .= '/?obfsparam=' . base64url_encode($obfs_param);
                 $ssr_str .= '&protoparam=' . ($node['single'] ? base64url_encode($user->port . ':' . $user->passwd) : base64url_encode($protocol_param));
-                $ssr_str .= '&remarks=' . base64url_encode($node['name']);
+                $ssr_str .= '&remarks=' . base64url_encode($expireDate . $node['name']);
                 $ssr_str .= '&group=' . base64url_encode(empty($group) ? '' : $group->name);
                 $ssr_str .= '&udpport=0';
                 $ssr_str .= '&uot=0';
