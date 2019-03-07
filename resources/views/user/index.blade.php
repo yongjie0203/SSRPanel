@@ -245,11 +245,11 @@
                         </div>
                         <div class="actions">
                             <div class="btn-group btn-group-devided" data-toggle="buttons">
-                                <a href="/services"  style="color: #FFF;">续期</a>
+                                <a href="/services"  style="color: #FFF;">
                                 <label class="btn red btn-sm">
                                     <!-- <a href="javascript:;" data-toggle="modal" data-target="#charge_modal" style="color: #FFF;">{{trans('home.recharge')}}</a> -->
-                                    
-                                </label>
+                                    续期
+                                </label></a>
                             </div>
                         </div>
                     </div>
