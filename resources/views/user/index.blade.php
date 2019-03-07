@@ -244,7 +244,8 @@
                             <span class="caption-subject font-blue bold">{{trans('home.account_info')}}</span>
                         </div>
                         <div class="actions">
-                            <div class="btn-group btn-group-devided" data-toggle="buttons">
+                            <div  >
+                            <!-- <div class="btn-group btn-group-devided" data-toggle="buttons">-->
                                 <a href="/services"  style="color: #FFF;">
                                 <label class="btn red btn-sm">
                                     <!-- <a href="javascript:;" data-toggle="modal" data-target="#charge_modal" style="color: #FFF;">{{trans('home.recharge')}}</a> -->
