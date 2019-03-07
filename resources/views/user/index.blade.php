@@ -296,7 +296,12 @@
                                 </div>
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <label class="col-md-4 control-label">{{trans('home.account_bandwidth_usage')}}：</label>
+                                    @if($info['totalTransfer'] <= 5*1024*1024*1024)
                                     <p class="form-control-static"> {{$info['usedTransfer']}}（{{$info['totalTransfer']}}） </p>
+                                    @endif
+                                    @if($info['totalTransfer'] > 5*1024*1024*1024)
+                                    <p class="form-control-static"> {{$info['usedTransfer']}}（不限流量） </p>
+                                    @endif
                                 </div>
                                 @if($info['traffic_reset_day'])
                                     <div class="form-group" style="margin-bottom: 0;">
