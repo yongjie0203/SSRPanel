@@ -55,7 +55,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $user = User::query()->where('id', Auth::user()->id)->first();
-        $user->totalTransfer = flowAutoShow($user->transfer_enable);
+        $user->totalTransfer = $user->transfer_enable < 5*1024*1024*1024*1024 ? flowAutoShow($user->transfer_enable) : '不限流量';
         $user->usedTransfer = flowAutoShow($user->u + $user->d);
         $user->usedPercent = $user->transfer_enable > 0 ? round(($user->u + $user->d) / $user->transfer_enable, 2) : 1;
         $user->levelName = Level::query()->where('level', $user['level'])->first()['level_name'];
