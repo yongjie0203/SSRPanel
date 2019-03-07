@@ -36,7 +36,7 @@ class Goods extends Model
 
     public function getTrafficLabelAttribute()
     {
-        $traffic_label = flowAutoShow($this->attributes['traffic'] * 1048576);
+        $traffic_label = $this->attributes['traffic'] * 1048576 < 5*1024*1024*1024*1024 ? flowAutoShow($this->attributes['traffic'] * 1048576) : '不限流量';
 
         return $traffic_label;
     }
