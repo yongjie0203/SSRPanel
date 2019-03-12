@@ -98,7 +98,7 @@
                                     @else
                                         @foreach ($userList as $user)
                                             <tr class="odd gradeX {{$user->trafficWarning ? 'danger' : ''}}">
-                                                <td> {{$user->id}} </td>
+                                                <td> <a href="javascript:switchToUser('{{$user->id}}');">{{$user->id}} </a> </td>
                                                 <td> {{$user->username}} </td>
                                                 <td> <span class="label label-danger"> {{$user->port ? $user->port : '未分配'}} </span> </td>
                                                 <td> <span class="label label-default"> {{$user->method}} </span> </td>
