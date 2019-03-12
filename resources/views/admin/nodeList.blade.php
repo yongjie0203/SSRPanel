@@ -62,7 +62,7 @@
                                                     <span class="label {{$node->status ? 'label-info' : 'label-default'}}">{{$node->is_nat ? 'NAT' : ''}}</span>
                                                 </td>
                                                 <td> {{$node->name}} </td>
-                                                <td> <span class="label {{$node->status ? 'label-danger' : 'label-default'}}"><a href="http://ping.chinaz.com/{{$node->ip}}">{{$node->ip}}</a></span> </td>
+                                                <td> <span class="label {{$node->status ? 'label-danger' : 'label-default'}}"><a href="http://ping.chinaz.com/{{$node->ip}}" target="_blank">{{$node->ip}}</a></span> </td>
                                                 <td> <span class="label {{$node->status ? 'label-danger' : 'label-default'}}">{{$node->server}}</span> </td>
                                                 <td> <span class="label {{$node->status ? 'label-danger' : 'label-default'}}">{{$node->load}}</span> </td>
                                                 <td> <span class="label {{$node->status ? 'label-danger' : 'label-default'}}">{{$node->online_users}}</span> </td>
