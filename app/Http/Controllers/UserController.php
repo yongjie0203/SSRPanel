@@ -746,7 +746,7 @@ class UserController extends Controller
 
                 // 写入返利日志
                 if ($user->referral_uid) {
-                    $this->addReferralLog($user->id, $user->referral_uid, $order->oid, $amount, $amount * self::$systemConfig['referral_percent']);
+                    $this->addReferralLog($user->id, $user->referral_uid, $order->oid, $amount, $order->origin_amount * self::$systemConfig['referral_percent']);
                 }
 
                 // 取消重复返利
