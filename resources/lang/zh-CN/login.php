@@ -2,8 +2,8 @@
 
 return [
     'title'           => '登入',
-    'tips'            => '请输入用户名和密码',
-    'username'        => '用户名',
+    'tips'            => '请输入邮箱和密码',
+    'username'        => '邮箱',
     'password'        => '密码',
     'captcha'         => '验证码',
     'remember'        => '记住我',
