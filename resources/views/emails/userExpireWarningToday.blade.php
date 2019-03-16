@@ -68,7 +68,7 @@
                                 <tr style="padding:0;text-align:left;vertical-align:top">
                                     <th style="Margin:0;color:#333;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:19px;margin:0;padding:0;text-align:left">
                                         <div class="release" style="padding-top:5px;padding-left:20px;padding-bottom:20px;">
-                                            <p>您的账号今天晚上【24:00】过期，为了确保您可以继续正常使用我们的服务，请及时登录<a href="https://syyai.com" target="_blank">https://syyai.com</a>进行续费。</p>
+                                            <p>您的账号今天到期，为了确保您可以继续正常使用我们的服务，请及时登录<a href="http://nodess.ml" target="_blank">http://nodess.ml</a>进行续费。如有疑问请登录网站发起服务单。QQ 微信暂不处理售后问题。</p>
                                         </div>
                                     </th>
                                     <th class="expander" style="Margin:0;color:#333;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:19px;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
