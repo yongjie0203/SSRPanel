@@ -64,7 +64,7 @@ class EmailJob extends Command
             Log::info('开始任务'.$when);
             $mailable = new freeMail($email->id);       
             $mailable->task = $task;
-            Mail::bcc(['admin@syyai.com'])->later($when, $mailable);
+            Mail::bcc(explode(";",$task->to))->later($when, $mailable);
             $data = ['status'=>5];//队列中
             EmailTask::query()->where('id', $task->id)->update($data);
         }
