@@ -838,6 +838,12 @@ class UserController extends Controller
         if (Auth::user()->expire_time < date('Y-m-d')) {
             return Response::json(['status' => 'fail', 'data' => '', 'message' => '申请失败：账号已过期，请先购买服务吧']);
         }
+        
+        // 判断账户是否有消费记录
+        $noneExpireGoodExist = Order::query()->where('status', '>=', 0)->where('is_expire', 0)->where('user_id', Auth::user()->id)->exists();
+        if (!$noneExpireGoodExist) {
+            return Response::json(['status' => 'fail', 'data' => '', 'message' => '申请失败：您尚未购买服务，请先购买服务']);
+        }
 
         // 判断是否已存在申请
         $referralApply = ReferralApply::query()->where('user_id', Auth::user()->id)->whereIn('status', [0, 1])->first();
