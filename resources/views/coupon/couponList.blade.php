@@ -117,7 +117,8 @@
 @endsection
 @section('script')
     <script src="/assets/global/plugins/fancybox/source/jquery.fancybox.js" type="text/javascript"></script>
-
+    <script src="/assets/global/plugins/clipboardjs/clipboard.min.js" type="text/javascript"></script>
+    <script src="/assets/pages/scripts/components-clipboard.min.js" type="text/javascript"></script>
     <script type="text/javascript">
         // 批量导出卡券
         function exportCoupon() {
