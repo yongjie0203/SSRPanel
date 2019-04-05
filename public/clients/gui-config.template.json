@@ -2,7 +2,7 @@
 	"configs" : $configs,
 	"index" : $index,
 	"random" : false,
-	"sysProxyMode" : 3,
+	"sysProxyMode" : 2,
 	"shareOverLan" : true,
 	"localPort" : 1080,
 	"localAuthPassword" : "vXjSh2KNq0QN4c99ukvW",
