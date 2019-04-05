@@ -54,7 +54,7 @@
                                         <tr class="odd gradeX">
                                             <td> {{$coupon->id}} </td>
                                             <td> {{$coupon->name}} </td>
-                                            <td> <span class="label label-info">{{$coupon->sn}}</span> </td>
+                                            <td> <span class="label label-info mt-clipboard" data-clipboard-action="copy" data-clipboard-text="{{$coupon->sn}}">{{$coupon->sn}}</span> </td>
                                             <td> @if($coupon->logo) <a href="{{$coupon->logo}}" class="fancybox"><img src="{{$coupon->logo}}"/></a> @endif </td>
                                             <td>
                                                 @if($coupon->type == '1')
