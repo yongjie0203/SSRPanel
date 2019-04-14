@@ -121,12 +121,14 @@
                                                         @if(Agent::is('Safari'))
                                                             <li> <a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/00/shadowrocket00_ipa.plist" target="_blank">在线安装Shadowrocket</a>,（<a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">备用安装</a>）<a href="{{asset('doc/iOS使用帮助.pdf')}}" target="_blank">查看使用帮助</a>。</li>
                                                             <li> <a id="auto_import" href="" target="_blank">点击此处导入订阅配置</a></li>
+                                                            <li> 设置 -> 服务器订阅 -> 打开时更新</li>
                                                         @else
                                                             <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装Shadowrocket</a></li>
                                                             <li> <a href="javascript:onlineInstallWarning();">点击此处导入订阅配置</a></li>
+                                                            <li> 设置 -> 服务器订阅 -> 打开时更新</li>
                                                         @endif
                                                     @endif					    						
-                                                        <li> 当进行海外游戏时请将 Shadowrocket “首页” 页面中的 “全局路由” 切换至 “代理”，并确保“设置”页面中的“UDP”已开启转发 </li>
+                                                        
                                                 </ol>
                                                 <ol>                                                 	  
                                                       @if(Agent::is('iPhone') || Agent::is('iPad'))
