@@ -657,7 +657,7 @@ class UserController extends Controller
                     // 如果存在未过期的套餐订单 
                     if($not_expire_order){
                         // 重新计算到期时间
-                        $order->expire_at = date("Y-m-d H:i:s", strtotime("+" . $goods->days . " days", $not_expire_order->expire_at ));
+                        $order->expire_at = date("Y-m-d H:i:s", strtotime("+" . $goods->days . " days", strtotime($not_expire_order->expire_at) ));
                         // 订单状态：待生效
                         $order->status = -2;
 
