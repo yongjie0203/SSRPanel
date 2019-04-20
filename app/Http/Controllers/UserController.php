@@ -639,6 +639,35 @@ class UserController extends Controller
                 $order->is_expire = 0;
                 $order->pay_way = 1;
                 $order->status = 2;
+                
+                $has_not_expire_order = false;
+
+                // 验证是否存在未过期订单
+                if ($goods->type == 2) {
+                    $not_expire_order = Order::query()
+                        ->with(['goods'])
+                        ->whereHas('goods', function ($q) {
+                            $q->where('type', 2);
+                        })
+                        ->where('user_id', Auth::user()->id)
+                        ->where('is_expire', 0)
+                        ->where('status', 2)
+                        ->orderBy('expire_at', 'desc')
+                        ->first();
+                    // 如果存在未过期的套餐订单 
+                    if($not_expire_order){
+                        // 重新计算到期时间
+                        $order->expire_at = date("Y-m-d H:i:s", strtotime("+" . $goods->days . " days", $not_expire_order->expire_at ));
+                        // 订单状态：待生效
+                        $order->status = -2;
+
+                        $has_not_expire_order = true;
+                        
+                    }
+                }
+
+                $expireTime = $order->expire_at;
+                
                 $order->save();
 
                 // 扣余额
@@ -659,6 +688,7 @@ class UserController extends Controller
                 }
 
                 // 如果买的是套餐，则先将之前购买的所有套餐置都无效，并扣掉之前所有套餐的流量，重置用户已用流量为0
+                /*
                 if ($goods->type == 2) {
                     $existOrderList = Order::query()
                         ->with(['goods'])
@@ -690,6 +720,7 @@ class UserController extends Controller
                         }
                     }
                 }
+                */
 
                 // 写入用户流量变动记录
                 $user = User::query()->where('id', $user->id)->first(); // 重新取出user信息
@@ -699,14 +730,14 @@ class UserController extends Controller
                 User::query()->where('id', $user->id)->increment('transfer_enable', $goods->traffic * 1048576);
 
                 // 计算账号过期时间
-                if ($user->expire_time < date('Y-m-d', strtotime("+" . $goods->days . " days"))) {
-                    $expireTime = date('Y-m-d', strtotime("+" . $goods->days . " days"));
+                if ($user->expire_time < $expireTime ) {
+                   // $expireTime = date('Y-m-d', strtotime("+" . $goods->days . " days"));
                 } else {
                     $expireTime = $user->expire_time;
                 }
 
-                // 套餐就改流量重置日，流量包不改
-                if ($goods->type == 2) {
+                // 套餐就改流量重置日，流量包不改,如果有未到期套餐重置日不修改
+                if ($goods->type == 2 && !$has_not_expire_order) {
                     if (date('m') == 2 && date('d') == 29) {
                         $traffic_reset_day = 28;
                     } else {
