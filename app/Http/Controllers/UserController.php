@@ -790,6 +790,7 @@ class UserController extends Controller
                 DB::rollBack();
 
                 Log::error('支付订单失败：' . $e->getMessage());
+                Log::error('支付订单失败：' . $e->getTraceAsString() );
 
                 return Response::json(['status' => 'fail', 'data' => '', 'message' => '支付失败：' . $e->getMessage()]);
             }
