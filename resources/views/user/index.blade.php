@@ -134,7 +134,7 @@
                                                       @if(Agent::is('iPhone') || Agent::is('iPad'))
                                                           @if(Agent::is('Safari'))
                                                               <li> <a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/quantumult/00/quantumult00_ipa.plist" target="_blank">在线安装Quantumult</a>。</li>
-                                                              <li> <a id="quantumult_auto_import"  target="_blank">点击此处导入订阅配置</a></li>
+                                                              <li> <a id="quantumult_auto_import" href=""  target="_blank">点击此处导入订阅配置</a></li>
                                                  			  <li>等待更新成功后，后台关闭软件，重新打开软件，点击底部菜单栏黑色图标，选择线路，点击软件上方 Quantumult 旁的按钮，开启代理</li>
                                                           @else
                                                               <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装Quantumult</a></li>
