@@ -660,6 +660,8 @@ class UserController extends Controller
                         $order->expire_at = date("Y-m-d H:i:s", strtotime("+" . $goods->days . " days", strtotime($not_expire_order->expire_at) ));
                         // 订单状态：待生效
                         $order->status = -2;
+                        
+                        Log::info('未过期订单：' . $not_expire_order->order_sn);
 
                         $has_not_expire_order = true;
                         
