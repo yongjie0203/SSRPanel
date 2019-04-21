@@ -615,7 +615,7 @@ class UserController extends Controller
                     })
                     ->where('user_id', Auth::user()->id)
                     ->where('is_expire', 0)
-                    ->where('status', 2)
+                    ->whereIn('status', [2,-2])
                     ->get();
 
                 foreach ($existOrderList as $vo) {
@@ -651,7 +651,7 @@ class UserController extends Controller
                         })
                         ->where('user_id', Auth::user()->id)
                         ->where('is_expire', 0)
-                        ->where('status', 2)
+                        ->whereIn('status', [2,-2])
                         ->orderBy('expire_at', 'desc')
                         ->orderBy('created_at', 'desc')
                         ->first();
