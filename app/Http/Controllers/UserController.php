@@ -659,6 +659,8 @@ class UserController extends Controller
                     if($not_expire_order){
                         // 重新计算到期时间
                         $order->expire_at = date("Y-m-d H:i:s", strtotime("+" . $goods->days . " days", strtotime($not_expire_order->expire_at) ));
+                        // 订单生效时间
+                        $order->effective_at = date("Y-m-d H:i:s", strtotime($not_expire_order->expire_at));
                         // 订单状态：待生效
                         $order->status = -2;
                         
