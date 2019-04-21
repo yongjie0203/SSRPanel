@@ -76,7 +76,7 @@ class DataCenterController extends Controller
         $sql .= "     t  ";
         $sql .= "     LEFT JOIN ( ";
         $sql .= "     SELECT DATE_FORMAT(`order`.created_at,'%Y-%m-%d') date ,sum(if(amount = 0 ,origin_amount,amount))/100 amount from `order`  ";
-        $sql .= "     where `order`.`status` in (1,2) ";
+        $sql .= "     where `order`.`status` in (1,2,-2) ";
         $sql .= "     GROUP BY DATE_FORMAT(`order`.created_at,'%Y-%m-%d') ";
         $sql .= "     ) o on t.date = o.date ";
         $sql .= "     order by t.date";
