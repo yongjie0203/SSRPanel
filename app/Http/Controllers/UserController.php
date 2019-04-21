@@ -653,6 +653,7 @@ class UserController extends Controller
                         ->where('is_expire', 0)
                         ->where('status', 2)
                         ->orderBy('expire_at', 'desc')
+                        ->orderBy('created_at', 'desc')
                         ->first();
                     // 如果存在未过期的套餐订单 
                     if($not_expire_order){
