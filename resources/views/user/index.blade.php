@@ -45,11 +45,11 @@
                             <div class="portlet-body">
                                 <div class="mt-clipboard-container" style="padding-top:0px;">
                                     @if($subscribe_status)
-                                        <input type="text" id="mt-target-1" readonly class="form-control" value="{{$link}}" />
+                                        <span id="mt-target-1"  class="form-control"/>{{$link}}</span>
                                         <a href="javascript:exchangeSubscribe();" class="btn green">
                                             {{trans('home.exchange_subscribe')}}
                                         </a>
-                                        <a href="javascript:;" class="btn blue mt-clipboard" data-clipboard-action="copy" data-clipboard-target="#mt-target-1">
+                                        <a href="javascript:;" class="btn blue mt-clipboard" data-clipboard-action="copy" data-clipboard-text="{{$link}}">
                                             {{trans('home.copy_subscribe_address')}}
                                         </a>
                                     @else
