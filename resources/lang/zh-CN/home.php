@@ -2,7 +2,7 @@
 
 return [
     'panel'                           => '控制面板',
-    'subscribe_address'               => '订阅服务',
+    'subscribe_address'               => '订阅地址',
     'copy_subscribe_address'          => '复制',
     'exchange_subscribe'              => '更换',
     'subscribe_warning'               => '警告：该订阅地址仅限个人使用，请勿传播该地址，否则会导致您的账号流量使用情况异常触发自动封号机制。',
