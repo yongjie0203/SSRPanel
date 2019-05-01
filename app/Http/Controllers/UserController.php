@@ -6,6 +6,7 @@ use App\Components\Helpers;
 use App\Components\ServerChan;
 use App\Http\Models\Article;
 use App\Http\Models\Coupon;
+use App\Http\Models\CouponAgent;
 use App\Http\Models\Goods;
 use App\Http\Models\GoodsLabel;
 use App\Http\Models\Invite;
@@ -686,6 +687,14 @@ class UserController extends Controller
                     if ($coupon->usage == 1) {
                         $coupon->status = 1;
                         $coupon->save();
+                        
+                        if($coupon->holder){
+                            $coupon_agent = CouponAgent::query()->where('coupon_id',$coupon->id)->first();
+                            $coupon_agent-> status = 1;
+                            $coupon_agent->save();
+                        }
+                        
+                        
                     }
 
                     // 写入日志
