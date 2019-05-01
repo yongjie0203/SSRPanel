@@ -95,13 +95,10 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">代理</label>
                                     <div class="col-md-4">
-                                        <div class="mt-checkbox-inline">
-                                            <label class="mt-checkbox">
-                                                <input type="checkbox" name="is_agent" value="0" onclick="$(this).va(($(this).va()+1)%2);" id="is_agent" > 代理用
-                                                <span></span>
-                                            </label>
+                                        <div class="mt-checkbox-inline">                                            
                                             <label class="mt-input">
-                                                <input type="text" name="holder" value="2" id="holder"> 
+                                                代理id
+                                                <input type="text" name="holder"  id="holder"> 
                                                 <span></span>
                                             </label>
                                         </div>
