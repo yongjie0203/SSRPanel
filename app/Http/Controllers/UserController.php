@@ -691,6 +691,8 @@ class UserController extends Controller
                         if($coupon->holder){
                             $coupon_agent = CouponAgent::query()->where('coupon_id',$coupon->id)->first();
                             $coupon_agent-> status = 1;
+                            $coupon_agent-> order_id = $order->oid;
+                            $coupon_agent-> order_user_id = $order->user_id;
                             $coupon_agent->save();
                         }
                         
