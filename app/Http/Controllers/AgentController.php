@@ -53,7 +53,13 @@ class AgentController extends Controller
         self::$systemConfig = Helpers::systemConfig();
     }
 
-   
+   public function coupons(Request $request){
+       $status = $request->get('status',0);
+       $limit = $request->get('limit',5);
+       $amount = $request->get('amount');
+       $couponList = Coupon::query()->where('holder',Auth::user()->id)->where('status',$status)->where('amount',$amount)->limit($limit)->get()->toArray();
+       Response::json(['status' => 'success', 'data' => $couponList, 'message' => '']);
+   }
 
     // 购买服务
     public function buy(Request $request, $id)
