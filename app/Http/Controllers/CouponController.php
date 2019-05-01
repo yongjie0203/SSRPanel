@@ -108,7 +108,7 @@ class CouponController extends Controller
                         $agent_coupon = new CouponAgent();
                         $agent_coupon->user_id = $holder;
                         $agent_coupon->coupon_id = $obj->id;
-                        $agent_coupon->amount = $obj->amount;
+                        $agent_coupon->amount = $obj->amount*100;
                         $agent_coupon->status = 0;
                         $agent_coupon->rate = $agent->rate;
                         $agent_coupon->save();
