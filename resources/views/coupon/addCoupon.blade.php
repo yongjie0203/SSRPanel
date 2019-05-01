@@ -97,7 +97,7 @@
                                     <div class="col-md-4">
                                         <div class="mt-checkbox-inline">
                                             <label class="mt-checkbox">
-                                                <input type="checkbox" name="is_agent" value="0" id="is_agent" > 代理用
+                                                <input type="checkbox" name="is_agent" value="0" onclick="$(this).va(($(this).va()+1)%2);" id="is_agent" > 代理用
                                                 <span></span>
                                             </label>
                                             <label class="mt-input">
