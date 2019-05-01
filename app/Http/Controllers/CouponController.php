@@ -104,7 +104,7 @@ class CouponController extends Controller
                     $obj->holder = $holder;
                     $obj->save();
                     
-                    if($is_agent == 1){
+                    if($agent){
                         $agent_coupon = new CouponAgent();
                         $agent_coupon->user_id = $holder;
                         $agent_coupon->coupon_id = $obj->id;
