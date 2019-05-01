@@ -38,13 +38,13 @@ use Auth;
 use Hash;
 
 /**
- * 用户控制器
+ * 经销商代理商控制器
  *
- * Class UserController
+ * Class AgentController
  *
  * @package App\Http\Controllers
  */
-class UserController extends Controller
+class AgentController extends Controller
 {
     protected static $systemConfig;
 
