@@ -93,6 +93,21 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="control-label col-md-3">代理</label>
+                                    <div class="col-md-4">
+                                        <div class="mt-checkbox-inline">
+                                            <label class="mt-checkbox">
+                                                <input type="checkbox" name="is_agent" value="0" id="is_agent" > 代理用
+                                                <span></span>
+                                            </label>
+                                            <label class="mt-input">
+                                                <input type="text" name="holder" value="2" id="holder"> 
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label class="control-label col-md-3">数量</label>
                                     <div class="col-md-4">
                                         <div class="input-group">
