@@ -46,9 +46,14 @@ class CouponController extends Controller
             
             //是否是代理用的券
             $is_agent = $request->get('is_agent', 0);
+            $holder = null;
             $agent = null;
             if($is_agent == 1){
                 $holder = $request->get('holder');
+                if(!$holder){
+                    Session::flash('errorMsg', '持有用户无效');
+                    return Redirect::back()->withInput();
+                }
                 $agent = Agent::query()->where('status', 1)->where('user_id', $holder)->first();
                 if(!$agent){
                     Session::flash('errorMsg', '持有用户无效');
