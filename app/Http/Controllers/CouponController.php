@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Models\Agent;
 use App\Http\Models\Coupon;
+use App\Http\Models\CouponAgent;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -41,6 +43,18 @@ class CouponController extends Controller
             $discount = $request->get('discount');
             $available_start = $request->get('available_start');
             $available_end = $request->get('available_end');
+            
+            //是否是代理用的券
+            $is_agent = $request->get('is_agent', 0);
+            $agent = null;
+            if($is_agent == 1){
+                $holder = $request->get('holder');
+                $agent = Agent::query()->where('status', 1)->where('user_id', $holder)->first();
+                if(!$agent){
+                    Session::flash('errorMsg', '持有用户无效');
+                    return Redirect::back()->withInput();
+                }
+            } 
 
             if (empty($num) || (empty($amount) && empty($discount)) || empty($available_start) || empty($available_end)) {
                 Session::flash('errorMsg', '请填写完整');
@@ -86,7 +100,19 @@ class CouponController extends Controller
                     $obj->available_start = strtotime(date('Y-m-d 00:00:00', strtotime($available_start)));
                     $obj->available_end = strtotime(date('Y-m-d 23:59:59', strtotime($available_end)));
                     $obj->status = 0;
+                    $obj->holder = $holder;
                     $obj->save();
+                    
+                    if($is_agent == 1){
+                        $agent_coupon = new CouponAgent();
+                        $agent_coupon->user_id = $holder;
+                        $agent_coupon->coupon_id = $obj->id;
+                        $agent_coupon->amount = $obj->amount;
+                        $agent_coupon->status = 0;
+                        $agent_coupon->rate = $agent->rate;
+                        $agent_coupon->save();
+                    }
+                    
                 }
 
                 DB::commit();
