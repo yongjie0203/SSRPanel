@@ -144,6 +144,9 @@ Route::group(['middleware' => ['isForbidden', 'isLogin']], function () {
     Route::post("switchToAdmin", "UserController@switchToAdmin"); // 转换成管理员的身份
     Route::post("charge", "UserController@charge"); // 卡券余额充值
     Route::get("help", "UserController@help"); // 帮助中心
+    
+    Route::post("agent/buy/{id}","AgentController@buy");//代理为用户设置套餐
+    Route::get("agent/coupons","AgentController@coupons");//代理代金券查询
 
     Route::post('payment/create', 'PaymentController@create'); // 创建支付
     Route::get('payment/getStatus', 'PaymentController@getStatus'); // 获取支付单状态
