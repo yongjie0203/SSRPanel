@@ -52,6 +52,10 @@ class AgentController extends Controller
     {
         self::$systemConfig = Helpers::systemConfig();
     }
+    
+    public function index(){
+        return Response::view('user.agent');
+    }
 
    public function coupons(Request $request){
        $status = $request->get('status',0);
