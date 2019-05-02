@@ -53,8 +53,99 @@ class AgentController extends Controller
         self::$systemConfig = Helpers::systemConfig();
     }
     
-    public function index(){
-        return Response::view('user.agent');
+       
+    // 用户列表
+    public function userList(Request $request)
+    {
+        $username = $request->get('username');
+        $wechat = $request->get('wechat');
+        $qq = $request->get('qq');
+        $port = $request->get('port');
+        $pay_way = $request->get('pay_way');
+        $status = $request->get('status');
+        $enable = $request->get('enable');
+        $online = $request->get('online');
+        $unActive = $request->get('unActive');
+        $flowAbnormal = $request->get('flowAbnormal');
+        $expireWarning = $request->get('expireWarning');
+        $largeTraffic = $request->get('largeTraffic');
+        $query = User::query();
+        if (empty($username) && empty($port)) {
+            $query = User::rightJoin('coupon_agent', function($join) {
+              $join->on('coupon_agent.order_user_id', '=', 'user.id');
+              $join->on('coupon_agent.user_id', '=', Auth::user()->id);
+            });           
+        }
+        if (!empty($username)) {
+            $query->where('username', 'like', '%' . $username . '%');
+        }
+        if (!empty($wechat)) {
+            $query->where('wechat', 'like', '%' . $wechat . '%');
+        }
+        if (!empty($qq)) {
+            $query->where('qq', 'like', '%' . $qq . '%');
+        }
+        if (!empty($port)) {
+            $query->where('port', intval($port));
+        }
+        if ($pay_way != '') {
+            $query->where('pay_way', intval($pay_way));
+        }
+        if ($status != '') {
+            $query->where('status', intval($status));
+        }
+        if ($enable != '') {
+            $query->where('enable', intval($enable));
+        }
+        // 流量超过100G的
+        if ($largeTraffic) {
+            $query->whereIn('status', [0, 1])->whereRaw('(u + d) >= 107374182400');
+        }
+        // 临近过期提醒
+        if ($expireWarning) {
+            $query->where('expire_time', '>=', date('Y-m-d', strtotime("now")))->where('expire_time', '<=', date('Y-m-d', strtotime("+" . self::$systemConfig['expire_days'] . " days")));
+        }
+        // 当前在线
+        if ($online) {
+            $query->where('t', '>=', time() - 600);
+        }
+        // 不活跃用户
+        if ($unActive) {
+            $query->where('t', '>', 0)->where('t', '<=', strtotime(date('Y-m-d', strtotime("-" . self::$systemConfig['expire_days'] . " days"))))->where('enable', 1);
+        }
+        // 1小时内流量异常用户
+        if ($flowAbnormal) {
+            $tempUsers = [];
+            $userTotalTrafficList = UserTrafficHourly::query()->where('node_id', 0)->where('total', '>', 104857600)->where('created_at', '>=', date('Y-m-d H:i:s', time() - 3900))->groupBy('user_id')->selectRaw("user_id, sum(total) as totalTraffic")->get(); // 只统计100M以上的记录，加快速度
+            if (!$userTotalTrafficList->isEmpty()) {
+                foreach ($userTotalTrafficList as $vo) {
+                    if ($vo->totalTraffic > (self::$systemConfig['traffic_ban_value'] * 1024 * 1024 * 1024)) {
+                        $tempUsers[] = $vo->user_id;
+                    }
+                }
+            }
+            $query->whereIn('id', $tempUsers);
+        }
+        $userList = $query->orderBy('id', 'desc')->paginate(15)->appends($request->except('page'));
+        foreach ($userList as &$user) {
+            $user->transfer_enable = flowAutoShow($user->transfer_enable);
+            $user->used_flow = flowAutoShow($user->u + $user->d);
+            if ($user->expire_time < date('Y-m-d', strtotime("now"))) {
+                $user->expireWarning = -1; // 已过期
+            } elseif ($user->expire_time == date('Y-m-d', strtotime("now"))) {
+                $user->expireWarning = 0; // 今天过期
+            } elseif ($user->expire_time > date('Y-m-d', strtotime("now")) && $user->expire_time <= date('Y-m-d', strtotime("+30 days"))) {
+                $user->expireWarning = 1; // 最近一个月过期
+            } else {
+                $user->expireWarning = 2; // 大于一个月过期
+            }
+            // 流量异常警告
+            $time = date('Y-m-d H:i:s', time() - 3900);
+            $totalTraffic = UserTrafficHourly::query()->where('user_id', $user->id)->where('node_id', 0)->where('created_at', '>=', $time)->sum('total');
+            $user->trafficWarning = $totalTraffic > (self::$systemConfig['traffic_ban_value'] * 1024 * 1024 * 1024) ? 1 : 0;
+        }
+        $view['userList'] = $userList;
+        return Response::view('user.agent', $view);
     }
 
    public function coupons(Request $request){
