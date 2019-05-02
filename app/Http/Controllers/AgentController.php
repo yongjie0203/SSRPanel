@@ -164,13 +164,13 @@ class AgentController extends Controller
 
     // 购买服务
     public function buy(Request $request, $id)
-    {
+    {        
         $goods_id = intval($id);
         $coupon_sn = $request->get('coupon_sn');
         $uid = $request->get('uid');
         $aid = Auth::user()->id;
         if(!empty($coupon_sn) && strlen($coupon_sn) > 7){
-            $head = substr($str,0,1);
+            $head = substr($coupon_sn,0,1);
             $coupon_sn = substr($coupon_sn,1,strlen($coupon_sn)-1);
             if($head == "1"){
                 $goods_id = 3;
