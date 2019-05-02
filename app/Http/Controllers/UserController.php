@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Components\Helpers;
 use App\Components\ServerChan;
 use App\Http\Models\Article;
+use App\Http\Models\Agent;
 use App\Http\Models\Coupon;
 use App\Http\Models\CouponAgent;
 use App\Http\Models\Goods;
@@ -200,7 +201,12 @@ class UserController extends Controller
 
         $view['allNodes'] = rtrim($allNodes, "|");
         $view['nodeList'] = $nodeList;
-
+        $agent = Agent::query()->where("user_id",Auth::user()->id)->where("status",1)->first();
+        $view['is_agent'] = 0;
+        if($agent){
+            $view['is_agent'] = 1;
+        }
+        
         return Response::view('user.index', $view);
     }
 
