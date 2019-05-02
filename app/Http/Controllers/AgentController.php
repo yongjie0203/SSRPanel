@@ -152,10 +152,14 @@ class AgentController extends Controller
        $amount = $request->get('amount');
        $order_by = $status == 0 ? 'available_end' : 'updated_at';
        $soft = $status == 0 ? 'asc' : 'desc';
-       $p = $status .' '. $limit .' '. $amount .' '. $order_by .' '. $soft;
-       Log::info('测试信息：' . $p);
-       $couponList = Coupon::query()->where('holder',Auth::user()->id)->where('status',$status)->where('amount',$amount)->orderBy($order_by,$soft)->limit($limit)->get()->toArray();
-       return Response::json(['status' => 'success', 'data' => $couponList , 'message' => '']);
+       if($status == 0){
+            $couponList = Coupon::query()->where('holder',Auth::user()->id)->where('status',$status)->where('amount',$amount)->orderBy($order_by,$soft)->limit($limit)->get()->toArray();
+            return Response::json(['status' => 'success', 'data' => $couponList , 'message' => '']);
+       }else{
+            $couponList = Coupon::query()->where('holder',Auth::user()->id)->where('status',$status)->orderBy($order_by,$soft)->limit($limit)->get()->toArray();
+            return Response::json(['status' => 'success', 'data' => $couponList , 'message' => '']);
+       }
+       
    }
 
     // 购买服务
