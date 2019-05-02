@@ -38,7 +38,7 @@
              userOnlinDataMonthly();
              orderDataMonthly();
              onlineUsersMonthly();
-             userOnlineScatterMonthly();
+             //userOnlineScatterMonthly();
              
              //流量重置日至今使用量百分百
              function nodeUsedCyclicity(){
