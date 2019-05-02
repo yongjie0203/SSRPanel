@@ -1,6 +1,13 @@
 @extends('user.layouts')
 @section('css')
     <link href="/assets/pages/css/search.min.css" rel="stylesheet" type="text/css" />
+    <style>
+		.coupons div{display:inline-grid;bolder:1px;}
+		.notuse{}
+		.used{}
+		.used div {background-color:red; color:white;display:block;margin:2px;padding:2px;}
+		.notuse div {background-color:blue;color:white;display:block;margin:2px;padding:2px;}
+	</style>
 @endsection
 @section('content')
     <!-- BEGIN CONTENT BODY -->
@@ -10,35 +17,18 @@
             <div class="col-md-12">
                 <div class="search-page search-content-1">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="search-container bordered">
-                                @if($articleList->isEmpty())
-                                    <p style="text-align:center;">{{trans('home.invoice_table_none')}} </p>
-                                @else
-                                    <ul>
-                                        @foreach($articleList as $key => $article)
-                                            <li class="search-item clearfix">
-                                                <a href="javascript:;">
-                                                    @if($article->logo)
-                                                        <img src="{{url($article->logo)}}" style="max-width: 100px; max-height: 75px;">
-                                                    @else
-                                                        <img src="{{asset('assets/images/noimage.png')}}">
-                                                    @endif
-                                                </a>
-                                                <div class="search-content">
-                                                    <h2 class="search-title">
-                                                        <a href="{{url('article?id=') . $article->id}}">{{str_limit($article->title, 300)}}</a>
-                                                    </h2>
-                                                    <p class="search-desc" style="font-size: 16px;"> {{$article->summary}} </p>
-                                                </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @endif
-                                {{ $articleList->links() }}
-                            </div>
+                        <div class="coupons">
+                            <div class="notuse" id="n2490"></div>
+                            <div class="notuse" id="n5490"></div>
+                            <div class="notuse" id="n9980"></div>
+                            <div class="notuse" id="n17980"></div>
+                            <div class="used" id="used"></div>                             
                         </div>
-                    </div>
+                   </div>
+                   
+                   <div class="row">
+                   </div>
+                   
                 </div>
             </div>
         </div>
@@ -47,4 +37,43 @@
     <!-- END CONTENT BODY -->
 @endsection
 @section('script')
+<script type="text/javascript">
+         $(function() { 
+         var loadlimit = 5;
+         loadCoupons(2490,0);
+         loadCoupons(5490,0);
+         loadCoupons(9980,0);
+         loadCoupons(17980,0);
+         
+          function loadCoupons(amount,status){
+                 $.ajax({
+                    type: "GET",
+                    url: "{{url('agent/coupons')}}",
+                    data:{amount:amount,status:status,limit:loadlimit},
+                    async: false,                  
+                    success: function (ret) {                        
+                        if (ret.status == 'success') {  
+                           if(status==0){//可用
+                                ret.data.each(function(item){
+                                    var $div = "<div>";
+                                    div = div + item.sn;
+                                    div = div + "</div>";
+                                    $("#n"+amount).append($div);
+                                });
+                           }else{//不可用
+                                ret.data.each(function(item){
+                                    var $div = "<div>";
+                                    div = div + item.sn;
+                                    div = div + "</div>";
+                                    $("#used").append($div);
+                                });
+                           }   
+                        }                       
+                    }
+                });
+             }
+         
+         
+         });
+    </script>
 @endsection
