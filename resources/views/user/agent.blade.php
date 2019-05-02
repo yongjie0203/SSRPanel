@@ -54,16 +54,16 @@
                     success: function (ret) {                        
                         if (ret.status == 'success') {  
                            if(status==0){//可用
-                                $(ret.data).each(function(item){
+                                $(ret.data).each(function(){
                                     var div = "<div>";
-                                    div = div + item.sn;
+                                    div = div + this.sn;
                                     div = div + "</div>";
                                     $("#n"+amount).append(div);
                                 });
                            }else{//不可用
-                                $(ret.data).each(function(item){
+                                $(ret.data).each(function(){
                                     var div = "<div>";
-                                    div = div + item.sn;
+                                    div = div + this.sn;
                                     div = div + "</div>";
                                     $("#used").append(div);
                                 });
