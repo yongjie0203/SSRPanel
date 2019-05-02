@@ -169,6 +169,22 @@ class AgentController extends Controller
         $coupon_sn = $request->get('coupon_sn');
         $uid = $request->get('uid');
         $aid = Auth::user()->id;
+        if(!empty($coupon_sn) && strlen($coupon_sn) > 7){
+            $head = substr($str,0,1);
+            $coupon_sn = substr($coupon_sn,1,strlen($coupon_sn)-1);
+            if($head == "1"){
+                $goods_id = 3;
+            }
+            if($head == "2"){
+                $goods_id = 10;
+            }
+            if($head == "3"){
+                $goods_id = 9;
+            }
+            if($head == "4"){
+                $goods_id = 8;
+            }
+        }
 
         if ($request->method() == 'POST') {
             $goods = Goods::query()->with(['label'])->where('is_del', 0)->where('status', 1)->where('id', $goods_id)->first();
@@ -194,7 +210,7 @@ class AgentController extends Controller
             }
 
             // 使用优惠券
-            if (!empty($coupon_sn)) {
+            if (!empty($coupon_sn)) {                               
                 $coupon = Coupon::query()->where('status', 0)->where('is_del', 0)->whereIn('type', [1, 2])->where('sn', $coupon_sn)->first();
                 if (empty($coupon)) {
                     return Response::json(['status' => 'fail', 'data' => '', 'message' => '支付失败：优惠券不存在']);
