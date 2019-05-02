@@ -50,40 +50,6 @@
                                 <input type="text" class="col-md-4 col-sm-4 col-xs-12 form-control" name="username" value="{{Request::get('username')}}" id="username" placeholder="用户名" onkeydown="if(event.keyCode==13){doSearch();}">
                             </div>
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                                <input type="text" class="col-md-4 col-sm-4 col-xs-12 form-control" name="wechat" value="{{Request::get('wechat')}}" id="wechat" placeholder="微信" onkeydown="if(event.keyCode==13){doSearch();}">
-                            </div>
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <input type="text" class="col-md-4 col-sm-4 col-xs-12 form-control" name="qq" value="{{Request::get('qq')}}" id="qq" placeholder="QQ" onkeydown="if(event.keyCode==13){doSearch();}">
-                            </div>
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <input type="text" class="col-md-4 form-control" name="port" value="{{Request::get('port')}}" id="port" placeholder="端口" onkeydown="if(event.keyCode==13){doSearch();}">
-                            </div>
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <select class="form-control" name="pay_way" id="pay_way" onChange="doSearch()">
-                                    <option value="" @if(Request::get('pay_way') == '') selected @endif>付费方式</option>
-                                    <option value="0" @if(Request::get('pay_way') == '0') selected @endif>免费</option>
-                                    <option value="1" @if(Request::get('pay_way') == '1') selected @endif>月付</option>
-                                    <option value="2" @if(Request::get('pay_way') == '2') selected @endif>季付</option>
-                                    <option value="3" @if(Request::get('pay_way') == '3') selected @endif>半年付</option>
-                                    <option value="4" @if(Request::get('pay_way') == '4') selected @endif>年付</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <select class="form-control" name="status" id="status" onChange="doSearch()">
-                                    <option value="" @if(Request::get('status') == '') selected @endif>账号状态</option>
-                                    <option value="-1" @if(Request::get('status') == '-1') selected @endif>禁用</option>
-                                    <option value="0" @if(Request::get('status') == '0') selected @endif>未激活</option>
-                                    <option value="1" @if(Request::get('status') == '1') selected @endif>正常</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 col-sm-4 col-xs-12">
-                                <select class="form-control" name="enable" id="enable" onChange="doSearch()">
-                                    <option value="" @if(Request::get('enable') == '') selected @endif>代理状态</option>
-                                    <option value="1" @if(Request::get('enable') == '1') selected @endif>启用</option>
-                                    <option value="0" @if(Request::get('enable') == '0') selected @endif>禁用</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 col-sm-4 col-xs-12">
                                 <button type="button" class="btn blue" onclick="doSearch();">查询</button>
                                 <button type="button" class="btn grey" onclick="doReset();">重置</button>
                             </div>
@@ -94,10 +60,7 @@
                                 <tr>
                                     <th> # </th>
                                     <th> 用户名 </th>
-                                    <th> 端口 </th>
-                                    <th> 加密方式 </th>
-                                    <!--<th> 协议 </th>
-                                    <th> 混淆 </th>-->
+                                    <th> 套餐购买 </th>                          
                                     <th> 已消耗 </th>
                                     <th> 最后使用 </th>
                                     <th> 有效期 </th>
@@ -114,13 +77,21 @@
                                     @else
                                         @foreach ($userList as $user)
                                             <tr class="odd gradeX {{$user->trafficWarning ? 'danger' : ''}}">
-                                                <td> <a href="javascript:switchToUser('{{$user->id}}');">{{$user->id}} </a> </td>
+                                                <td> <a href="javascript:;">{{$user->id}} </a> </td>
                                                 <td> {{$user->username}} </td>
-                                                <td> <span class="label label-danger"> {{$user->port ? $user->port : '未分配'}} </span> </td>
-                                                <td> <span class="label label-default"> {{$user->method}} </span> </td>
-                                                <!--<td> <span class="label label-default"> {{$user->protocol}} </span> </td>
-                                                <td> <span class="label label-default"> {{$user->obfs}} </span> </td>-->
-                                                <td class="center"> {{$user->used_flow}} / {{$user->transfer_enable}} </td>
+                                                <td> 						  
+								<select class="form-control" onChange="gid = $(this).val();">
+								    <option value="" >请选择</option>								    
+								    <option value="3" >30天</option>
+								    <option value="10" >90天</option>
+								    <option value="9" >180天</option>
+								    <option value="8" >360天</option>
+								</select>
+								<input type="text"  placeholder="券码" onblur="dcode=$(this).val();" />
+								<a class="btn" onclick="javascript:uid={{$user->id}};buy();" >应用</a>							  
+						</td>
+                                               
+                                                <td class="center"> {{$user->used_flow}} </td>
                                                 <td class="center"> {{empty($user->t) ? '未使用' : date('Y-m-d H:i:s', $user->t)}} </td>
                                                 <td class="center">
                                                     @if ($user->expireWarning == '-1')
@@ -208,6 +179,49 @@
 @section('script')
 
 <script type="text/javascript">
+	var uid = "";
+	var gid = "";
+	var dcode = "";
+	
+	  // 搜索
+        function doSearch() {
+            var username = $("#username").val();
+           
+            window.location.href = '{{url('admin/userList')}}' + '?username=' + username ;
+        }
+
+        // 重置
+        function doReset() {
+            window.location.href = '{{url('admin/userList')}}';
+        }
+	
+	function buy(){
+		index = layer.load(1, {
+			shade: [0.7,'#CCC']
+		    });
+		$.ajax({
+                    type: "POST",
+                    url: "{{url('agent/buy/')}}" + gid,
+                    data:{_token:'{{csrf_token()}}',uid:uid,coupon_sn:dcode},
+                    async: false,                  
+                    dataType: 'json',
+                beforeSend: function () {
+                    index = layer.load(1, {
+                        shade: [0.7,'#CCC']
+                    });
+                },
+                success: function (ret) {
+                    layer.msg(ret.message, {time:1300}, function() {
+                        if (ret.status == 'success') {
+                            window.location.reload();
+                        } else {
+                            layer.close(index);
+                        }
+                    });
+                }
+            });
+	}
+	
          $(function() { 
          var loadlimit = 5;
          loadCoupons(2490,0);
