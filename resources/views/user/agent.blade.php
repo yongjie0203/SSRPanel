@@ -4,9 +4,11 @@
     <style>
 		.coupons div{display:inline-grid;bolder:1px;}
 		.notuse{}
-		.used{}
-		.used div {background-color:red; color:white;display:block;margin:2px;padding:2px;}
+		.used{}		
+		.notuse div:active{background-color:green}
 		.notuse div {background-color:blue;color:white;display:block;margin:2px;padding:2px;}
+		.used div {background-color:red; color:white;display:block;margin:2px;padding:2px;}		
+		.used div:active{background-color:green}
 	</style>
 @endsection
 @section('content')
