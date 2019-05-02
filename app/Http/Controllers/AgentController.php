@@ -126,7 +126,7 @@ class AgentController extends Controller
             }
             $query->whereIn('id', $tempUsers);
         }
-        $userList = $query->orderBy('id', 'desc')->paginate(15)->appends($request->except('page'));
+        $userList = $query->orderBy('user.id', 'desc')->paginate(15)->appends($request->except('page'));
         foreach ($userList as &$user) {
             $user->transfer_enable = flowAutoShow($user->transfer_enable);
             $user->used_flow = flowAutoShow($user->u + $user->d);
