@@ -80,15 +80,15 @@
                                                 <td> <a href="javascript:;">{{$user->id}} </a> </td>
                                                 <td> {{$user->username}} </td>
                                                 <td> 						  
-								<select class="form-control" style="width:50px" onChange="gid = $(this).val();">
+								<select style="width:50px" >
 								    <option value="" >请选择</option>								    
 								    <option value="3" >30天</option>
 								    <option value="10" >90天</option>
 								    <option value="9" >180天</option>
 								    <option value="8" >360天</option>
 								</select>
-								<input type="text"  placeholder="券码" style="width:100px" onblur="dcode=$(this).val();" />
-								<a class="btn" onclick="javascript:uid={{$user->id}};buy();" >应用</a>							  
+								<input type="text"  placeholder="券码" style="width:100px" />
+								<a class="btn" uid="{{$user->id}}" class="buy" >应用</a>							  
 						</td>
                                                
                                                 <td class="center"> {{$user->used_flow}} </td>
@@ -153,10 +153,15 @@
 @section('script')
 
 <script type="text/javascript">
-	var uid = "";
-	var gid = "";
-	var dcode = "";
 	
+	$(".buy").on("click",function(){
+            var uid = $(this).attr("uid");
+	    var gid = $(this).parent().find("select").val();
+	    var dcode = $(this).parent().find("input").val();
+            alert("我的uid属性值为："+uid);
+	    alert("我的gid属性值为："+gid);
+	    alert("我的dcode属性值为："+dcode);
+        });
 	  // 搜索
         function doSearch() {
             var username = $("#username").val();
@@ -173,6 +178,9 @@
 		index = layer.load(1, {
 			shade: [0.7,'#CCC']
 		    });
+		var uid = "";
+		var gid = "";
+		var dcode = "";
 		$.ajax({
                     type: "POST",
                     url: "{{url('agent/buy')}}" + "/" + gid,
