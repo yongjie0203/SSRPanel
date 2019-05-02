@@ -80,15 +80,15 @@
                                                 <td> <a href="javascript:;">{{$user->id}} </a> </td>
                                                 <td> {{$user->username}} </td>
                                                 <td> 						  
-								<select style="width:50px" >
+								<select style="width:60px" >
 								    <option value="" >请选择</option>								    
 								    <option value="3" >30天</option>
 								    <option value="10" >90天</option>
 								    <option value="9" >180天</option>
 								    <option value="8" >360天</option>
 								</select>
-								<input type="text"  placeholder="券码" style="width:100px" />
-								<a class="btn" uid="{{$user->id}}" class="buy" >应用</a>							  
+								<input type="text"  placeholder="券码" style="width:80px" />
+								<a class="buy" uid="{{$user->id}}"  >应用</a>							  
 						</td>
                                                
                                                 <td class="center"> {{$user->used_flow}} </td>
