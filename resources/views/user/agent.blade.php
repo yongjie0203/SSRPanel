@@ -88,7 +88,7 @@
 								    <option value="8" >360天</option>
 								</select>
 								<input type="text"  placeholder="券码" style="width:80px" />
-								<a class="buy" uid="{{$user->id}}"  >应用</a>							  
+								<a class="buy" uname="{{$user->username}}" uid="{{$user->id}}"  >应用</a>							  
 						</td>
                                                
                                                 <td class="center"> {{$user->used_flow}} </td>
@@ -156,11 +156,44 @@
 	
 	$(".buy").on("click",function(){
             var uid = $(this).attr("uid");
+	    var uname = $(this).attr("uname");
 	    var gid = $(this).parent().find("select").val();
+	    var gname = $(this).parent().find("select").find("option:selected").text();
 	    var dcode = $(this).parent().find("input").val();
-            alert("我的uid属性值为："+uid);
-	    alert("我的gid属性值为："+gid);
-	    alert("我的dcode属性值为："+dcode);
+	    var msg = "您即将使用代金券:"+ dcode +"：为用户:"+ uname +"购买:" + gname +"，以上信息是否正确？";
+	    layer.confirm(msg, {
+		  btn: ['确定','信息有误'] //按钮
+		}, function(){
+		  	index = layer.load(1, {
+				shade: [0.7,'#CCC']
+	                });
+		
+			$.ajax({
+			    type: "POST",
+			    url: "{{url('agent/buy')}}" + "/" + gid,
+			    data:{_token:'{{csrf_token()}}',uid:uid,coupon_sn:dcode},
+			    async: false,                  
+			    dataType: 'json',
+			    beforeSend: function () {
+				index = layer.load(1, {
+				    shade: [0.7,'#CCC']
+				});
+			    },
+			    success: function (ret) {
+				layer.msg(ret.message, {time:1300}, function() {
+					if (ret.status == 'success') {
+					    window.location.reload();
+					} else {
+					    layer.close(index);
+					}
+				    });
+				}
+			    });
+		}, function(){
+		  
+		});
+	    
+            
         });
 	  // 搜索
         function doSearch() {
@@ -174,36 +207,7 @@
             window.location.href = '{{url('agent/userList')}}';
         }
 	
-	function buy(){
-		index = layer.load(1, {
-			shade: [0.7,'#CCC']
-		    });
-		var uid = "";
-		var gid = "";
-		var dcode = "";
-		$.ajax({
-                    type: "POST",
-                    url: "{{url('agent/buy')}}" + "/" + gid,
-                    data:{_token:'{{csrf_token()}}',uid:uid,coupon_sn:dcode},
-                    async: false,                  
-                    dataType: 'json',
-                beforeSend: function () {
-                    index = layer.load(1, {
-                        shade: [0.7,'#CCC']
-                    });
-                },
-                success: function (ret) {
-                    layer.msg(ret.message, {time:1300}, function() {
-                        if (ret.status == 'success') {
-                            window.location.reload();
-                        } else {
-                            layer.close(index);
-                        }
-                    });
-                }
-            });
-	}
-	
+
          $(function() { 
          var loadlimit = 5;
          loadCoupons(2490,0);
