@@ -18,15 +18,24 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="search-page search-content-1">
-                    <div class="row">
-                        <div class="coupons">
-                            <div class="notuse" id="n2490"><div style="background-color:red" >24.9元</div></div>
-                            <div class="notuse" id="n5490"><div style="background-color:red">54.9元</div></div>
-                            <div class="notuse" id="n9980"><div style="background-color:red">99.8元</div></div>
-                            <div class="notuse" id="n17980"><div style="background-color:red">179.8元</div></div>
-                            <div class="used" id="used"><div style="background-color:red">已失效</div></div>                             
-                        </div>
-                   </div>
+		<div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-dark">
+                            <span class="caption-subject bold uppercase"> 代金券列表（每种金额仅显示前5条数据） </span>
+                        </div>                        
+                    </div>
+		    <div class="portlet-body">
+			    <div class="row">
+				<div class="coupons">
+				    <div class="notuse" id="n2490"><div style="background-color:red" >24.9元</div></div>
+				    <div class="notuse" id="n5490"><div style="background-color:red">54.9元</div></div>
+				    <div class="notuse" id="n9980"><div style="background-color:red">99.8元</div></div>
+				    <div class="notuse" id="n17980"><div style="background-color:red">179.8元</div></div>
+				    <div class="used" id="used"><div style="background-color:red">已失效</div></div>                             
+				</div>
+			   </div>
+		    </div>
+		</div>
                    
                    <div class="row">
             <div class="col-md-12">
