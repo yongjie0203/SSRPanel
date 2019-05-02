@@ -164,6 +164,10 @@
 	    var gid = $(this).parent().find("select").val();
 	    var gname = $(this).parent().find("select").find("option:selected").text();
 	    var dcode = $(this).parent().find("input").val();
+	    if(gid == ""){
+	    	gid = 0;
+		gname = "自动识别套餐";
+	    }
 	    var msg = "您即将使用代金券:"+ dcode +"：为用户:"+ uname +"购买:" + gname +"，以上信息是否正确？";
 	    layer.confirm(msg, {
 		  btn: ['确定','信息有误'] //按钮
