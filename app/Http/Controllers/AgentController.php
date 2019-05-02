@@ -57,8 +57,11 @@ class AgentController extends Controller
        $status = $request->get('status',0);
        $limit = $request->get('limit',5);
        $amount = $request->get('amount');
-       $couponList = Coupon::query()->where('holder',Auth::user()->id)->where('status',$status)->where('amount',$amount)->limit($limit)->get()->toArray();
-       Response::json(['status' => 'success', 'data' => $couponList, 'message' => '']);
+       $order_by = $status == 0 ? 'available_end' : 'updated_at';
+       $soft = $status == 0 ? 'asc' : 'desc';
+       $p = $status .' '. $limit .' '. $amount .' '. $order_by .' '. $soft;
+       //$couponList = Coupon::query()->where('holder',Auth::user()->id)->where('status',$status)->where('amount',$amount)->limit($limit)->get()->toArray();
+       Response::json(['status' => 'success', 'data' => $p , 'message' => '']);
    }
 
     // 购买服务
