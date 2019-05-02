@@ -251,10 +251,18 @@
              }
          
 	     function getCouponHead(amount){
-	     	if(2490 == amount) return "1";
-		if(5490 == amount) return "2";
-		if(9980 == amount) return "3";
-		if(17980 == amount) return "4";
+	     	if(24.90 == amount){
+		    return "1";
+		} 
+		if(54.90 == amount){
+		    return "2";
+		} 
+		if(99.80 == amount){
+		    return "3";
+		} 
+		if(179.80 == amount){
+		     return "4";
+		}
 		return "";
 	     }
          
