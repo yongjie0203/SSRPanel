@@ -236,7 +236,7 @@
                                 $(ret.data).each(function(){
 				    var head = getCouponHead(this.amount);
                                     var div = '<div class="mt-clipboard" data-clipboard-action="copy" data-clipboard-text="' + head+ this.sn + '">';
-                                    div = div + head + this.sn;
+                                    div = div + this.id + ":" + head + this.sn;
                                     div = div + "</div>";
                                     $("#n"+amount).append(div);
                                 });
@@ -244,7 +244,7 @@
                                 $(ret.data).each(function(){
 				    var head = getCouponHead(this.amount);
                                     var div = "<div>";
-                                    div = div +  head + this.sn;
+                                    div = div + this.id + ":" + head + this.sn;
                                     div = div + "</div>";
                                     $("#used").append(div);
                                 });
