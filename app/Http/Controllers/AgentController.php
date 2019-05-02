@@ -71,7 +71,7 @@ class AgentController extends Controller
         $largeTraffic = $request->get('largeTraffic');
         $query = User::query();
         if (empty($username) && empty($port)) {
-            $uids = CouponAgent::query()->where('user_id', Auth::user()->id)->orderBy('order_user_id',desc)->pluck('order_user_id')->toArray();
+            $uids = CouponAgent::query()->where('user_id', Auth::user()->id)->orderBy('order_user_id','desc')->pluck('order_user_id')->toArray();
             $query->whereIn('id',$uids);     
         }
         if (!empty($username)) {
