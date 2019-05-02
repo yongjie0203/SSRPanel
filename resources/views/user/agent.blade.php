@@ -58,14 +58,14 @@
                                     var div = "<div>";
                                     div = div + item.sn;
                                     div = div + "</div>";
-                                    $("#n"+amount).append($div);
+                                    $("#n"+amount).append(div);
                                 });
                            }else{//不可用
                                 $(ret.data).each(function(item){
                                     var div = "<div>";
                                     div = div + item.sn;
                                     div = div + "</div>";
-                                    $("#used").append($div);
+                                    $("#used").append(div);
                                 });
                            }   
                         }                       
