@@ -47,6 +47,7 @@
          loadCoupons(5490,0);
          loadCoupons(9980,0);
          loadCoupons(17980,0);
+	 loadCoupons('',1);
          
           function loadCoupons(amount,status){
                  $.ajax({
