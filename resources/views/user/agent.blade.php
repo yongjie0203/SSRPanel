@@ -2,6 +2,7 @@
 @section('css')
     <link href="/assets/pages/css/search.min.css" rel="stylesheet" type="text/css" />
     <style>
+    		.coupons {margin:20px;}
 		.coupons div{display:inline-grid;bolder:1px;}
 		.notuse{}
 		.used{}		
@@ -45,13 +46,7 @@
                         <div class="caption font-dark">
                             <span class="caption-subject bold uppercase"> 用户列表 </span>
                         </div>
-                        <div class="actions">
-                            <div class="btn-group btn-group-devided">
-                                <button class="btn sbold red" onclick="exportSSJson()"> 导出JSON </button>
-                                <button class="btn sbold blue" onclick="batchAddUsers()"> 批量生成 </button>
-                                <button class="btn sbold blue" onclick="addUser()"> 添加用户 </button>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="portlet-body">
                         <div class="row">
@@ -67,7 +62,7 @@
                             <table class="table table-hover table-light">
                                 <thead>
                                 <tr>
-                                    <th> # </th>
+                                    <th> 端口 </th>
                                     <th> 用户名 </th>
                                     <th> 套餐购买 </th>                          
                                     <th> 已消耗 </th>
@@ -86,7 +81,7 @@
                                     @else
                                         @foreach ($userList as $user)
                                             <tr class="odd gradeX {{$user->trafficWarning ? 'danger' : ''}}">
-                                                <td> <a href="javascript:;">{{$user->id}} </a> </td>
+                                                <td> {{$user->port}} </td>
                                                 <td> {{$user->username}} </td>
                                                 <td> 						  
 								<select style="width:60px" >
@@ -235,15 +230,17 @@
                         if (ret.status == 'success') {  
                            if(status==0){//可用
                                 $(ret.data).each(function(){
-                                    var div = '<div class="mt-clipboard" data-clipboard-action="copy" data-clipboard-text="' + this.sn + '">';
-                                    div = div + this.sn;
+				    var head = getCouponHead(this.amount);
+                                    var div = '<div class="mt-clipboard" data-clipboard-action="copy" data-clipboard-text="' + head+ this.sn + '">';
+                                    div = div + head + this.sn;
                                     div = div + "</div>";
                                     $("#n"+amount).append(div);
                                 });
                            }else{//不可用
                                 $(ret.data).each(function(){
+				    var head = getCouponHead(this.amount);
                                     var div = "<div>";
-                                    div = div + this.sn;
+                                    div = div +  head + this.sn;
                                     div = div + "</div>";
                                     $("#used").append(div);
                                 });
@@ -253,6 +250,13 @@
                 });
              }
          
+	     function getCouponHead(amount){
+	     	if(2490 == amount) return "1";
+		if(5490 == amount) return "2";
+		if(9980 == amount) return "3";
+		if(17980 == amount) return "4";
+		return "";
+	     }
          
          });
     </script>
