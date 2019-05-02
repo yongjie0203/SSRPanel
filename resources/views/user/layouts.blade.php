@@ -113,14 +113,7 @@
                         <span class="selected"></span>
                     </a>
                 </li>
-                 @if({{trans('is_agent')}} == "1")
-                <li class="nav-item {{in_array(Request::path(), ['agent']) ? 'active open' : ''}}">
-                    <a href="{{url('agent/userList')}}" class="nav-link nav-toggle">
-                        <i class="icon-diamond"></i>
-                        <span class="title">用户管理</span>
-                    </a>
-                </li>
-                @endif
+                
                 <li class="nav-item {{in_array(Request::path(), ['services']) || in_array(Request::segment(1), ['buy', 'payment']) ? 'active open' : ''}}">
                     <a href="{{url('services')}}" class="nav-link nav-toggle">
                         <i class="icon-basket"></i>
