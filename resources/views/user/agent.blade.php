@@ -62,7 +62,7 @@
                             <table class="table table-hover table-light">
                                 <thead>
                                 <tr>
-                                    <th> 端口 </th>
+                                    
                                     <th> 用户名 </th>
                                     <th> 套餐购买 </th>                          
                                     <th> 已消耗 </th>
@@ -81,7 +81,7 @@
                                     @else
                                         @foreach ($userList as $user)
                                             <tr class="odd gradeX {{$user->trafficWarning ? 'danger' : ''}}">
-                                                <td> {{$user->port}} </td>
+                                               
                                                 <td> {{$user->username}} </td>
                                                 <td> 						  
 								<select style="width:60px" >
