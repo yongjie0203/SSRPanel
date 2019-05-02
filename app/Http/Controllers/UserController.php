@@ -202,10 +202,14 @@ class UserController extends Controller
         $view['allNodes'] = rtrim($allNodes, "|");
         $view['nodeList'] = $nodeList;
         $agent = Agent::query()->where("user_id",Auth::user()->id)->where("status",1)->first();
-        $view['is_agent'] = 0;
+        $is_agent = 0;
         if($agent){
-            $view['is_agent'] = 1;
+            $is_agent = 1;
         }
+        if (!Session::has('is_agent')) {
+            Session::put('is_agent', $is_agent);
+        }
+        
         
         return Response::view('user.index', $view);
     }
