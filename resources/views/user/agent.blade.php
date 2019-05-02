@@ -66,7 +66,7 @@
                                     <th> 有效期 </th>
                                     <th> 状态 </th>
                                     <th> 代理 </th>
-                                    <th> 操作 </th>
+                                   
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -80,14 +80,14 @@
                                                 <td> <a href="javascript:;">{{$user->id}} </a> </td>
                                                 <td> {{$user->username}} </td>
                                                 <td> 						  
-								<select class="form-control" onChange="gid = $(this).val();">
+								<select class="form-control" style="width:100px" onChange="gid = $(this).val();">
 								    <option value="" >请选择</option>								    
 								    <option value="3" >30天</option>
 								    <option value="10" >90天</option>
 								    <option value="9" >180天</option>
 								    <option value="8" >360天</option>
 								</select>
-								<input type="text"  placeholder="券码" onblur="dcode=$(this).val();" />
+								<input type="text"  placeholder="券码" style="width:100px" onblur="dcode=$(this).val();" />
 								<a class="btn" onclick="javascript:uid={{$user->id}};buy();" >应用</a>							  
 						</td>
                                                
@@ -120,33 +120,7 @@
                                                         <span class="label label-danger">禁用</span>
                                                     @endif
                                                 </td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="javascript:;" aria-expanded="false"> 操作
-                                                            <i class="fa fa-angle-down"></i>
-                                                        </a>
-                                                        <ul class="dropdown-menu">
-                                                            <li>
-                                                                <a href="javascript:editUser('{{$user->id}}');"> 编辑 </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:delUser('{{$user->id}}');"> 删除 </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:doExport('{{$user->id}}');"> 配置信息 </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:doMonitor('{{$user->id}}');"> 流量概况 </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:resetTraffic('{{$user->id}}');"> 流量清零 </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="javascript:switchToUser('{{$user->id}}');"> 切换身份 </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </td>
+                                         
                                             </tr>
                                         @endforeach
                                     @endif
@@ -187,12 +161,12 @@
         function doSearch() {
             var username = $("#username").val();
            
-            window.location.href = '{{url('admin/userList')}}' + '?username=' + username ;
+            window.location.href = '{{url('agent/userList')}}' + '?username=' + username ;
         }
 
         // 重置
         function doReset() {
-            window.location.href = '{{url('admin/userList')}}';
+            window.location.href = '{{url('agent/userList')}}';
         }
 	
 	function buy(){
