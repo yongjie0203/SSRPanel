@@ -80,7 +80,7 @@
                                                 <td> <a href="javascript:;">{{$user->id}} </a> </td>
                                                 <td> {{$user->username}} </td>
                                                 <td> 						  
-								<select class="form-control" style="width:100px" onChange="gid = $(this).val();">
+								<select class="form-control" style="width:50px" onChange="gid = $(this).val();">
 								    <option value="" >请选择</option>								    
 								    <option value="3" >30天</option>
 								    <option value="10" >90天</option>
@@ -175,7 +175,7 @@
 		    });
 		$.ajax({
                     type: "POST",
-                    url: "{{url('agent/buy/')}}" + gid,
+                    url: "{{url('agent/buy')}}" + "/" + gid,
                     data:{_token:'{{csrf_token()}}',uid:uid,coupon_sn:dcode},
                     async: false,                  
                     dataType: 'json',
