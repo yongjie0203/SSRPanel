@@ -72,8 +72,8 @@ class AgentController extends Controller
         $query = User::query();
         if (empty($username) && empty($port)) {
             $query = User::rightJoin('coupon_agent', function($join) {
-              $join->on('coupon_agent.order_user_id', '=', 'user.id');
-              $join->on('coupon_agent.user_id', '=', Auth::user()->id);
+              $join->on('coupon_agent.order_user_id', '=', 'user.id')
+                  ->where('coupon_agent.user_id', '=', Auth::user()->id);
             });           
         }
         if (!empty($username)) {
