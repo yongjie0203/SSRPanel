@@ -71,7 +71,7 @@ class AgentController extends Controller
         $largeTraffic = $request->get('largeTraffic');
         $query = User::query();
         if (empty($username) && empty($port)) {
-            $query = User::rightJoin('coupon_agent', function($join) {
+            $query = User::select("user.*")->innerJoin('coupon_agent', function($join) {
               $join->on('coupon_agent.order_user_id', '=', 'user.id')
                   ->where('coupon_agent.user_id', '=', Auth::user()->id);
             });           
