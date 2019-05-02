@@ -5,10 +5,10 @@
 		.coupons div{display:inline-grid;bolder:1px;}
 		.notuse{}
 		.used{}		
-		.notuse div:active{background-color:green}
-		.notuse div {background-color:blue;color:white;display:block;margin:2px;padding:2px;}
-		.used div {background-color:red; color:white;display:block;margin:2px;padding:2px;}		
-		.used div:active{background-color:green}
+		.notuse div:active{background-color:red}
+		.notuse div {background-color:#659be0;color:white;display:block;margin:2px;padding:2px;}
+		.used div {background-color:#e7505a; color:white;display:block;margin:2px;padding:2px;}		
+		.used div:active{background-color:red;}
 	</style>
 @endsection
 @section('content')
