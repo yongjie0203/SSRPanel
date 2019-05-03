@@ -7,6 +7,7 @@ use App\Components\ServerChan;
 use App\Http\Models\Article;
 use App\Http\Models\Coupon;
 use App\Http\Models\CouponAgent;
+use App\Http\Models\CouponWillUse;
 use App\Http\Models\Goods;
 use App\Http\Models\GoodsLabel;
 use App\Http\Models\Invite;
@@ -449,6 +450,19 @@ class AgentController extends Controller
 
             return Response::view('user.buy', $view);
         }
+    }
+    
+    
+    public function willUse(Request $request){
+        $will_use = new CouponWillUse();
+        $will_use->sn = $request->get('sn');
+        $will_use->save();
+        return Response::json(['status' => 'success', 'data' => '', 'message' => "操作成功"]);
+    }
+    
+    public function notWillUse(Request $request){
+        CouponWillUse::where('sn', $request->get('sn'))->delete();
+        return Response::json(['status' => 'success', 'data' => '', 'message' => "操作成功"]);
     }
 
     
