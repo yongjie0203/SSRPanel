@@ -25,9 +25,9 @@
 				margin-top: 3px;
 				margin-bottom: 3px;
 			}
-		.notuse span:active{background-color:white;}
+		.notuse span:active{background-color:white;color:red;}
 		.willuse span {
-				background-color: red;
+				background-color: #659be0;
 				font-size: 17px;
 				padding-left: 5px;
 				padding-right: 5px;
@@ -39,7 +39,7 @@
 				margin-top: 3px;
 				margin-bottom: 3px;
 			}
-		.willuse span:active{background-color:white;}
+		.willuse span:active{background-color:white;color:#659be0;}
 	</style>
 @endsection
 @section('content')
