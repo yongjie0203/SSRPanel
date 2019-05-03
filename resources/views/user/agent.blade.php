@@ -191,7 +191,8 @@
 	
 	 $("body").on("click",".notuse span",function(){
 		 var sn = $(this).parent().attr("data-clipboard-text");
-		 sn = sn.substring(1);		
+		 sn = sn.substring(1);
+		 var $item = $(this).parent();
 		$.ajax({
 		    type: "POST",
 		    url: "{{url('agent/willUse')}}",
@@ -199,14 +200,14 @@
 		    async: false,                  
 		    dataType: 'json',		   
 		    success: function (ret) {
-		    	$("#willuse").append($(this).parent());
-			
+		    	$("#willuse").append($item );			
 		    }
 		 });
 	});
 	 $("body").on("click",".willuse span",function(){
 		var sn = $(this).parent().attr("data-clipboard-text");
 		var head = sn.substring(0,1);
+		var $item = $(this).parent();
 		sn = sn.substring(1);		
 		$.ajax({
 		    type: "POST",
@@ -229,8 +230,7 @@
 				if(head ==4){
 				    id = id + "17980";
 				}
-				$("#"+id).append($(this).parent());
-				
+				$("#"+id).append($item );				
 			}
 		    }
 		});
