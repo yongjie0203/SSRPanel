@@ -200,7 +200,7 @@
 		    dataType: 'json',		   
 		    success: function (ret) {
 		    	$("#willuse").append($(this).parent());
-			$(this).parent().remove();
+			
 		    }
 		 });
 	});
@@ -230,7 +230,7 @@
 				    id = id + "17980";
 				}
 				$("#"+id).append($(this).parent());
-				$(this).parent().remove();
+				
 			}
 		    }
 		});
