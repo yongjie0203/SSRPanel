@@ -154,11 +154,11 @@ class AgentController extends Controller
        $order_by = $status == 0 ? 'available_end' : 'updated_at';
        $soft = $status == 0 ? 'asc' : 'desc';
        if($status == 0){//正常
-            $willUses = CouponWillUse::query()->where('user_id', Auth::user()->id)->get()->pluck('sn');
+            $willUses = CouponWillUse::query()->where('user_id', Auth::user()->id)->get()->pluck('sn')->toArray();
             $couponList = Coupon::query()->where('holder',Auth::user()->id)->whereNotIn('sn',$willUses)->where('status',$status)->where('amount',$amount)->orderBy($order_by,$soft)->limit($limit)->get()->toArray();
             return Response::json(['status' => 'success', 'data' => $couponList , 'message' => '']);
        }else if($status == -1){
-            $willUses = CouponWillUse::query()->where('user_id', Auth::user()->id)->get()->pluck('sn');            
+            $willUses = CouponWillUse::query()->where('user_id', Auth::user()->id)->get()->pluck('sn')->toArray();            
             $couponList = Coupon::query()->where('holder',Auth::user()->id)->whereIn('sn',$willUses)->where('status',0)->orderBy($order_by,$soft)->limit($limit)->get()->toArray();
             return Response::json(['status' => 'success', 'data' => $couponList , 'message' => '']);
        }else{//失效
