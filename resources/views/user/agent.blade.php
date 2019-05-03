@@ -10,6 +10,34 @@
 		.notuse div {background-color:#659be0;color:white;display:block;margin:2px;padding:2px;}
 		.used div {background-color:#e7505a; color:white;display:block;margin:2px;padding:2px;}		
 		.used div:active{background-color:red;}
+		.notuse span {
+				background-color: red;
+				font-size: 17px;
+				padding-left: 5px;
+				padding-right: 5px;
+				padding-top: 0px;
+				padding-bottom: 0px;
+				border-radius: 11px;
+				margin-left: 10px;
+				margin-right: 5px;
+				margin-top: 3px;
+				margin-bottom: 3px;
+			}
+		.notuse span:active{background-color:white;}
+		.willuse span {
+				background-color: red;
+				font-size: 17px;
+				padding-left: 5px;
+				padding-right: 5px;
+				padding-top: 0px;
+				padding-bottom: 0px;
+				border-radius: 11px;
+				margin-left: 10px;
+				margin-right: 5px;
+				margin-top: 3px;
+				margin-bottom: 3px;
+			}
+		.willuse span:active{background-color:white;}
 	</style>
 @endsection
 @section('content')
@@ -32,6 +60,7 @@
 				    <div class="notuse" id="n5490"><div style="background-color:red">54.9元</div></div>
 				    <div class="notuse" id="n9980"><div style="background-color:red">99.8元</div></div>
 				    <div class="notuse" id="n17980"><div style="background-color:red">179.8元</div></div>
+				    <div class="willuse" id="willuse"><div style="background-color:red">已分配</div></div> 
 				    <div class="used" id="used"><div style="background-color:red">已失效</div></div>                             
 				</div>
 			   </div>
@@ -158,6 +187,53 @@
 
 <script type="text/javascript">
 	
+	$(".notuse span").on("click",function(){
+		 var sn = $(this).parent().attr("data-clipboard-text");
+		 sn = sn.substring(1);		
+		$.ajax({
+		    type: "POST",
+		    url: "{{url('agent/willUse')}}",
+		    data:{_token:'{{csrf_token()}}',sn:sn},
+		    async: false,                  
+		    dataType: 'json',		   
+		    success: function (ret) {
+		    	$("#willuse").append($(this).parent());
+			$(this).parent().remove();
+		    }
+		 });
+	});
+	$(".willuse span").on("click",function(){
+		var sn = $(this).parent().attr("data-clipboard-text");
+		var head = sn.substring(0,1);
+		sn = sn.substring(1);		
+		$.ajax({
+		    type: "POST",
+		    url: "{{url('agent/notWillUse')}}",
+		    data:{_token:'{{csrf_token()}}',sn:sn},
+		    async: false,                  
+		    dataType: 'json',		    
+		    success: function (ret) {
+			if (ret.status == 'success') {
+				var id = "n";
+				if(head ==1){
+				    id = id + "2490";
+				}
+				if(head ==2){
+				    id = id + "5490";
+				}
+				if(head ==3){
+				    id = id + "9980";
+				}
+				if(head ==4){
+				    id = id + "17980";
+				}
+				$("#"+id).append($(this).parent());
+				$(this).parent().remove();
+			}
+		    }
+		});
+	});
+	
 	$(".buy").on("click",function(){
             var uid = $(this).attr("uid");
 	    var uname = $(this).attr("uname");
@@ -223,6 +299,7 @@
          loadCoupons(9980,0);
          loadCoupons(17980,0);
 	 loadCoupons('',1);
+	 loadCoupons('',-1);
          
           function loadCoupons(amount,status){
                  $.ajax({
@@ -237,10 +314,20 @@
 				    var head = getCouponHead(this.amount);
                                     var div = '<div class="mt-clipboard" data-clipboard-action="copy" data-clipboard-text="' + head+ this.sn + '">';
                                     div = div + this.id + ":" + head + this.sn;
+				    div = div + '<span>×</span>';
                                     div = div + "</div>";
                                     $("#n"+amount).append(div);
                                 });
-                           }else{//不可用
+                           }else if(status==-1){//等待使用
+			   	$(ret.data).each(function(){
+				    var head = getCouponHead(this.amount);
+                                    var div = '<div class="mt-clipboard" data-clipboard-action="copy" data-clipboard-text="' + head+ this.sn + '">';
+                                    div = div + this.id + ":" + head + this.sn;
+				    div = div + '<span>×</span>';
+                                    div = div + "</div>";
+                                    $("#willuse").append(div);
+                                });
+			   }else{//不可用
                                 $(ret.data).each(function(){
 				    var head = getCouponHead(this.amount);
                                     var div = "<div>";
