@@ -148,6 +148,8 @@ Route::group(['middleware' => ['isForbidden', 'isLogin']], function () {
     Route::post("agent/buy/{id}","AgentController@buy");//代理为用户设置套餐
     Route::get("agent/coupons","AgentController@coupons");//代理代金券查询
     Route::get("agent/userList","AgentController@userList");//代理用户管理
+    Route::get("agent/willUse","AgentController@willUse");//放入待处理
+    Route::get("agent/notWillUse","AgentController@notWillUse");//移出待处理
 
     Route::post('payment/create', 'PaymentController@create'); // 创建支付
     Route::get('payment/getStatus', 'PaymentController@getStatus'); // 获取支付单状态
