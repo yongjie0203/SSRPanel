@@ -158,7 +158,8 @@ class AgentController extends Controller
             $couponList = Coupon::query()->where('holder',Auth::user()->id)->whereNotIn('sn',$willUses)->where('status',$status)->where('amount',$amount)->orderBy($order_by,$soft)->limit($limit)->get()->toArray();
             return Response::json(['status' => 'success', 'data' => $couponList , 'message' => '']);
        }else if($status == -1){
-            $couponList = CouponWillUse::query()->where('user_id',Auth::user()->id)->limit($limit)->get()->toArray();
+            $willUses = CouponWillUse::query()->where('user_id', Auth::user()->id)->get()->pluck('sn');            
+            $couponList = Coupon::query()->where('holder',Auth::user()->id)->whereIn('sn',$willUses)->orderBy($order_by,$soft)->limit($limit)->get()->toArray();
             return Response::json(['status' => 'success', 'data' => $couponList , 'message' => '']);
        }else{//失效
             $couponList = Coupon::query()->where('holder',Auth::user()->id)->where('status',$status)->orderBy($order_by,$soft)->limit($limit)->get()->toArray();
