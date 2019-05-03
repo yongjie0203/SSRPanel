@@ -10,6 +10,8 @@
 		.notuse div {background-color:#659be0;color:white;display:block;margin:2px;padding:2px;}
 		.used div {background-color:#e7505a; color:white;display:block;margin:2px;padding:2px;}		
 		.used div:active{background-color:red;}
+		.willuse div {background-color:#e7505a; color:white;display:block;margin:2px;padding:2px;}	
+		.willuse div:active{background-color:red;}
 		.notuse span {
 				background-color: red;
 				font-size: 17px;
@@ -187,7 +189,7 @@
 
 <script type="text/javascript">
 	
-	$(".notuse span").on("click",function(){
+	 $("body").on("click",".notuse span",function(){
 		 var sn = $(this).parent().attr("data-clipboard-text");
 		 sn = sn.substring(1);		
 		$.ajax({
@@ -202,7 +204,7 @@
 		    }
 		 });
 	});
-	$(".willuse span").on("click",function(){
+	 $("body").on("click",".willuse span",function(){
 		var sn = $(this).parent().attr("data-clipboard-text");
 		var head = sn.substring(0,1);
 		sn = sn.substring(1);		
