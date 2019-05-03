@@ -462,6 +462,7 @@ class AgentController extends Controller
     public function willUse(Request $request){
         $will_use = new CouponWillUse();
         $will_use->sn = $request->get('sn');
+        $will_use->user_id = Auth::user()->id;
         $will_use->save();
         return Response::json(['status' => 'success', 'data' => '', 'message' => "操作成功"]);
     }
