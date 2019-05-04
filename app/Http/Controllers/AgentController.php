@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Components\Helpers;
 use App\Components\ServerChan;
+use App\Http\Models\Agent;
 use App\Http\Models\Article;
 use App\Http\Models\Coupon;
 use App\Http\Models\CouponAgent;
@@ -58,6 +59,11 @@ class AgentController extends Controller
     // 用户列表
     public function userList(Request $request)
     {
+        $agent = Agent::query()->where("user_id",Auth::user()->id)->where("status",1)->first();
+        
+        if(!$agent){
+           return Redirect::to('/');
+        }        
         $username = $request->get('username');
         $wechat = $request->get('wechat');
         $qq = $request->get('qq');
