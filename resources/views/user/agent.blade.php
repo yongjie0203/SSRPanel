@@ -86,7 +86,7 @@
                             </div>
                             <div class="col-md-3 col-sm-4 col-xs-12">
                                 <button type="button" class="btn blue" onclick="doSearch();">查询</button>
-				<button type="button" class="btn " onclick="$('#username').val('');">清空</button>
+				<button type="button" class="btn red" onclick="$('#username').val('');">清空</button>
                                 <button type="button" class="btn grey" onclick="doReset();">重置</button>
                             </div>
                         </div>
