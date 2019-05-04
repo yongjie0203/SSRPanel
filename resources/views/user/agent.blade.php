@@ -82,10 +82,11 @@
                     <div class="portlet-body">
                         <div class="row">
                             <div class="col-md-3 col-sm-4 col-xs-12">
-                                <input type="text" class="col-md-4 col-sm-4 col-xs-12 form-control" name="username" value="{{Request::get('username')}}" id="username" placeholder="用户名" onkeydown="if(event.keyCode==13){doSearch();}">
+                                <input type="text" class="col-md-4 col-sm-4 col-xs-12 form-control" id="username" name="username" value="{{Request::get('username')}}" id="username" placeholder="用户名" onkeydown="if(event.keyCode==13){doSearch();}">
                             </div>
                             <div class="col-md-3 col-sm-4 col-xs-12">
                                 <button type="button" class="btn blue" onclick="doSearch();">查询</button>
+				<button type="button" class="btn " onclick="$('#username').val('');">清空</button>
                                 <button type="button" class="btn grey" onclick="doReset();">重置</button>
                             </div>
                         </div>
