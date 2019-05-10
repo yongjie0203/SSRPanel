@@ -123,10 +123,12 @@
                                                             <!-- <li> <a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">在线安装Shadowrocket</a>,（<a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">备用安装</a>）<a href="{{asset('doc/iOS使用帮助.pdf')}}" target="_blank">查看使用帮助</a>。</li>-->
                                                             <li> <a id="auto_import" href="" target="_blank">点击此处导入订阅配置</a></li>
                                                             <li> 设置 -> 服务器订阅 -> 打开时更新</li>
+                                                            <li> 打开 APP store 苹果id切换为自己的</li>
                                                         @else
                                                             <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装Shadowrocket</a></li>
                                                             <li> <a href="javascript:onlineInstallWarning();">点击此处导入订阅配置</a></li>
                                                             <li> 设置 -> 服务器订阅 -> 打开时更新</li>
+                                                            <li> 打开 APP store 苹果id切换为自己的</li>
                                                         @endif
                                                     @endif					    						
                                                         
@@ -137,10 +139,12 @@
                                                               <li> <a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/quantumult/00/quantumult00_ipa.plist" target="_blank">在线安装Quantumult</a>。</li>
                                                               <li> <a id="quantumult_auto_import" href=""  target="_blank">点击此处导入订阅配置</a></li>
                                                  			  <li>等待更新成功后，后台关闭软件，重新打开软件，点击底部菜单栏黑色图标，选择线路，点击软件上方 Quantumult 旁的按钮，开启代理</li>
+                                                              <li> 打开 APP store 苹果id切换为自己的</li>
                                                           @else
                                                               <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装Quantumult</a></li>
                                                               <li> <a href="javascript:onlineInstallWarning();">点击此处导入订阅配置</a></li>
                                                   			  <li>等待更新成功后，后台关闭软件，重新打开软件，点击底部菜单栏黑色图标，选择线路，点击软件上方 Quantumult 旁的按钮，开启代理</li>
+                                                              <li> 打开 APP store 苹果id切换为自己的</li>
                                                           @endif
                                                       @endif                                                      
                                                   </ol>
