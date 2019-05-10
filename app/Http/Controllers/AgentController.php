@@ -251,6 +251,7 @@ class AgentController extends Controller
             }
 
             // 验证账号是否存在有效期更长的套餐
+            /* 因套餐可提前续费了，所以取消掉套餐长度验证
             if ($goods->type == 2) {
                 $existOrderList = Order::query()
                     ->with(['goods'])
@@ -268,6 +269,7 @@ class AgentController extends Controller
                     }
                 }
             }
+            */
 
             DB::beginTransaction();
             try {
