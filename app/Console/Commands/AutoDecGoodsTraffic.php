@@ -29,11 +29,21 @@ class AutoDecGoodsTraffic extends Command
 
         // 扣减用户到期商品的流量
         $this->decGoodsTraffic();
+        // 待生效订单--->生效
+        $this->resetOrderStatus();
 
         $jobEndTime = microtime(true);
         $jobUsedTime = round(($jobEndTime - $jobStartTime), 4);
 
         Log::info('执行定时任务【' . $this->description . '】，耗时' . $jobUsedTime . '秒');
+    }
+    
+    // 待生效订单--->生效
+    private function resetOrderStatus(){
+        $orderList = Order::query()->where('status', -2)->where('is_expire', 0)->where('effective_at', '<', date('Y-m-d H:i:s'))->get();
+        foreach ($orderList as $order) {
+            Order::query()->where('oid', $order->oid)->update(['status' => 2]);
+        }
     }
 
     // 扣减用户到期商品的流量
@@ -85,7 +95,7 @@ class AutoDecGoodsTraffic extends Command
                     UserLabel::query()->where('user_id', $order->user->id)->delete();
 
                     // 取出用户的其他商品带有的标签
-                    $goodsIds = Order::query()->where('user_id', $order->user->id)->where('oid', '<>', $order->oid)->where('status', 2)->where('is_expire', 0)->groupBy('goods_id')->pluck('goods_id')->toArray();
+                    $goodsIds = Order::query()->where('user_id', $order->user->id)->where('oid', '<>', $order->oid)->whereIn('status', [2,-2])->where('is_expire', 0)->groupBy('goods_id')->pluck('goods_id')->toArray();
                     $goodsLabels = GoodsLabel::query()->whereIn('goods_id', $goodsIds)->groupBy('label_id')->pluck('label_id')->toArray();
 
                     // 生成标签
