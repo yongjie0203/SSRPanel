@@ -8,6 +8,7 @@ use App\Http\Models\Agent;
 use App\Http\Models\Article;
 use App\Http\Models\Coupon;
 use App\Http\Models\CouponAgent;
+use App\Http\Models\CouponRefund;
 use App\Http\Models\CouponWillUse;
 use App\Http\Models\Goods;
 use App\Http\Models\GoodsLabel;
@@ -177,6 +178,28 @@ class AgentController extends Controller
        }
        
    }
+
+    public function refund(Request $request){
+        $coupon_sn = $request->get('coupon_sn');
+        if(!empty($coupon_sn) && strlen($coupon_sn) > 7){
+            $head = substr($coupon_sn,0,1);
+            $coupon_sn = substr($coupon_sn,1,strlen($coupon_sn)-1);           
+        }
+        if (!empty($coupon_sn)) {                               
+            $coupon = Coupon::query()->where('sn', $coupon_sn)->first();
+            if(!$coupon){
+                return Response::json(['status' => 'fail', 'data' => '' , 'message' => '该码无效']);
+            }
+            $coupon_refund = new CouponRefund();
+            
+            $order = Order::query()->where('coupon_id', $coupon->id)->first();
+            if($order){
+                   
+                $order->status = 3;
+            }
+            
+        }
+    }
 
     // 购买服务
     public function buy(Request $request, $id)
