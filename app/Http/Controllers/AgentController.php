@@ -205,6 +205,8 @@ class AgentController extends Controller
             }
             return Response::json(['status' => 'fail', 'data' => '' , 'message' => '该码暂未使用，已禁止使用']);
             
+        }else{
+            return Response::json(['status' => 'fail', 'data' => '' , 'message' => '券码为空，请填写']);
         }
     }
 
