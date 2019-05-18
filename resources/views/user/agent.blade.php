@@ -303,18 +303,28 @@
         }
 	
 	function refund(){
-		$.ajax({
-		    type: "POST",
-		    url: "{{url('agent/refund')}}" ,
-		    data:{_token:'{{csrf_token()}}',coupon_sn:$("#refund_sn").val()},
-		    async: false,                  
-		    dataType: 'json',		    
-		    success: function (ret) {
-			layer.msg(ret.message, {time:1300}, function() {
+	    var msg = "如果该券已被使用，用户订单将被取消，用户将被禁用，若未被使用，该券将被禁止使用。您确定要为该券码执行退款操作吗？";
+	    layer.confirm(msg, {
+		  btn: ['确定','取消'] //按钮
+		}, function(){
+		  	index = layer.load(1, {
+				shade: [0.7,'#CCC']
+	                });
+			$.ajax({
+			    type: "POST",
+			    url: "{{url('agent/refund')}}" ,
+			    data:{_token:'{{csrf_token()}}',coupon_sn:$("#refund_sn").val()},
+			    async: false,                  
+			    dataType: 'json',		    
+			    success: function (ret) {
+				layer.msg(ret.message, {time:1300}, function() {
 
+				    });
+				}
 			    });
-			}
-		    });
+		}, function(){
+		  
+		});		
 	}
 	
 
