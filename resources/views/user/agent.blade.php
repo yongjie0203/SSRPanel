@@ -307,9 +307,7 @@
 	    layer.confirm(msg, {
 		  btn: ['确定','取消'] //按钮
 		}, function(){
-		  	index = layer.load(1, {
-				shade: [0.7,'#CCC']
-	                });
+		  	
 			$.ajax({
 			    type: "POST",
 			    url: "{{url('agent/refund')}}" ,
