@@ -188,7 +188,11 @@ class AgentController extends Controller
         if (!empty($coupon_sn)) {                               
             $coupon = Coupon::query()->where('sn', $coupon_sn)->first();
             if(!$coupon){
-                return Response::json(['status' => 'fail', 'data' => '' , 'message' => '该码无效']);
+                return Response::json(['status' => 'fail', 'data' => '' , 'message' => '该券码无效']);
+            }
+            $coupon_refund = CouponRefund::query()->where('sn',$coupon_sn)->first();
+            if($coupon_refund){
+                return Response::json(['status' => 'success', 'data' => '', 'message' => '该券码已退款，不用重复退款']);
             }
             $coupon_refund = new CouponRefund();
             $coupon_refund->sn = $coupon_sn;
@@ -203,7 +207,7 @@ class AgentController extends Controller
                 Helpers::addUserTrafficModifyLog($order->user_id, $order->oid, 0, 0, '[退款]用户退款，可用流量置零');
                 return Response::json(['status' => 'success', 'data' => '' , 'message' => '用户订单已取消，可用流量清零']);
             }
-            return Response::json(['status' => 'fail', 'data' => '' , 'message' => '该码暂未使用，已禁止使用']);
+            return Response::json(['status' => 'fail', 'data' => '' , 'message' => '该券码暂未使用，已禁止使用']);
             
         }else{
             return Response::json(['status' => 'fail', 'data' => '' , 'message' => '券码为空，请填写']);
