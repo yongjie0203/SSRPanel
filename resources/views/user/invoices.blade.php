@@ -54,6 +54,8 @@
                                                         <a href="javascript:;" class="btn btn-sm green disabled"> {{trans('home.invoice_table_wait_active')}} </a>
 						    @elseif($order->status == -2)
                                                         <a href="javascript:;" class="btn btn-sm green disabled"> {{trans('home.invoice_table_wait_active')}} </a>
+						    @elseif($order->status == 3)
+                                                        <a href="javascript:;" class="btn btn-sm green disabled"> {{trans('home.invoice_table_refund')}} </a>
                                                     @else
                                                         <a href="javascript:;" class="btn btn-sm default disabled"> {{trans('home.invoice_table_expired')}} </a>
                                                     @endif
