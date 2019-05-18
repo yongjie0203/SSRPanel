@@ -191,12 +191,19 @@ class AgentController extends Controller
                 return Response::json(['status' => 'fail', 'data' => '' , 'message' => '该码无效']);
             }
             $coupon_refund = new CouponRefund();
-            
+            $coupon_refund->sn = $coupon_sn;
+            $coupon_refund->user_id = $coupon->holder;
+            $coupon_refund->save();
             $order = Order::query()->where('coupon_id', $coupon->id)->first();
             if($order){
-                   
-                $order->status = 3;
+                // 更新状态为退款
+                Order::query()->where('coupon_id', $coupon->id)->update(['status' => 3]);
+                // 用户代理禁用，可用流量置零
+                User::query()->where('id', $order->user_id)->update(['expire_time' = date("Y-m-d H:i:s", strtotime("+" . "1" . " days")) ,'u' => 0, 'd' => 0, 'transfer_enable' => 0,'enable' => 0]);
+                Helpers::addUserTrafficModifyLog($user->id, $order->oid, 0, 0, '[退款]用户退款，可用流量置零');
+                return Response::json(['status' => 'success', 'data' => '' , 'message' => '用户订单已取消，可用流量清零']);
             }
+            return Response::json(['status' => 'fail', 'data' => '' , 'message' => '该码暂未使用，已禁止使用']);
             
         }
     }
@@ -222,6 +229,13 @@ class AgentController extends Controller
             }
             if($head == "4"){
                 $goods_id = 8;
+            }
+        }
+        
+        if(!empty($coupon_sn) ){
+            $coupon_refund = CouponRefund::query()->where('sn',$coupon_sn)->first();
+            if($coupon_refund){
+                return Response::json(['status' => 'fail', 'data' => '', 'message' => '支付失败：该券码已退款，请勿使用']);
             }
         }
 
