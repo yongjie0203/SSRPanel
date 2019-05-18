@@ -51,6 +51,8 @@
                                     <option value="0" @if(Request::get('status') == '0') selected @endif>待支付</option>
                                     <option value="1" @if(Request::get('status') == '1') selected @endif>已支付待确认</option>
                                     <option value="2" @if(Request::get('status') == '2') selected @endif>已完成</option>
+                                    <option value="-2" @if(Request::get('status') == '-2') selected @endif>待生效</option>
+                                    <option value="3" @if(Request::get('status') == '3') selected @endif>已退款</option>
                                 </select>
                             </div>
                             <div class="col-md-3 col-sm-4 col-xs-12">
@@ -113,6 +115,10 @@
                                                         <span class="label label-default"> 待支付 </span>
                                                     @elseif ($order->status == '1')
                                                         <span class="label label-default"> 已支付待确认 </span>
+                                                    @elseif ($order->status == '-2')
+                                                        <span class="label label-default"> 待生效 </span>
+                                                    @elseif ($order->status == '3')
+                                                        <span class="label label-default"> 已退款 </span>
                                                     @else
                                                         <span class="label label-success"> 已完成 </span>
                                                     @endif
