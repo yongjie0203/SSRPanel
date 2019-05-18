@@ -66,6 +66,14 @@
 				    <div class="used" id="used"><div style="background-color:red">已失效</div></div>                             
 				</div>
 			   </div>
+			   <div class="row">
+				    <div class="col-md-3 col-sm-4 col-xs-12">
+					<input type="text" class="col-md-4 col-sm-4 col-xs-12 form-control" id="refund_sn" name="refund_sn"  placeholder="要退款的券码" >
+				    </div>
+				    <div class="col-md-3 col-sm-4 col-xs-12">
+					<button type="button" class="btn blue" onclick="refund();">退款</button>					
+				    </div>
+			   </div>
 		    </div>
 		</div>
                    
@@ -293,6 +301,21 @@
         function doReset() {
             window.location.href = '{{url('agent/userList')}}';
         }
+	
+	function refund(){
+		$.ajax({
+		    type: "POST",
+		    url: "{{url('agent/refund')}}" ,
+		    data:{_token:'{{csrf_token()}}',coupon_sn:$("#refund_sn").val()},
+		    async: false,                  
+		    dataType: 'json',		    
+		    success: function (ret) {
+			layer.msg(ret.message, {time:1300}, function() {
+
+			    });
+			}
+		    });
+	}
 	
 
          $(function() { 
