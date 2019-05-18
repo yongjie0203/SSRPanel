@@ -48,6 +48,10 @@
                                 {{trans('home.invoice_table_wait_confirm')}}
                             @elseif($order->status == 2)
                                 {{trans('home.invoice_table_wait_active')}}
+                            @elseif($order->status == -2)
+                                {{trans('home.invoice_table_wait_active')}}
+                            @elseif($order->status == 3)
+                                {{trans('home.invoice_table_wait_refund')}}
                             @else
                                 {{trans('home.invoice_table_expired')}}
                             @endif
