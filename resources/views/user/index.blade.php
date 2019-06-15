@@ -122,7 +122,7 @@
                                                             <li> <a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/00/shadowrocket00_ipa.plist" target="_blank">在线安装Shadowrocket</a>,（<a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">备用安装</a>）<a href="{{asset('doc/iOS使用帮助.pdf')}}" target="_blank">查看使用帮助</a>。</li> 
                                                             <!-- <li> <a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">在线安装Shadowrocket</a>,（<a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">备用安装</a>）<a href="{{asset('doc/iOS使用帮助.pdf')}}" target="_blank">查看使用帮助</a>。</li>-->
                                                             <li> <a id="auto_import" href="" target="_blank">点击此处导入订阅配置</a></li>
-                                                            <li> 设置 -> 服务器订阅 -> 打开时更新</li>
+                                                            <li> 小火箭APP中设置 -> 服务器订阅 -> 打开时更新</li>
                                                             <li> 打开 APP store 苹果id切换为自己的</li>
                                                         @else
                                                             <li> <a href="javascript:onlineInstallWarning();">点击此处在线安装Shadowrocket</a></li>
