@@ -94,7 +94,7 @@
                                             </div>
                                             <div class="tab-pane" id="tools2">
                                                 <ol>
-                                                    <li> <a href="/download" target="_blank">点击此处</a>下载客户端并启动。请点<a href="{{asset('doc/Windows使用帮助.pdf')}}" target="_blank">这里</a>查看详细使用帮助 </li>                                       
+                                                    <li> <a href="/download" target="_blank">点击此处</a>下载客户端并启动。请点<a href="https://syysi.oss-cn-shenzhen.aliyuncs.com/doc/Windows%E4%BD%BF%E7%94%A8%E5%B8%AE%E5%8A%A9.pdf" target="_blank">这里</a>查看详细使用帮助 </li>                                       
                                                     <li> 运行 ShadowsocksR 文件夹内的 ShadowsocksR.exe </li>
                                                     <li> 右击桌面右下角状态栏（或系统托盘）纸飞机 -> 服务器订阅 -> SSR服务器订阅设置 </li>
                                                     <li> 点击窗口左下角 “Add” 新增订阅，完整复制本页上方 “订阅服务” 处地址，将其粘贴至“网址”栏，点击“确定” </li>
@@ -119,8 +119,8 @@
                                                   	<li> 请从客服QQ:360582818处获取App Store账号密码，以下客户端择其一即可。</li>
                                                     @if(Agent::is('iPhone') || Agent::is('iPad'))
                                                         @if(Agent::is('Safari'))
-                                                            <li> <a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/00/shadowrocket00_ipa.plist" target="_blank">在线安装Shadowrocket</a>,（<a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">备用安装</a>）<a href="{{asset('doc/iOS使用帮助.pdf')}}" target="_blank">查看使用帮助</a>。</li> 
-                                                            <!-- <li> <a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">在线安装Shadowrocket</a>,（<a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">备用安装</a>）<a href="{{asset('doc/iOS使用帮助.pdf')}}" target="_blank">查看使用帮助</a>。</li>-->
+                                                            <li> <a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/00/shadowrocket00_ipa.plist" target="_blank">在线安装Shadowrocket</a>,（<a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">备用安装</a>）<a href="https://syysi.oss-cn-shenzhen.aliyuncs.com/doc/iOS%E4%BD%BF%E7%94%A8%E5%B8%AE%E5%8A%A9.pdf" target="_blank">查看使用帮助</a>。</li> 
+                                                            <!-- <li> <a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">在线安装Shadowrocket</a>,（<a href="itms-services://?action=download-manifest&url=https://syysi.oss-cn-shenzhen.aliyuncs.com/shadowrocket/01/shadowrocket01_ipa.plist" target="_blank">备用安装</a>）<a href="https://syysi.oss-cn-shenzhen.aliyuncs.com/doc/iOS%E4%BD%BF%E7%94%A8%E5%B8%AE%E5%8A%A9.pdf" target="_blank">查看使用帮助</a>。</li>-->
                                                             <li> <a id="auto_import" href="" target="_blank">点击此处导入订阅配置</a></li>
                                                             <li> 小火箭APP中设置 -> 服务器订阅 -> 打开时更新</li>
                                                             <li> 打开 APP store 苹果id切换为自己的</li>
@@ -151,7 +151,7 @@
                                             </div>
                                             <div class="tab-pane" id="tools5">
                                                 <ol>
-                                                    <li> <a href="https://syysi.oss-cn-shenzhen.aliyuncs.com/android/android-ssr.apk" target="_blank">点击此处下载客户端</a>并启动(<a target="_blank" href="{{asset('clients/shadowsocksr-android-3.5.4.apk')}}">备用下载</a>)，完成后请点<a href="{{asset('doc/Android使用帮助.pdf')}}" target="_blank">这里</a>查看详细使用帮助。<a href="/article?id=4">视频教程点这里</a> </li>
+                                                    <li> <a href="https://syysi.oss-cn-shenzhen.aliyuncs.com/android/android-ssr.apk" target="_blank">点击此处下载客户端</a>并启动(<a target="_blank" href="{{asset('clients/shadowsocksr-android-3.5.4.apk')}}">备用下载</a>)，完成后请点<a href="https://syysi.oss-cn-shenzhen.aliyuncs.com/doc/Android%E4%BD%BF%E7%94%A8%E5%B8%AE%E5%8A%A9.pdf" target="_blank">这里</a>查看详细使用帮助。<a href="/article?id=4">视频教程点这里</a> </li>
                                                     <li> 单击左上角的shadowsocksR进入配置文件页，点击右下角的“+”号，点击“添加/升级SSR订阅”，完整复制本页上方“订阅服务”处地址，填入订阅信息并保存 </li>
                                                     <li> 选中任意一个节点，返回软件首页 </li>
                                                     <li> 在软件首页处找到“路由”选项，并将其改为“绕过局域网及中国大陆地址” </li>
