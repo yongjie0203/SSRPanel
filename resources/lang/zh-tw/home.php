@@ -140,6 +140,7 @@ return [
     'invoice_table_wait_confirm'      => '待確認',
     'invoice_table_wait_active'       => '使用中',
     'invoice_table_expired'           => '已過期',
+    'invoice_table_refund'            => '已退款',
     'invoice_table_goods_deleted'     => '[服務已刪除]',
 
     // 工单
