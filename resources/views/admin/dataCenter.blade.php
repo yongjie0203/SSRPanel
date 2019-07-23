@@ -7,7 +7,7 @@
         <!-- BEGIN PAGE BASE CONTENT -->
         <div >          
            <!--  <div id="node-used-cyclicity" style="width:95%;height:300px" ></div> -->
-            <div id="node-used-monthly" style="width:95%;height:300px" ></div>
+           <!--   <div id="node-used-monthly" style="width:95%;height:300px" ></div> -->
             <div id="user-online-data-monthly" style="width:95%;height:300px" ></div>
             <div id="order-data-monthly" style="width:95%;height:300px" ></div>
             <div id="online-users-monthly" style="width:95%;height:300px" ></div>
@@ -27,14 +27,14 @@
          $(function() {
          
              //var nodeUsedCyclicityEchart = echarts.init(document.getElementById('node-used-cyclicity'));
-             var nodeUsedMonthlyEchart = echarts.init(document.getElementById('node-used-monthly'));
+             //var nodeUsedMonthlyEchart = echarts.init(document.getElementById('node-used-monthly'));
              var userOnlineDataMonthlyEchart = echarts.init(document.getElementById('user-online-data-monthly'));
              var orderDataMonthlyEchart = echarts.init(document.getElementById('order-data-monthly'));
              var onlineUsersMonthlyEchart = echarts.init(document.getElementById('online-users-monthly'));
              //var userOnlineScatterMonthlyEchart = echarts.init(document.getElementById('user-online-scatter-monthly'));
              
              //nodeUsedCyclicity();
-             nodeUsedMonthly();
+             //nodeUsedMonthly();
              userOnlinDataMonthly();
              orderDataMonthly();
              onlineUsersMonthly();
