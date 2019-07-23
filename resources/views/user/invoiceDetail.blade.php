@@ -51,7 +51,7 @@
                             @elseif($order->status == -2)
                                 {{trans('home.invoice_table_wait_active')}}
                             @elseif($order->status == 3)
-                                {{trans('home.invoice_table_wait_refund')}}
+                                {{trans('home.invoice_table_refund')}}
                             @else
                                 {{trans('home.invoice_table_expired')}}
                             @endif
