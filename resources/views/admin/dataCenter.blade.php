@@ -6,12 +6,12 @@
     <div class="page-content" style="padding-top:0;">
         <!-- BEGIN PAGE BASE CONTENT -->
         <div >          
-            <div id="node-used-cyclicity" style="width:95%;height:300px" ></div>
+           <!--  <div id="node-used-cyclicity" style="width:95%;height:300px" ></div> -->
             <div id="node-used-monthly" style="width:95%;height:300px" ></div>
             <div id="user-online-data-monthly" style="width:95%;height:300px" ></div>
             <div id="order-data-monthly" style="width:95%;height:300px" ></div>
             <div id="online-users-monthly" style="width:95%;height:300px" ></div>
-            <div id="user-online-scatter-monthly" style="width:95%;height:300px" ></div>
+            <!-- <div id="user-online-scatter-monthly" style="width:95%;height:300px" ></div> -->
         </div> 
         
         
@@ -33,7 +33,7 @@
              var onlineUsersMonthlyEchart = echarts.init(document.getElementById('online-users-monthly'));
              var userOnlineScatterMonthlyEchart = echarts.init(document.getElementById('user-online-scatter-monthly'));
              
-             nodeUsedCyclicity();
+             //nodeUsedCyclicity();
              nodeUsedMonthly();
              userOnlinDataMonthly();
              orderDataMonthly();
