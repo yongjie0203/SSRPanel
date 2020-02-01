@@ -465,7 +465,7 @@
                                     <a href="{{$node->ss_scheme}}" class="btn blue uppercase" style="display: block; width: 100%;margin-top: 10px;">打开SS</a>
                                 @endif
                             @else
-                                @if($node->v2_scheme)
+                                @if($node->type == 2)
                                     <p></p>
                                     <textarea class="form-control" rows="3" readonly="readonly">{{$node->v2_scheme}}</textarea>
                                     <a href="{{$node->v2_scheme}}" class="btn blue uppercase" style="display: block; width: 100%;margin-top: 10px;">打开V2ray</a>
@@ -507,10 +507,18 @@
                                         </div>
                                     @endif
                                 @else
-                                    <div class="col-md-12">
-                                        <div id="qrcode_v2_img_{{$node->id}}" style="text-align: center;"></div>
-                                        <div style="text-align: center;"><a id="download_qrcode_v2_img_{{$node->id}}">{{trans('home.download')}}</a></div>
-                                    </div>
+                                    @if($node->type == 2)
+                                        <div class="col-md-12">
+                                            <div id="qrcode_v2_img_{{$node->id}}" style="text-align: center;"></div>
+                                            <div style="text-align: center;"><a id="download_qrcode_v2_img_{{$node->id}}">{{trans('home.download')}}</a></div>
+                                        </div>
+                                    @endif
+                                    @if($node->type == -1)
+                                        <div class="col-md-12">
+                                            <div id="qrcode_trojan_img_{{$node->id}}" style="text-align: center;"></div>
+                                            <div style="text-align: center;"><a id="download_qrcode_trojan_img_{{$node->id}}">{{trans('home.download')}}</a></div>
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -653,8 +661,8 @@
                     $('#download_qrcode_v2_img_{{$node->id}}').attr({'download':'code','href':$('#qrcode_v2_img_{{$node->id}} canvas')[0].toDataURL("image/png")})
                 @endif
                 @if($node->type == -1)
-                    $('#qrcode_v2_img_{{$node->id}}').qrcode("{{$node->trojan_scheme}}");
-                    $('#download_qrcode_v2_img_{{$node->id}}').attr({'download':'code','href':$('#qrcode_v2_img_{{$node->id}} canvas')[0].toDataURL("image/png")})
+                    $('#qrcode_trojan_img_{{$node->id}}').qrcode("{{$node->trojan_scheme}}");
+                    $('#download_qrcode_trojan_img_{{$node->id}}').attr({'download':'code','href':$('#qrcode_trojan_img_{{$node->id}} canvas')[0].toDataURL("image/png")})
                 @endif
                 
             @endif
