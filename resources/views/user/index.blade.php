@@ -470,6 +470,11 @@
                                     <textarea class="form-control" rows="3" readonly="readonly">{{$node->v2_scheme}}</textarea>
                                     <a href="{{$node->v2_scheme}}" class="btn blue uppercase" style="display: block; width: 100%;margin-top: 10px;">打开V2ray</a>
                                 @endif
+                                @if($node->type == -1)
+                                    <p></p>
+                                    <textarea class="form-control" rows="3" readonly="readonly">{{$node->trojan_scheme}}</textarea>
+                                    <a href="{{$node->trojan_scheme}}" class="btn blue uppercase" style="display: block; width: 100%;margin-top: 10px;">打开Trojan</a>
+                                @endif
                             @endif
                         </div>
                     </div>
@@ -643,8 +648,15 @@
                     $('#download_qrcode_ss_img_{{$node->id}}').attr({'download':'code','href':$('#qrcode_ss_img_{{$node->id}} canvas')[0].toDataURL("image/png")})
                 @endif
             @else
-                $('#qrcode_v2_img_{{$node->id}}').qrcode("{{$node->v2_scheme}}");
-                $('#download_qrcode_v2_img_{{$node->id}}').attr({'download':'code','href':$('#qrcode_v2_img_{{$node->id}} canvas')[0].toDataURL("image/png")})
+                @if($node->type == 2)
+                    $('#qrcode_v2_img_{{$node->id}}').qrcode("{{$node->v2_scheme}}");
+                    $('#download_qrcode_v2_img_{{$node->id}}').attr({'download':'code','href':$('#qrcode_v2_img_{{$node->id}} canvas')[0].toDataURL("image/png")})
+                @endif
+                @if($node->type == -1)
+                    $('#qrcode_v2_img_{{$node->id}}').qrcode("{{$node->trojan_scheme}}");
+                    $('#download_qrcode_v2_img_{{$node->id}}').attr({'download':'code','href':$('#qrcode_v2_img_{{$node->id}} canvas')[0].toDataURL("image/png")})
+                @endif
+                
             @endif
         @endforeach
 
