@@ -156,7 +156,7 @@ class UserController extends Controller
                 $node->ss_scheme = $node->compatible ? $ss_scheme : ''; // 节点兼容原版才显示
 
                 $allNodes .= $ssr_scheme . '|';
-            } else {
+            } else if ($node->type == 2) {
                 // 生成v2ray scheme
                 $v2_json = [
                     "v"    => "2",
@@ -189,6 +189,14 @@ class UserController extends Controller
 
                 $node->txt = $txt;
                 $node->v2_scheme = $v2_scheme;
+            }else if($node->type == -1){
+                $txt = "服务器：" . ($node->server ? $node->server : $node->ip) . "\r\n";                
+                $txt .= "远程端口：" . $node->single_port  . "\r\n";
+                $txt .= "密码：" . $user->trojan_password ;
+               
+                $trojan_scheme = 'trojan://' . $user->trojan_password . '@' . $node->server . ':'  $node->single_port;
+                $node->txt = $txt;
+                $node->trojan_scheme = $trojan_scheme;
             }
 
             // 节点在线状态
