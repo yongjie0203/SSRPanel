@@ -2075,6 +2075,14 @@ EOF;
                 return Response::json(['status' => 'fail', 'data' => '', 'message' => '已经在使用【有赞云支付】']);
             }
         }
+	    
+	
+        if (in_array($name, ['is_ipay']) && $name) {
+            $is_ipay = Config::query()->where('name', 'is_ipay')->first();
+            if ($is_ipay->value) {
+                return Response::json(['status' => 'fail', 'data' => '', 'message' => '已经在使用【ipay支付】']);
+            }
+        }
 
         // 更新配置
         Config::query()->where('name', $name)->update(['value' => $value]);
