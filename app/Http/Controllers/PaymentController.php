@@ -46,7 +46,7 @@ class PaymentController extends Controller
         }
 
         // 判断是否开启有赞云支付
-        if (!self::$systemConfig['is_youzan'] && !self::$systemConfig['is_alipay']) {
+        if (!self::$systemConfig['is_youzan'] && !self::$systemConfig['is_alipay'] && !self::$systemConfig['is_ipay']) {
             return Response::json(['status' => 'fail', 'data' => '', 'message' => '创建支付单失败：系统并未开启在线支付功能']);
         }
 
@@ -123,6 +123,8 @@ class PaymentController extends Controller
                 $pay_way = 2;
             } elseif (self::$systemConfig['is_alipay']) {
                 $pay_way = 4;
+            }elseif (self::$systemConfig['is_ipay']) {
+                $pay_way = 8;
             }
 
             // 生成订单
@@ -167,6 +169,22 @@ class PaymentController extends Controller
                 // 建立请求
                 $alipaySubmit = new AlipaySubmit(self::$systemConfig['alipay_sign_type'], self::$systemConfig['alipay_partner'], self::$systemConfig['alipay_key'], self::$systemConfig['alipay_private_key']);
                 $result = $alipaySubmit->buildRequestForm($parameter, "post", "确认");
+            }elseif (self::$systemConfig['is_ipay']) {
+                $parameter = [
+                    
+                    "expire"        => "",
+                    "notifyUrl"     => self::$systemConfig['website_url'] . "/api/ipay", // 异步回调接口
+                    "return_url"     => self::$systemConfig['website_url'],
+                    "outTradeNo"   => $orderSn,  // 订单号
+                    "body"        => "订单支付", // 订单名称
+                    "totalFee"      => $amount // 金额
+                    
+                  
+                ];
+
+                // 建立请求
+                $ipaySubmit = new IpaySubmit(self::$systemConfig['ipay_sign_type'], self::$systemConfig['ipay_partner'], self::$systemConfig['ipay_key'], self::$systemConfig['ipay_private_key']);
+                $result = $ipaySubmit->buildRequestForm($parameter, "post", "确认");
             }
 
             $payment = new Payment();
