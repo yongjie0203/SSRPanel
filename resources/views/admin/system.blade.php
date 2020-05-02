@@ -46,6 +46,9 @@
 										<li>
                                             <a href="#tab_9" data-toggle="tab"> AliPay </a>
                                         </li>
+					<li>
+                                            <a href="#tab_10" data-toggle="tab"> iPay </a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="portlet-body">
@@ -958,6 +961,68 @@
                                                 </div>
                                             </form>
                                         </div>
+					<div class="tab-pane" id="tab_10">
+                                            <form action="#" method="post" class="form-horizontal">
+                                                <div class="portlet-body">
+                                                    <div class="form-group">
+                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                            <label for="is_ipay" class="col-md-3 control-label">本功能</label>
+                                                            <div class="col-md-9">
+                                                                <input type="checkbox" class="make-switch" @if($is_ipay) checked @endif id="is_ipay" data-on-color="success" data-off-color="danger" data-on-text="启用" data-off-text="关闭">
+                                                                <span class="help-block"> 请先到 <a href="http://imeimall/" target="_blank">imeimall</a> 申请partner和key </span>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                            <label for="ipay_sign_type" class="col-md-3 control-label">加密方式</label>
+                                                            <div class="col-md-9">
+                                                                <select id="ipay_sign_type" class="form-control select2" name="ipay_sign_type">
+                                                                    <option value="MD5" @if($ipay_sign_type == 'MD5') selected @endif>MD5</option>
+                                                                    <option value="RSA" @if($ipay_sign_type == 'RSA') selected @endif>RSA</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                            <label for="ipay_transport" class="col-md-3 control-label">启用SSL验证</label>
+                                                            <div class="col-md-9">
+                                                                <select id="alipay_transport" class="form-control select2" name="alipay_transport">
+                                                                    <option value="http" @if($ipay_transport == 'http') selected @endif>否</option>
+                                                                    <option value="https" @if($ipay_transport == 'https') selected @endif>是</option>
+                                                                </select>
+                                                                <span class="help-block"> HTTPS站点需启用 </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="form-group">
+                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                            <label for="ipay_private_key" class="col-md-3 control-label">RSA私钥</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" type="password" name="ipay_private_key" value="{{$ipay_private_key}}" id="alipay_private_key" />
+                                                                    <span class="input-group-btn">
+                                                                        <button class="btn btn-success" type="button" onclick="setipayPrivateKey()">修改</button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                                            <label for="ipay_public_key" class="col-md-3 control-label">RSA公钥</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-group">
+                                                                    <input class="form-control" type="password" name="ipay_public_key" value="{{$ipay_public_key}}" id="alipay_public_key" />
+                                                                    <span class="input-group-btn">
+                                                                    <button class="btn btn-success" type="button" onclick="setipayPublicKey()">修改</button>
+                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1488,6 +1553,22 @@
                 });
             }
         });
+	
+	// 启用、禁用ipay
+        $('#is_ipay').on({
+            'switchChange.bootstrapSwitch': function(event, state) {
+                var is_ipay = state ? 1 : 0;
+
+                $.post("{{url('admin/setConfig')}}", {_token:'{{csrf_token()}}', name:'is_ipay', value:is_ipay}, function (ret) {
+                    layer.msg(ret.message, {time:1000}, function() {
+                        if (ret.status == 'fail') {
+                            window.location.reload();
+                        }
+                    });
+                });
+            }
+        });
+
 
         // 流量异常阈值
         function setTrafficBanValue() {
