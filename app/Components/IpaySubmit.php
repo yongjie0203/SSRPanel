@@ -7,7 +7,7 @@ use \DOMDocument;
 /**
  * Class IpaySubmit
  *
- * @author  wz812180
+ * @author  zhangyongjie
  *
  * @package App\Components
  */
