@@ -204,9 +204,9 @@ class PaymentController extends Controller
                 $payment->qr_code = $result;
             } elseif(self::$systemConfig['is_ipay']){
  		
-                $payment->qr_url = $result.qrUrl;
-                $payment->qr_code = $result.qrCode;
-                $payment->qr_local_url = $this->base64ImageSaver($result.qrCode);
+                $payment->qr_url = $result->qrUrl;
+                $payment->qr_code = $result->qrCode;
+                $payment->qr_local_url = $this->base64ImageSaver($result->qrCode);
 	    }
             $payment->status = 0;
             $payment->save();
