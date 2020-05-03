@@ -184,7 +184,7 @@ class PaymentController extends Controller
                 ];
 
                 // 建立请求
-                $ipaySubmit = new IpaySubmit(self::$systemConfig['ipay_sign_type'], self::$systemConfig['alipay_partner'], self::$systemConfig['ipay_key'], self::$systemConfig['ipay_private_key']);
+                $ipaySubmit = new IpaySubmit(self::$systemConfig['ipay_sign_type'], self::$systemConfig['alipay_partner'], self::$systemConfig['alipay_key'], self::$systemConfig['ipay_private_key']);
                 $result = $ipaySubmit->send_post('http://sdld910203.oicp.net/api/order',$parameter);
             }
 
