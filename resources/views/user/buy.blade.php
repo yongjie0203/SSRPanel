@@ -79,8 +79,8 @@
                         <a class="btn btn-lg red hidden-print" onclick="onlinePay(0)"> {{trans('home.online_pay')}} </a>
                     @elseif($is_alipay)
                         <a class="btn btn-lg green hidden-print" onclick="onlinePay(4)"> 支付宝扫码 </a>
-                    @elseif($is_alipay)
-                        <a class="btn btn-lg red hidden-print" onclick="onlinePay(8)">  {{trans('home.online_pay')}} </a>
+                    @elseif($is_ipay)
+                        <a class="btn btn-lg green hidden-print" onclick="onlinePay(8)">  {{trans('home.online_pay')}} </a>
                     @endif
                   	@if($goods->type <= 2)
                         <a class="btn btn-lg red hidden-print uppercase" href="https://item.taobao.com/item.htm?id=586226576216" target="_blank" > 获取抵用券 </a>
