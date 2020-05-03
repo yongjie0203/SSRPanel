@@ -234,7 +234,7 @@ class PaymentController extends Controller
 
             Log::error('创建支付订单失败：' . $e->getMessage());
 
-            return Response::json(['status' => 'fail', 'data' => '', 'message' => '创建订单失败：' . $e->getMessage()]);
+            return Response::json(['status' => 'fail', 'data' => $result, 'message' => '创建订单失败：' . $e->getMessage()]);
         }
     }
 
