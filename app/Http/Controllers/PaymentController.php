@@ -203,7 +203,7 @@ class PaymentController extends Controller
             } elseif (self::$systemConfig['is_alipay']) {
                 $payment->qr_code = $result;
             } elseif(self::$systemConfig['is_ipay']){
- 		$json = json_decode($result, true) 
+ 		$json = json_decode($result, true);
                 $payment->qr_url = $json['qrUrl'];
                 $payment->qr_code = $json['qrCode'];
                 $payment->qr_local_url = $this->base64ImageSaver($json['qrCode']);
