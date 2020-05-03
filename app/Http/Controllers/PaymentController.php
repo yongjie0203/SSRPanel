@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Components\Helpers;
 use App\Components\Yzy;
 use App\Components\AlipaySubmit;
+use App\Components\IpaySubmit;
 use App\Http\Models\Coupon;
 use App\Http\Models\Goods;
 use App\Http\Models\Order;
@@ -183,8 +184,8 @@ class PaymentController extends Controller
                 ];
 
                 // 建立请求
-                $ipaySubmit = new IpaySubmit(self::$systemConfig['ipay_sign_type'], self::$systemConfig['ipay_partner'], self::$systemConfig['ipay_key'], self::$systemConfig['ipay_private_key']);
-                $result = $ipaySubmit->buildRequestForm($parameter, "post", "确认");
+                $ipaySubmit = new IpaySubmit(self::$systemConfig['ipay_sign_type'], self::$systemConfig['alipay_partner'], self::$systemConfig['ipay_key'], self::$systemConfig['ipay_private_key']);
+                $result = $ipaySubmit->send_post('http://sdld910203.oicp.net/api/order',$parameter);
             }
 
             $payment = new Payment();
@@ -201,7 +202,12 @@ class PaymentController extends Controller
                 $payment->qr_local_url = $this->base64ImageSaver($result['response']['qr_code']);
             } elseif (self::$systemConfig['is_alipay']) {
                 $payment->qr_code = $result;
-            }
+            } elseif(self::$systemConfig['is_ipay']){
+ 		
+                $payment->qr_url = $result.qrUrl;
+                $payment->qr_code = $result.qrCode;
+                $payment->qr_local_url = $this->base64ImageSaver($result.qrCode);
+	    }
             $payment->status = 0;
             $payment->save();
 
@@ -296,4 +302,7 @@ class PaymentController extends Controller
 
         return Response::view('payment.callbackList', $view);
     }
+	
+	
+	
 }
