@@ -13,7 +13,7 @@ use \DOMDocument;
  */
 class IpaySubmit
 {
-    var $alipay_gateway_new = 'https://mapi.alipay.com/gateway.do?'; // 支付宝网关地址（新）
+    var $ipay_gateway_new = 'http://sdld910203.oicp.net/api/order'; // 网关地址（新）
     var $sign_type = "MD5"; // 加密方式：MD5/RSA
     var $partner = "";
     var $md5_key = "";
@@ -263,5 +263,28 @@ class IpaySubmit
         reset($para);
 
         return $para;
+    }
+    
+    /**
+     * 发送post请求
+     *
+     * @param array $url 请求地址
+     * @param array $post_data 请求参数
+     *
+     * @return mixed
+     */
+    function send_post($url, $post_data) {
+      $postdata = http_build_query($post_data);
+      $options = array(
+        'http' => array(
+          'method' => 'POST',
+          'header' => 'Content-type:application/x-www-form-urlencoded',
+          'content' => $postdata,
+          'timeout' => 15 * 60 // 超时时间（单位:s）
+        )
+      );
+      $context = stream_context_create($options);
+      $result = file_get_contents($url, false, $context);
+      return $result;
     }
 }
