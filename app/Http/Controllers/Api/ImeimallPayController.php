@@ -56,7 +56,7 @@ class ImeimallPayController extends Controller
         $verify_result = true;
         if ($verify_result) { // 验证成功
             $result = "success";
-            if ($_POST['status'] == 'TRADE_FINISHED' || $_POST['status'] == 'SUCCESS') {
+            if ($request->get('status') == 'TRADE_FINISHED' || $request->get('status') == 'SUCCESS') {
                 // 商户订单号
                 $data = [];
                 $data['out_trade_no'] = $request->get('outTradeNo');
