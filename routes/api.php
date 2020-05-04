@@ -3,6 +3,7 @@
 Route::group(['namespace' => 'Api'], function () {
     Route::resource('yzy', 'YzyController');
     Route::resource('alipay', 'AlipayController');
+    Route::resource('ipay', 'ImeimallPayController');
 
     // 定制客户端
     Route::any('login', 'LoginController@login');
