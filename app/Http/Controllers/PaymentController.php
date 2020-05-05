@@ -189,11 +189,12 @@ class PaymentController extends Controller
                     
                   
                 ];
-		Log::info('创建支付订单参数：' . $parameter);
+		
                 // 建立请求
                 $ipaySubmit = new IpaySubmit(self::$systemConfig['ipay_sign_type'], self::$systemConfig['alipay_partner'], self::$systemConfig['alipay_key'], self::$systemConfig['ipay_private_key']);
-                $result = $ipaySubmit->send_post('http://sdld910203.oicp.net/api/order',$parameter);
-		Log::info('创建支付订单：' . $result);
+                Log::info('创建支付订单发送请求到ipay：');
+		$result = $ipaySubmit->send_post('http://sdld910203.oicp.net/api/order',$parameter);
+		Log::info('响应内容：' . $result);
             }
 
             $payment = new Payment();
