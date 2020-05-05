@@ -128,7 +128,7 @@ class PaymentController extends Controller
             }elseif (self::$systemConfig['is_ipay']) {
                 $pay_way = 8;
             }
-	    Log::error('创建支付订单，支付方式：' . $pay_way);
+	    Log::info('创建支付订单，支付方式：' . $pay_way);
             // 生成订单
             $order = new Order();
             $order->order_sn = $orderSn;
@@ -143,6 +143,10 @@ class PaymentController extends Controller
             $order->status = 0;
             $order->save();
 
+	    Log::info('创建支付订单：' . $order->order_sn);
+	    Log::info('创建支付订单，是否有赞：' . $systemConfig['is_youzan']);
+	    Log::info('创建支付订单，是否Alipay：' . $systemConfig['is_alipay']);
+	    Log::info('创建支付订单，是否ipay：' . $systemConfig['is_ipay']);
             // 生成支付单
             if (self::$systemConfig['is_youzan']) {
                 $yzy = new Yzy();
