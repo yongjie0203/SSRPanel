@@ -41,6 +41,7 @@ class PaymentController extends Controller
         $coupon_sn = $request->get('coupon_sn');
         $pay_type = $request->get('pay_type');
 
+	$result = '';
         $goods = Goods::query()->where('is_del', 0)->where('status', 1)->where('id', $goods_id)->first();
         if (!$goods) {
             return Response::json(['status' => 'fail', 'data' => '', 'message' => '创建支付单失败：商品或服务已下架']);
@@ -234,7 +235,7 @@ class PaymentController extends Controller
 
             Log::error('创建支付订单失败：' . $e->getMessage());
 
-            return Response::json(['status' => 'fail', 'data' => '', 'message' => '创建订单失败：' . $e->getMessage()]);
+            return Response::json(['status' => 'fail', 'data' => $result, 'message' => '创建订单失败：' . $e->getMessage()]);
         }
     }
 
