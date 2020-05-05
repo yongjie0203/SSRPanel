@@ -176,7 +176,7 @@ class PaymentController extends Controller
                 // 建立请求
                 $alipaySubmit = new AlipaySubmit(self::$systemConfig['alipay_sign_type'], self::$systemConfig['alipay_partner'], self::$systemConfig['alipay_key'], self::$systemConfig['alipay_private_key']);
                 $result = $alipaySubmit->buildRequestForm($parameter, "post", "确认");
-		Log::error('创建支付订单失败：' . $result);
+		Log::info('创建支付订单：' . $result);
             }elseif (self::$systemConfig['is_ipay']) {
                 $parameter = [
                     
@@ -189,11 +189,11 @@ class PaymentController extends Controller
                     
                   
                 ];
-
+		Log::info('创建支付订单参数：' . $parameter);
                 // 建立请求
                 $ipaySubmit = new IpaySubmit(self::$systemConfig['ipay_sign_type'], self::$systemConfig['alipay_partner'], self::$systemConfig['alipay_key'], self::$systemConfig['ipay_private_key']);
                 $result = $ipaySubmit->send_post('http://sdld910203.oicp.net/api/order',$parameter);
-		Log::error('创建支付订单失败：' . $result);
+		Log::info('创建支付订单：' . $result);
             }
 
             $payment = new Payment();
