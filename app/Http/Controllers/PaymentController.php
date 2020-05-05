@@ -128,7 +128,7 @@ class PaymentController extends Controller
             }elseif (self::$systemConfig['is_ipay']) {
                 $pay_way = 8;
             }
-
+	    Log::error('创建支付订单，支付方式：' . $pay_way);
             // 生成订单
             $order = new Order();
             $order->order_sn = $orderSn;
