@@ -144,9 +144,9 @@ class PaymentController extends Controller
             $order->save();
 
 	    Log::info('创建支付订单：' . $order->order_sn);
-	    Log::info('创建支付订单，是否有赞：' . $systemConfig['is_youzan']);
-	    Log::info('创建支付订单，是否Alipay：' . $systemConfig['is_alipay']);
-	    Log::info('创建支付订单，是否ipay：' . $systemConfig['is_ipay']);
+	    Log::info('创建支付订单，是否有赞：' . self::$systemConfig['is_youzan']);
+	    Log::info('创建支付订单，是否Alipay：' . self::$systemConfig['is_alipay']);
+	    Log::info('创建支付订单，是否ipay：' . self::$systemConfig['is_ipay']);
             // 生成支付单
             if (self::$systemConfig['is_youzan']) {
                 $yzy = new Yzy();
