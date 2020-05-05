@@ -41,6 +41,7 @@ class isForbidden
 
         // 拒绝无IP请求
         if (empty($ipInfo) || empty($ipInfo['country'])) {
+            Log::info("拒绝无ip访问");
             return response()->view('error.403', [], 403);
         }
 
