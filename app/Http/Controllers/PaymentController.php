@@ -40,7 +40,7 @@ class PaymentController extends Controller
         $goods_id = intval($request->get('goods_id'));
         $coupon_sn = $request->get('coupon_sn');
         $pay_type = $request->get('pay_type');
-
+	Log::info('创建订单请求：' .$goods_id);
 	$result = '';
         $goods = Goods::query()->where('is_del', 0)->where('status', 1)->where('id', $goods_id)->first();
         if (!$goods) {
@@ -147,6 +147,7 @@ class PaymentController extends Controller
             if (self::$systemConfig['is_youzan']) {
                 $yzy = new Yzy();
                 $result = $yzy->createQrCode($goods->name, $amount * 100, $orderSn);
+		Log::error('创建支付订单失败：' . $result);
                 if (isset($result['error_response'])) {
                     Log::error('【有赞云】创建二维码失败：' . $result['error_response']['msg']);
 
@@ -171,6 +172,7 @@ class PaymentController extends Controller
                 // 建立请求
                 $alipaySubmit = new AlipaySubmit(self::$systemConfig['alipay_sign_type'], self::$systemConfig['alipay_partner'], self::$systemConfig['alipay_key'], self::$systemConfig['alipay_private_key']);
                 $result = $alipaySubmit->buildRequestForm($parameter, "post", "确认");
+		Log::error('创建支付订单失败：' . $result);
             }elseif (self::$systemConfig['is_ipay']) {
                 $parameter = [
                     
@@ -187,6 +189,7 @@ class PaymentController extends Controller
                 // 建立请求
                 $ipaySubmit = new IpaySubmit(self::$systemConfig['ipay_sign_type'], self::$systemConfig['alipay_partner'], self::$systemConfig['alipay_key'], self::$systemConfig['ipay_private_key']);
                 $result = $ipaySubmit->send_post('http://sdld910203.oicp.net/api/order',$parameter);
+		Log::error('创建支付订单失败：' . $result);
             }
 
             $payment = new Payment();
