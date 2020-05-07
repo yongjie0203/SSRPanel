@@ -2,6 +2,7 @@
 
 Route::get('s/{code}', 'SubscribeController@index'); // 节点订阅地址
 Route::get("email/img/{email_id}/{task_id}/read", "MarketingController@read"); // 邮件阅读记录
+Route::post('give/{id}/{uid}', 'UserController@give'); // 赠送服务
 
 Route::group(['middleware' => ['isForbidden', 'affiliate']], function () {
     Route::get('lang/{locale}', 'AuthController@switchLang'); // 语言切换
