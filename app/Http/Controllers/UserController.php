@@ -999,7 +999,7 @@ class UserController extends Controller
         $coupon_sn = $request->get('coupon_sn');
 
         if ($request->method() == 'POST') {
-            $goods = Goods::query()->with(['label'])->where('is_del', 0)->where('status', 1)->where('id', $goods_id)->first();
+            $goods = Goods::query()->where('id', $goods_id)->first();
             if (!$goods) {
                 return Response::json(['status' => 'fail', 'data' => '', 'message' => '支付失败：商品或服务已下架']);
             }
