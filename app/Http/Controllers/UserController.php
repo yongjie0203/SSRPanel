@@ -1059,8 +1059,14 @@ class UserController extends Controller
                     ->get();
 
                 foreach ($existOrderList as $vo) {
-                    if ($vo->goods->days > $goods->days) {
-                        return Response::json(['status' => 'fail', 'data' => '', 'message' => '支付失败：您已存在有效期更长的套餐，只能购买流量包']);
+                    if ($vo->goods->id == 14) {
+                        return Response::json(['status' => 'success', 'data' => '', 'message' => '请勿重复操作']);
+                    }
+                     if ($vo->goods->id == 15) {
+                        return Response::json(['status' => 'success', 'data' => '', 'message' => '请勿重复操作']);
+                    }
+                     if ($vo->goods->id == 16) {
+                        return Response::json(['status' => 'success', 'data' => '', 'message' => '请勿重复操作']);
                     }
                 }
             }
