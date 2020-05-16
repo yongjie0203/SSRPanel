@@ -497,7 +497,7 @@ class AutoJob extends Command
                     Order::query()->where('oid', $payment->oid)->update(['status' => -1]);
 
                     // 退回优惠券
-                    if ($payment->order->coupon_id) {
+                    if ($payment->order && $payment->order->coupon_id) {
                         Coupon::query()->where('id', $payment->order->coupon_id)->update(['status' => 0]);
 
                         Helpers::addCouponLog($payment->order->coupon_id, $payment->order->goods_id, $payment->oid, '订单超时未支付，自动退回');
